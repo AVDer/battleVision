@@ -1,32 +1,33 @@
-# Prerequisites
-*.d
+# Eclipse workspace files
+.metadata
+RemoteSystemsTempFiles
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Project files
+.project
+.cproject
+.settings
+.idea
+.vscode
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
+# Built files
+Makefile
+build/
+libs/
+Obj/
+*debug*
 *.exe
-*.out
-*.app
+battleVision
+
+# Misc temp data
+*.battle
+
+# CMake files
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+/Default/
+environment.inc
+
+# Image files
+*.jpg
+*.png
