@@ -16,9 +16,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 #include "Unit.h"
+#include "../../Logger.h"
 
 #include <cassert>
-#include <iostream>
 
 Unit::Unit(DrawStrategy *str) :
   draw_strategy_(str) {
@@ -93,7 +93,6 @@ void Unit::enlarge(int16_t xdiff, int16_t ydiff) {
 }
 
 void Unit::print_info() {
-  std::cout << unit_info_.unit_draw_info().size.x() << 'x' << unit_info_.unit_draw_info().size.y()
-            << " @ " << unit_info_.unit_draw_info().position.x() << ':' << unit_info_.unit_draw_info().position.y()
-            << " / " << unit_info_.unit_draw_info().angle << std::endl;
+  Logger::info("Unit info: %dx%d @ Position: %d:%d / %d", unit_info_.unit_draw_info().size.x(), unit_info_.unit_draw_info().size.y(),
+            unit_info_.unit_draw_info().position.x(), unit_info_.unit_draw_info().position.y(), unit_info_.unit_draw_info().angle);
 }

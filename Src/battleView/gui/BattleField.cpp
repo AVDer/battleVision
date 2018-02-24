@@ -17,11 +17,11 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BattleField.h"
 
-#include <iostream>
 #include "SOIL.h"
 
 #include "../bvl/BVGlobal.h"
 #include "ShadersField.h"
+#include "../../Logger.h"
 
 static const GLfloat screen_gap {0.1f};
 static const GLfloat earth_width {0.1f};
@@ -145,10 +145,10 @@ void BattleField::load_map_texture(const std::string& filename) {
     unsigned char *image = SOIL_load_image(filename.c_str(), &m_texture_width, &m_texture_height, nullptr, SOIL_LOAD_RGB);
     m_texture_ratio = static_cast<double>(m_texture_width) / m_texture_height;
     if (!image) {
-      std::cout << "Texture file can't be found" << std::endl;
+      Logger::warning("BattleField: Texture %s can't be found", filename.c_str());
     }
-    else if (Settings::debug_level > 6) {
-      std::cout << "Texture " << filename << " loaded.\n";
+    else {
+      Logger::info("BattleField: Texture %s loaded", filename.c_str());
     }
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_texture_width, m_texture_height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);

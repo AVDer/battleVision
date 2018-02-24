@@ -21,6 +21,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../bvl/DelayTimer.h"
 #include "OpenGLUnitsDrawer.h"
+#include "../../Logger.h"
 
 ViewState view_state;
 UnitAdjustInfo unit_adjust_info;
@@ -62,9 +63,8 @@ void BattleDrawWindow::update_size() {
     old_height = height;
     old_width = width;
 
-    if (Settings::debug_level > 4) {
-      std::cout<< "New size: " << width << 'x' << height << ". Ratio: " << ratio << std::endl;
-    }
+    Logger::debug("BattleWindow: New size: width: %d, height: %d, ratio: %f", width, height, ratio);
+
   }
 }
 
@@ -134,20 +134,20 @@ void BattleDrawWindow::init_open_gl() {
 
   glfw_window_ = glfwCreateWindow(width_, height_, title_.c_str(), nullptr, nullptr);
   if (glfw_window_ == nullptr) {
-    std::cout << "Failed to create GLFW window" << std::endl;
+    Logger::error("GLFW: Failed to create GLFW window");
     glfwTerminate();
   }
-  else if (Settings::debug_level > 6) {
-    std::cout << "GLFW successfully initialized.\n";
+  else {
+    Logger::info("GLFW: GLFW successfully initialized");
   }
   glfwMakeContextCurrent(glfw_window_);
 
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    std::cout << "Failed to initialize GLAD" << std::endl;
+    Logger::error("GLAD: Failed to initialize GLAD");
   } 
-  else if (Settings::debug_level > 6) {
-    std::cout << "GLAD successfully initialized.\n";
+  else {
+    Logger::info("GLAD: GLAD successfully initialized");
   }
 
   int width, height;
@@ -172,7 +172,7 @@ int BattleDrawWindow::run() {
     if (!frame_update_counter.elapsed()) continue;
 
     if (fps_counter.elapsed()) {
-      if (Settings::show_fps) std::cout << fps << std::endl;
+      Logger::trace("FPS: %d", fps);
       fps = 0;
     }
     ++fps;

@@ -16,8 +16,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
 #include "ShaderProgram.h"
-
-#include <iostream>
+#include "../../Logger.h"
 
 void ShaderProgram::init(const std::string& vertex_source, const std::string& fragment_source) {
   GLint success;
@@ -34,7 +33,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
   if (!success) {
     glGetShaderInfoLog(vertex_shader, 512, nullptr, infoLog);
-    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    Logger::error("Shader: Vertex compilation failed: %s", infoLog);
   }
 
   GLuint fragment_shader { glCreateShader(GL_FRAGMENT_SHADER) };
@@ -43,7 +42,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
   if (!success) {
     glGetShaderInfoLog(fragment_shader, 512, nullptr, infoLog);
-    std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+    Logger::error("Shader: Fragment compilation failed: %s", infoLog);
   }
 
   program_id_ = glCreateProgram();
@@ -54,7 +53,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glGetProgramiv(program_id_, GL_LINK_STATUS, &success);
   if(!success) {
     glGetProgramInfoLog(program_id_, 512, nullptr, infoLog);
-    std::cout << "ERROR::SHADER::FIELD::COMPILATION_FAILED\n" << infoLog << std::endl;
+    Logger::error("Shader: Program compilation failed: %s", infoLog);
   }
 
   glDeleteShader(vertex_shader);

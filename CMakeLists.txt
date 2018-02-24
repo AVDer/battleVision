@@ -75,7 +75,10 @@ set(SOURCE_FILES
     Src/battleView/core/RotateManeuver.h
     Src/battleView/core/ManeuverFactory.cpp
     Src/battleView/core/ManeuverFactory.h
-    Src/battleView/core/ResizeManeuver.h)
+    Src/battleView/core/ResizeManeuver.h
+    Src/Logger.h
+    Src/Logger.cpp
+        )
 
 # ---------- Link directories ----------
 

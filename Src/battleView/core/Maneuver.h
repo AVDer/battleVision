@@ -21,10 +21,10 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <chrono>
 #include <cstdint>
-#include <iostream>
 #include <string>
 #include <vector>
 #include "Unit.h"
+#include "../../Logger.h"
 
 using time_point_t = std::chrono::system_clock::time_point;
 using maneuver_data_t = std::vector<std::string>;
@@ -82,7 +82,7 @@ protected:
 
   bool data_valid() {
     if (maneuver_data_.size() != data_arity()) {
-      std::cerr << "Incorect maneuver data arity" << std::endl;
+      Logger::error("Maneuver: Incorect maneuver data arity");
       return false;
     } else {
       return true;

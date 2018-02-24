@@ -16,7 +16,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 #include <algorithm>
-#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>

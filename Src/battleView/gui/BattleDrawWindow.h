@@ -21,7 +21,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <cmath>
 #include <cassert>
-#include <iostream>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

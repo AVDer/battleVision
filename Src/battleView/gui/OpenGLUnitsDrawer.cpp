@@ -16,10 +16,10 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
 #include <algorithm>
-#include <iostream>
 
 #include "OpenGLUnitsDrawer.h"
 #include "RenderInfo.h"
+#include "../../Logger.h"
 
 OpenGLUnitsDrawer * OpenGLUnitsDrawer::m_instance {nullptr};
 
@@ -125,7 +125,9 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit>& units) {
       glDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (void *)(i * sizeof(DrawElementsIndirectCommand)));
 
       GLenum err = glGetError();
-      if (err != GL_NO_ERROR) std::cout << "Error code: " << err << std::endl;
+      if (err != GL_NO_ERROR) {
+        Logger::warning("OpenGL: glDrawElementsIndirect error: %d", err);
+      }
     }
 
     
