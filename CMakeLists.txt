@@ -23,7 +23,6 @@ include_directories(Src/battleView/gui/glad/include)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${GLFW_INCLUDE_DIR})
 include_directories(${GLM_INCLUDE_DIR})
-include_directories(${SOIL_INCLUDE_DIR})
 
 # ---------- Source files ----------
 
@@ -62,6 +61,7 @@ set(SOURCE_FILES
     Src/battleView/gui/BattleField.h
     Src/battleView/gui/ShaderProgram.cpp
     Src/battleView/gui/ShaderProgram.h
+    Src/battleView/gui/OpenGLTexture.h
     Src/battleView/bvl/DelayTimer.h
     Src/battleView/gui/ShadersUnit.h
     Src/battleView/gui/OpenGLUnitsDrawer.cpp
@@ -78,11 +78,11 @@ set(SOURCE_FILES
     Src/battleView/core/ResizeManeuver.h
     Src/Logger.h
     Src/Logger.cpp
+    Src/FileTGA.h
         )
 
 # ---------- Link directories ----------
 
-link_directories(${SOIL_LIBRARY_PATH})
 link_directories(${ZLIB_LIBRARY_PATH})
 link_directories(${GLFW_LIBRARY_PATH})
 
@@ -99,7 +99,7 @@ else(MINGW)
     set(ADDITIONAL_LIBRARIES dl)
 endif(MINGW)
 
-set(GRAPHICAL_LIBRARIES SOIL)
+set(GRAPHICAL_LIBRARIES)
 
 set(WM_FOUND OFF)
 find_package(X11)

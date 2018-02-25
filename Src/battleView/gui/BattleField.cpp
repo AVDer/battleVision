@@ -17,8 +17,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BattleField.h"
 
-#include "SOIL.h"
-
 #include "../bvl/BVGlobal.h"
 #include "ShadersField.h"
 #include "../../Logger.h"
@@ -70,26 +68,27 @@ BattleField::~BattleField() {
 
 void BattleField::create(const std::string& texture_filename) {
   load_map_texture(texture_filename);
-  field_vertices[0] = m_texture_width;
-  field_vertices[1] = m_texture_height;
-  field_vertices[5] = m_texture_width;
+
+  field_vertices[0] = texture_->width();
+  field_vertices[1] = texture_->height();
+  field_vertices[5] = texture_->width();
   field_vertices[6] = 0;
   field_vertices[10] = 0;
   field_vertices[11] = 0;
   field_vertices[15] = 0;
-  field_vertices[16] = m_texture_height;
+  field_vertices[16] = texture_->height();
 
-  field_vertices[20] = m_texture_width;
-  field_vertices[21] = m_texture_height;
-  field_vertices[25] = m_texture_width;
+  field_vertices[20] = texture_->width();
+  field_vertices[21] = texture_->height();
+  field_vertices[25] = texture_->width();
   field_vertices[26] = 0;
   field_vertices[30] = 0;
   field_vertices[31] = 0;
   field_vertices[35] = 0;
-  field_vertices[36] = m_texture_height;
+  field_vertices[36] = texture_->height();
 
 
-  m_shader.init(ShadersField::vertex_shader, ShadersField::fragment_shader);
+  shader_program_.init(ShadersField::vertex_shader, ShadersField::fragment_shader);
 
   glGenVertexArrays(1, &gl_field_vao);
   glGenBuffers(1, &gl_field_vbo);
@@ -111,18 +110,18 @@ void BattleField::create(const std::string& texture_filename) {
 void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
   static uint64_t frame_number {0};
 
-  m_shader.use();
+  shader_program_.use();
 
   // Get their uniform location
-  GLint projection_location = glGetUniformLocation(m_shader.shader_id(), "projection");
-  GLint view_location = glGetUniformLocation(m_shader.shader_id(), "view");
-  GLint model_location = glGetUniformLocation(m_shader.shader_id(), "model");
+  GLint projection_location = glGetUniformLocation(shader_program_.shader_id(), "projection");
+  GLint view_location = glGetUniformLocation(shader_program_.shader_id(), "view");
+  GLint model_location = glGetUniformLocation(shader_program_.shader_id(), "model");
   // Pass them to the shaders
   glUniformMatrix4fv(projection_location, 1, GL_FALSE, glm::value_ptr(projection));
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
   glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
 
-  glBindTexture(GL_TEXTURE_2D, m_texture);
+  glBindTexture(GL_TEXTURE_2D, texture_->id());
   glBindVertexArray(gl_field_vao);
   {
     glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, (GLvoid *) (0 * sizeof(GLfloat)));
@@ -130,29 +129,9 @@ void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) (30 * sizeof(GLfloat)));
   }
   glBindVertexArray(0);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void BattleField::load_map_texture(const std::string& filename) {
-  glGenTextures(1, &m_texture);
-  glBindTexture(GL_TEXTURE_2D, m_texture);
-  {
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    unsigned char *image = SOIL_load_image(filename.c_str(), &m_texture_width, &m_texture_height, nullptr, SOIL_LOAD_RGB);
-    m_texture_ratio = static_cast<double>(m_texture_width) / m_texture_height;
-    if (!image) {
-      Logger::warning("BattleField: Texture %s can't be found", filename.c_str());
-    }
-    else {
-      Logger::info("BattleField: Texture %s loaded", filename.c_str());
-    }
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_texture_width, m_texture_height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    SOIL_free_image_data(image);
-  }
-  glBindTexture(GL_TEXTURE_2D, 0);
+  texture_ = std::make_unique<OGLTexture>(OGLTexture(TGAFile(filename)));
 }

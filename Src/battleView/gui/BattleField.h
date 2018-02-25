@@ -25,6 +25,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "OpenGLTexture.h"
 #include "ShaderProgram.h"
 
 class BattleField {
@@ -34,9 +35,9 @@ public:
   void create(const std::string& texture_filename);
   void draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
-  auto texture_ratio() const { return m_texture_ratio; }
-  int texture_width() const { return m_texture_width; }
-  int texture_height() const { return m_texture_height; }
+  auto texture_ratio() const { return texture_->ratio(); }
+  int texture_width() const { return texture_->width(); }
+  int texture_height() const { return texture_->height(); }
 
 private:
   void load_map_texture(const std::string& filename);
@@ -45,11 +46,8 @@ private:
   GLuint gl_field_vao {0};
   GLuint gl_field_ebo {0};
 
-  ShaderProgram m_shader;
-  GLuint m_texture {0};
-  int m_texture_width {0};
-  int m_texture_height {0};
-  double m_texture_ratio = 1.;
+  ShaderProgram shader_program_;
+  std::unique_ptr<OGLTexture> texture_;
 };
 
 

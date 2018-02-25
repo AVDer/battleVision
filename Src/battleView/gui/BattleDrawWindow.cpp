@@ -30,7 +30,7 @@ BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t heig
     width_(width),
     height_(height),
     title_(title),
-    texture_filename_("bm.bmp") {
+    texture_filename_("bm.tga") {
 
   init_open_gl();
   createField(texture_filename_);
