@@ -31,6 +31,8 @@ public:
 
   double_t ratio() const { return ratio_; }
 
+  OGLTexture() = default;
+
   explicit OGLTexture(const TGAFile &texture_file) {
     uint8_t *pixels = texture_file.data();
     width_ = texture_file.width();

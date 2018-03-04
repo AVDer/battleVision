@@ -30,9 +30,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 class BattleField {
 public:
-  virtual ~BattleField();
-
   void create(const std::string& texture_filename);
+  void destroy();
+
   void draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
   auto texture_ratio() const { return texture_->ratio(); }

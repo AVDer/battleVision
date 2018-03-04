@@ -24,7 +24,7 @@ class CavalryOpenGLDraw : public OpenGLDrawStrategy {
 public:
   CavalryOpenGLDraw() = default;
 
-  void fill_vertex(const UnitDrawInfo &udi) override {
+  void fill_vertex(const UnitDrawInfo &/*udi*/) override {
     m_unit_vertices = {
         // top
         1.f, 1.f, unit_height,

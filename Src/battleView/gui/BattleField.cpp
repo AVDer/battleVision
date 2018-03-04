@@ -59,13 +59,6 @@ GLuint indices[] = {
     5, 6, 7
 };
 
-
-BattleField::~BattleField() {
-  glDeleteVertexArrays(1, &gl_field_vao);
-  glDeleteBuffers(1, &gl_field_vbo);
-  glDeleteBuffers(1, &gl_field_ebo);
-}
-
 void BattleField::create(const std::string& texture_filename) {
   load_map_texture(texture_filename);
 
@@ -107,6 +100,12 @@ void BattleField::create(const std::string& texture_filename) {
   glBindVertexArray(0);
 }
 
+void BattleField::destroy() {
+  glDeleteVertexArrays(1, &gl_field_vao);
+  glDeleteBuffers(1, &gl_field_vbo);
+  glDeleteBuffers(1, &gl_field_ebo);
+}
+
 void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
   static uint64_t frame_number {0};
 
@@ -129,7 +128,7 @@ void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid *) (30 * sizeof(GLfloat)));
   }
   glBindVertexArray(0);
-  glBindTexture(GL_TEXTURE_2D, 0);
+  //glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void BattleField::load_map_texture(const std::string& filename) {

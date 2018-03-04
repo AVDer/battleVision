@@ -44,7 +44,11 @@ BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t heig
 }
 
 BattleDrawWindow::~BattleDrawWindow() {
+  battle_field_.destroy();
+  glfwDestroyWindow(glfw_window_);
+  Logger::info("GLFW: GLFW window destroyed");
   glfwTerminate();
+  Logger::info("GLFW: GLFW terminated");
 }
 
 void BattleDrawWindow::update_size() {
@@ -126,7 +130,9 @@ void BattleDrawWindow::draw() {
 }
 
 void BattleDrawWindow::init_open_gl() {
-  glfwInit();
+  if (!glfwInit()) {
+    Logger::error("GLFW: glfwInit error");
+  }
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -138,7 +144,7 @@ void BattleDrawWindow::init_open_gl() {
     glfwTerminate();
   }
   else {
-    Logger::info("GLFW: GLFW successfully initialized");
+    Logger::info("GLFW: GLFW window successfully created");
   }
   glfwMakeContextCurrent(glfw_window_);
 
@@ -182,7 +188,6 @@ int BattleDrawWindow::run() {
     draw();
 
     glfwSwapBuffers(glfw_window_);
-
 
     // m_to_refresh = false;
   }

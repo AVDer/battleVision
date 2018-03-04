@@ -83,7 +83,7 @@ void UnitsProcessor::fill_units() {
   boost::property_tree::ptree battle_description;
   boost::property_tree::read_json(working_file_, battle_description);
 
-  int meta_version = battle_description.get("general.version", 0);
+  //int meta_version = battle_description.get("general.version", 0);
 
   // Opponents
 

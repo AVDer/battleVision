@@ -37,6 +37,7 @@ public:
 
   ~TGAFile() {
     delete[] data_;
+    Logger::info("TGA loader: file %s data destroyed", filename_.c_str());
   }
 
   bool load(const std::string& filename) {
