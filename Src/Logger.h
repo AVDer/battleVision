@@ -20,8 +20,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdio>
 #include <ctime>
-#include <sys/time.h>
 #include <thread>
+
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
@@ -117,14 +118,9 @@ private:
   
 
   void static print_time() {
-    timeval curTime;
-    gettimeofday(&curTime, nullptr);
-    int milli = curTime.tv_usec / 1000;
-    char buffer [80];
-    strftime(buffer, 80, "%H:%M:%S", localtime(&curTime.tv_sec));
-    char currentTime[84] = "";
-    sprintf(currentTime, "%s:%03d", buffer, milli);
-    printf("%s T:%lX ", currentTime, pthread_self());
+    boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
+    printf(boost::posix_time::to_simple_string(now).substr(12).c_str());
+    printf(" T:%llX ", pthread_self());
   }
 
   static LoggingLevel logging_level_;

@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.3)
 project(battleVision)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -Wall -Wextra -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -Wall -Wextra")
 set(CMAKE_VERBOSE_MAKEFILE ON)
+
+if (NOT MINGW)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+endif ()
 
 # ---------- 3rd party libraries setup ----------
 
@@ -85,6 +89,7 @@ set(SOURCE_FILES
 
 link_directories(${ZLIB_LIBRARY_PATH})
 link_directories(${GLFW_LIBRARY_PATH})
+link_directories(${Boost_LIBRARY_DIRS})
 
 # ---------- Program executable ----------
 
@@ -100,6 +105,7 @@ else(MINGW)
 endif(MINGW)
 
 set(GRAPHICAL_LIBRARIES)
+set(BOOST_LIBRARIES boost_date_time)
 
 set(WM_FOUND OFF)
 find_package(X11)
@@ -128,4 +134,5 @@ target_link_libraries(battleVision ${GLFW_LIBRARIES})
 target_link_libraries(battleVision ${OPENGL_gl_LIBRARY})
 
 target_link_libraries(battleVision ${ADDITIONAL_LIBRARIES})
+target_link_libraries(battleVision ${BOOST_LIBRARIES})
 target_link_libraries(battleVision ${WINDOW_MANAGER_LIBRARIES})
