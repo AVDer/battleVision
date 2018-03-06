@@ -118,12 +118,13 @@ private:
   
 
   void static print_time() {
-    boost::posix_time::ptime now = boost::posix_time::microsec_clock::local_time();
-    printf(boost::posix_time::to_simple_string(now).substr(12).c_str());
-    printf(" T:%llX ", pthread_self());
+    printf("%s T:%zX ",
+      boost::posix_time::to_simple_string(boost::posix_time::microsec_clock::local_time()).substr(12).c_str(),
+      hasher_(std::this_thread::get_id()));
   }
 
   static LoggingLevel logging_level_;
+  static std::hash<std::thread::id> hasher_;
 };
 
 #endif
