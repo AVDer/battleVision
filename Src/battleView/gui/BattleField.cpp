@@ -107,8 +107,6 @@ void BattleField::destroy() {
 }
 
 void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-  static uint64_t frame_number {0};
-
   shader_program_.use();
 
   // Get their uniform location

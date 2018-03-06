@@ -23,7 +23,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace ShadersUnit {
 
-  static const GLchar *vertex_shader = R"(
+  constexpr GLchar *vertex_shader = (GLchar *)R"(
 #version 330 core
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 in_color;
@@ -42,7 +42,7 @@ void main() {
 }
 )";
 
-  static const GLchar *fragment_shader = R"(
+  constexpr GLchar *fragment_shader = (GLchar *)R"(
 #version 330 core
 
 in vec3 f_color;
