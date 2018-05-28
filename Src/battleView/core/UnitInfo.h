@@ -19,7 +19,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #define CORE_UNITINFO_H_
 
 #include <string>
-#include "../bvl/BVTypes.h"
+
+#include "bvl/BVTypes.h"
 
 using namespace bvl::core::types;
 

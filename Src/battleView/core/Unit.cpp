@@ -16,9 +16,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 #include "Unit.h"
-#include "../../Logger.h"
 
-#include <cassert>
+#include "Logger.h"
 
 Unit::Unit(DrawStrategy *str) :
   draw_strategy_(str) {

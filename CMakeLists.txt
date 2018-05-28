@@ -23,6 +23,8 @@ find_package(OpenGL REQUIRED)
 
 # ---------- Include directories ----------
 
+include_directories(Src)
+include_directories(Src/battleView)
 include_directories(Src/battleView/gui/glad/include)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${GLFW_INCLUDE_DIR})

@@ -21,18 +21,19 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <cmath>
 #include <cassert>
+#include <string>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
-#include "../bvl/BVGUITypes.h"
-#include "../bvl/WindowSettings.h"
+#include "bvl/BVGUITypes.h"
+#include "bvl/WindowSettings.h"
 
-#include "../core/DrawStrategy.h"
-#include "../core/UnitsProcessor.h"
+#include "core/DrawStrategy.h"
+#include "core/UnitsProcessor.h"
 
 #include "BattleField.h"
 

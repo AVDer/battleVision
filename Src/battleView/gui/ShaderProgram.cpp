@@ -16,7 +16,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
 #include "ShaderProgram.h"
-#include "../../Logger.h"
+
+#include "Logger.h"
 
 void ShaderProgram::init(const std::string& vertex_source, const std::string& fragment_source) {
   GLint success;

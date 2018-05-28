@@ -23,8 +23,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <string>
 #include <vector>
+
+#include "Logger.h"
 #include "Unit.h"
-#include "../../Logger.h"
 
 using time_point_t = std::chrono::system_clock::time_point;
 using maneuver_data_t = std::vector<std::string>;

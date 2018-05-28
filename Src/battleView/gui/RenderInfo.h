@@ -19,8 +19,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #define BATTLEVISION_RENDERINFO_H
 
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
+#include "glad/glad.h"
+#include "glm/glm.hpp"
 
 struct RenderInfo {
   std::vector<GLfloat> vertices;

@@ -21,8 +21,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <memory>
 
-#include "../bvl/WindowSettings.h"
-#include "../bvl/BVGUITypes.h"
+#include "bvl/BVGUITypes.h"
+#include "bvl/WindowSettings.h"
 
 /*
 using namespace bvl::gui;

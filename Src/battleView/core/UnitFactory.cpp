@@ -17,10 +17,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "UnitFactory.h"
 
-#include <cassert>
-
-#include "../gui/CavalryOpenGLDraw.h"
-#include "../gui/InfantryOpenGLDraw.h"
+#include "gui/CavalryOpenGLDraw.h"
+#include "gui/InfantryOpenGLDraw.h"
 
 Unit UnitFactory::get_unit(UnitInfo &&ui) {
   Unit unit(ui);

@@ -20,8 +20,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 class ShaderProgram {
 public:

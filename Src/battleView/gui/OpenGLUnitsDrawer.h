@@ -20,18 +20,18 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <glad/glad.h>
 #include <GL/gl.h>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include <vector>
 
-#include "../core/Unit.h"
-#include "../bvl/BVTypes.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include "ShaderProgram.h"
 #include "ShadersUnit.h"
 #include "RenderInfo.h"
+
+#include "core/Unit.h"
+#include "bvl/BVTypes.h"
 
 struct UnitDrawData {
   UnitDrawData(GLuint v, GLsizei p, glm::mat4 t) :

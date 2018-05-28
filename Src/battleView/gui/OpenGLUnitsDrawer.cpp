@@ -17,9 +17,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
 
+#include "Logger.h"
 #include "OpenGLUnitsDrawer.h"
 #include "RenderInfo.h"
-#include "../../Logger.h"
 
 OpenGLUnitsDrawer * OpenGLUnitsDrawer::m_instance {nullptr};
 

@@ -17,9 +17,10 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BattleField.h"
 
-#include "../bvl/BVGlobal.h"
+#include "Logger.h"
 #include "ShadersField.h"
-#include "../../Logger.h"
+
+#include "bvl/BVGlobal.h"
 
 static const GLfloat screen_gap {0.1f};
 static const GLfloat earth_width {0.1f};

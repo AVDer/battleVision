@@ -18,8 +18,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SC_GL_TEXTURE_H
 #define SC_GL_TEXTURE_H
 
-#include <glad/glad.h>
-#include "../../FileTGA.h"
+#include "glad/glad.h"
+#include "FileTGA.h"
 
 class OGLTexture {
 public:

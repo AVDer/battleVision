@@ -18,12 +18,14 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BATTLEVISION_OPENGLDRAWSTRATEGY_H
 #define BATTLEVISION_OPENGLDRAWSTRATEGY_H
 
-#include <glad/glad.h>
+#include <vector>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "glad/glad.h"
 
-#include "../core/DrawStrategy.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+#include "core/DrawStrategy.h"
 #include "RenderInfo.h"
 
 class OpenGLDrawStrategy : public DrawStrategy {

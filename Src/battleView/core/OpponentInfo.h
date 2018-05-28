@@ -20,7 +20,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
-#include "../bvl/BVTypes.h"
+#include "bvl/BVTypes.h"
 
 class OpponentInfo {
 public:

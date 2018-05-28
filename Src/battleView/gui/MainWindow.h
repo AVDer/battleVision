@@ -26,7 +26,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SettingsWindow.h"
 #include "BattleDrawWindow.h"
-#include "../bvl/WindowSettings.h"
+#include "bvl/WindowSettings.h"
 
 
 using namespace bvl::gui;

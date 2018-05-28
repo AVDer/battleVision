@@ -19,9 +19,10 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <chrono>
 
-#include "../bvl/DelayTimer.h"
+#include "Logger.h"
 #include "OpenGLUnitsDrawer.h"
-#include "../../Logger.h"
+
+#include "bvl/DelayTimer.h"
 
 ViewState view_state;
 UnitAdjustInfo unit_adjust_info;

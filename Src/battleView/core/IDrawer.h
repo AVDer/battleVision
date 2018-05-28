@@ -18,7 +18,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef CORE_IDRAWER_H_
 #define CORE_IDRAWER_H_
 
-#include "../bvl/BVTypes.h"
+#include "bvl/BVTypes.h"
 
 using namespace bvl::core::types;
 

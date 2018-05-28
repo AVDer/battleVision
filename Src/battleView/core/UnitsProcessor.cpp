@@ -30,7 +30,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "RotateManeuver.h"
 #include "UnitsProcessor.h"
 
-#include "../gui/OpenGLUnitsDrawer.h"
+#include "gui/OpenGLUnitsDrawer.h"
 
 UnitsProcessor::UnitsProcessor() {
   ManeuverFactory::get().register_maneuver(ManeuverType::move, &MoveManeuver::create);

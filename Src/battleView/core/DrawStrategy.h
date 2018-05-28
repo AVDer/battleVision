@@ -19,14 +19,15 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #define CORE_DRAWSTRATEGY_H_
 
 #include <memory>
+#include <vector>
+
 #include "IDrawer.h"
 #include "UnitInfo.h"
 
-#include <vector>
 #include "glad/glad.h"
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
-#include "../gui/RenderInfo.h"
+#include "gui/RenderInfo.h"
 
 class DrawStrategy {
 public:

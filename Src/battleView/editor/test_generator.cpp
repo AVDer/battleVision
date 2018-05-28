@@ -23,12 +23,12 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "../bvl/BVTypes.h"
-#include "../core/ManeuverFactory.h"
-#include "../core/MoveManeuver.h"
-#include "../core/OpponentInfo.h"
-#include "../core/ResizeManeuver.h"
-#include "../core/RotateManeuver.h"
+#include "bvl/BVTypes.h"
+#include "core/ManeuverFactory.h"
+#include "core/MoveManeuver.h"
+#include "core/OpponentInfo.h"
+#include "core/ResizeManeuver.h"
+#include "core/RotateManeuver.h"
 
 namespace test_generator {
 
