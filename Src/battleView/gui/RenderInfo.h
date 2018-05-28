@@ -18,7 +18,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BATTLEVISION_RENDERINFO_H
 #define BATTLEVISION_RENDERINFO_H
 
-
 #include "glad/glad.h"
 #include "glm/glm.hpp"
 
@@ -28,18 +27,14 @@ struct RenderInfo {
   glm::mat4 transformation;
 };
 
-struct OpenGLRenderInfo : public RenderInfo {
+struct OpenGLRenderInfo : public RenderInfo {};
 
-
-};
-
-typedef  struct {
-  GLuint  count;
-  GLuint  primCount;
-  GLuint  firstIndex;
-  GLuint  baseVertex;
-  GLuint  baseInstance;
+typedef struct {
+  GLuint count;
+  GLuint primCount;
+  GLuint firstIndex;
+  GLuint baseVertex;
+  GLuint baseInstance;
 } DrawElementsIndirectCommand;
 
-
-#endif //BATTLEVISION_RENDERINFO_H
+#endif  // BATTLEVISION_RENDERINFO_H

@@ -22,7 +22,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "FileTGA.h"
 
 class OGLTexture {
-public:
+ public:
   GLuint id() const { return id_; };
 
   GLuint width() const { return width_; }
@@ -51,16 +51,14 @@ public:
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       // Load the texture
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                   width_, height_,
-                   0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width_, height_, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
       Logger::info("BattleField: Texture %s loaded", texture_file.filename().c_str());
       glGenerateMipmap(GL_TEXTURE_2D);
     }
     glBindTexture(GL_TEXTURE_2D, 0);
   }
 
-private:
+ private:
   GLuint id_{0};
   GLuint width_{0};
   GLuint height_{0};

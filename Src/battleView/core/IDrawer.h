@@ -28,8 +28,9 @@ public:
   virtual void set_color(color_t c) = 0;
 
   virtual void draw_rect(point_t p1, point_t p2, angle_t a) = 0;
-  virtual void draw_empty_rect(point_t p1, point_t p2, angle_t a, uint16_t width = 1) = 0;
-  virtual void draw_line(point_t p1, point_t p2, angle_t a, uint16_t width = 1) = 0;
+  virtual void draw_empty_rect(point_t p1, point_t p2, angle_t a, uint16_t width
+= 1) = 0; virtual void draw_line(point_t p1, point_t p2, angle_t a, uint16_t
+width = 1) = 0;
 
   virtual ~IDrawer() { }
 
@@ -42,7 +43,8 @@ public:
   }
 
 protected:
-  virtual void draw_direction_arrow(point_t position, angle_t a, uint16_t size = 10) = 0;
+  virtual void draw_direction_arrow(point_t position, angle_t a, uint16_t size =
+10) = 0;
 
 private:
   bool m_show_dir_arrow {false};

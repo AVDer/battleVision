@@ -22,26 +22,22 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 template <typename Duration>
 class DelayTimer {
-
-public:
-  explicit DelayTimer(Duration duration):
-  duration_(duration) {
-  }
+ public:
+  explicit DelayTimer(Duration duration) : duration_(duration) {}
 
   bool elapsed() {
     auto time_current = std::chrono::steady_clock::now();
-    if (std::chrono::duration_cast<std::chrono::milliseconds>(time_current - time_stamp_).count() > duration_) {
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(time_current - time_stamp_).count() >
+        duration_) {
       time_stamp_ = time_current;
       return true;
     }
     return false;
   }
 
-private:
+ private:
   Duration duration_;
-  std::chrono::steady_clock::time_point time_stamp_ {std::chrono::steady_clock::now()};
-
+  std::chrono::steady_clock::time_point time_stamp_{std::chrono::steady_clock::now()};
 };
 
-
-#endif //BATTLEVISION_DELAYTIMER_H
+#endif  // BATTLEVISION_DELAYTIMER_H

@@ -17,6 +17,5 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace test_generator {
 
-  int generate_battle_file();
-
+int generate_battle_file();
 }

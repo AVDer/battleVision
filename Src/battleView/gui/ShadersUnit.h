@@ -20,10 +20,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <GL/gl.h>
 
-
 namespace ShadersUnit {
 
-  constexpr GLchar *vertex_shader = (GLchar *)R"(
+constexpr GLchar *vertex_shader = (GLchar *)R"(
 #version 330 core
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 in_color;
@@ -42,7 +41,7 @@ void main() {
 }
 )";
 
-  constexpr GLchar *fragment_shader = (GLchar *)R"(
+constexpr GLchar *fragment_shader = (GLchar *)R"(
 #version 330 core
 
 in vec3 f_color;
@@ -54,6 +53,6 @@ void main() {
 }
 )";
 
-};
+};  // namespace ShadersUnit
 
-#endif //BATTLEVISION_SHADERSUNIT_H
+#endif  // BATTLEVISION_SHADERSUNIT_H

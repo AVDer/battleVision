@@ -21,26 +21,22 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "Maneuver.h"
 
 class ResizeManeuver : public Maneuver {
-
-public:
-  ResizeManeuver(uint32_t unit_id,
-               time_point_t start_time,
-               time_point_t stop_time,
-               maneuver_data_t &&data)
+ public:
+  ResizeManeuver(uint32_t unit_id, time_point_t start_time, time_point_t stop_time,
+                 maneuver_data_t &&data)
       : Maneuver(unit_id, ManeuverType::resize, start_time, stop_time, std::move(data)) {
     if (data_valid()) {
-      start_width_ = static_cast<coordinate_t >(std::stoi(maneuver_data_.at(0)));
-      start_height_ = static_cast<coordinate_t >(std::stoi(maneuver_data_.at(1)));
-      stop_width_ = static_cast<coordinate_t >(std::stoi(maneuver_data_.at(2)));
-      stop_height_ = static_cast<coordinate_t >(std::stoi(maneuver_data_.at(3)));
+      start_width_ = static_cast<coordinate_t>(std::stoi(maneuver_data_.at(0)));
+      start_height_ = static_cast<coordinate_t>(std::stoi(maneuver_data_.at(1)));
+      stop_width_ = static_cast<coordinate_t>(std::stoi(maneuver_data_.at(2)));
+      stop_height_ = static_cast<coordinate_t>(std::stoi(maneuver_data_.at(3)));
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id,
-                          time_point_t start_time,
-                          time_point_t stop_time,
-                          maneuver_data_t &&data) {
-    return std::make_unique<ResizeManeuver>(ResizeManeuver(unit_id, start_time, stop_time, std::move(data)));
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, time_point_t start_time,
+                                          time_point_t stop_time, maneuver_data_t &&data) {
+    return std::make_unique<ResizeManeuver>(
+        ResizeManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
   void operator()(Unit &unit) override {
@@ -50,29 +46,24 @@ public:
     } else if (global_time >= stop_time_) {
       unit.set_size(stop_width_, stop_height_);
     } else {
-      unit.set_size(
-          static_cast<coordinate_t>(
-              static_cast<double>((global_time - start_time_).count()) / (stop_time_ - start_time_).count() *
-              (stop_width_ - start_width_) + start_width_),
-          static_cast<coordinate_t>(
-              static_cast<double>((global_time - start_time_).count()) / (stop_time_ - start_time_).count() *
-              (stop_height_ - start_height_) + start_height_)
-      );
+      unit.set_size(static_cast<coordinate_t>(
+                        static_cast<double>((global_time - start_time_).count()) /
+                            (stop_time_ - start_time_).count() * (stop_width_ - start_width_) +
+                        start_width_),
+                    static_cast<coordinate_t>(
+                        static_cast<double>((global_time - start_time_).count()) /
+                            (stop_time_ - start_time_).count() * (stop_height_ - start_height_) +
+                        start_height_));
     }
   }
 
-
-private:
-
-  size_t data_arity() override {
-    return 4;
-  }
+ private:
+  size_t data_arity() override { return 4; }
 
   coordinate_t start_width_ = 0;
   coordinate_t stop_width_ = 0;
   coordinate_t start_height_ = 0;
   coordinate_t stop_height_ = 0;
-
 };
 
-#endif //BATTLEVISION_RESIZEMANEUVER_H
+#endif  // BATTLEVISION_RESIZEMANEUVER_H

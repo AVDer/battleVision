@@ -34,5 +34,3 @@ Unit UnitFactory::get_unit(UnitInfo &&ui) {
   }
   return unit;
 }
-
-

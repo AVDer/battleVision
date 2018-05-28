@@ -24,16 +24,13 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "BVTypes.h"
 
 struct Settings {
-  static const bool show_fps {false};
+  static const bool show_fps{false};
   static const uint16_t debug_level = 7;
 
   static const bvl::gui::types::gui_res_t main_window_width = 1000;
   static const bvl::gui::types::gui_res_t main_window_height = 600;
 };
 
-enum class gui_lib : uint8_t {
-  opengl
-};
-
+enum class gui_lib : uint8_t { opengl };
 
 #endif /* BVL_BVGLOBAL_H_ */

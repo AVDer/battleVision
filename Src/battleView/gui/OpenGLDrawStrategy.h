@@ -25,21 +25,26 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "core/DrawStrategy.h"
 #include "RenderInfo.h"
+#include "core/DrawStrategy.h"
 
 class OpenGLDrawStrategy : public DrawStrategy {
-public:
+ public:
   OpenGLDrawStrategy() = default;
 
   void update_draw_info(const UnitDrawInfo &udi) override {
     is_modified_ = true;
     auto c = udi.color.get();
-    _color.r = c.r; _color.g = c.g; _color.b = c.b;
+    _color.r = c.r;
+    _color.g = c.g;
+    _color.b = c.b;
 
-    _transformation = glm::translate(glm::mat4(), glm::vec3(udi.position.x(), udi.position.y(), 0.f));
-    _transformation = glm::rotate(_transformation, glm::radians(static_cast<float>(udi.angle)), glm::vec3(0.0f, 0.0f, 1.0f));
-    _transformation = glm::translate(_transformation, glm::vec3(-udi.size.x() / 2, -udi.size.y() / 2, 0.f));
+    _transformation =
+        glm::translate(glm::mat4(), glm::vec3(udi.position.x(), udi.position.y(), 0.f));
+    _transformation = glm::rotate(_transformation, glm::radians(static_cast<float>(udi.angle)),
+                                  glm::vec3(0.0f, 0.0f, 1.0f));
+    _transformation =
+        glm::translate(_transformation, glm::vec3(-udi.size.x() / 2, -udi.size.y() / 2, 0.f));
     _transformation = glm::scale(_transformation, glm::vec3(udi.size.x(), udi.size.y(), 1.f));
 
     fill_vertex(udi);
@@ -50,7 +55,7 @@ public:
     return {m_unit_vertices, m_unit_indices, _transformation};
   }
 
-protected:
+ protected:
   virtual void fill_vertex(const UnitDrawInfo &udi) = 0;
 
   static constexpr GLfloat unit_height = 0.05;
@@ -61,5 +66,4 @@ protected:
   glm::vec3 _color;
 };
 
-
-#endif //BATTLEVISION_OPENGLDRAWSTRATEGY_H
+#endif  // BATTLEVISION_OPENGLDRAWSTRATEGY_H

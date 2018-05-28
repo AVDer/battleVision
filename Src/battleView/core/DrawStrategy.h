@@ -30,18 +30,19 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "gui/RenderInfo.h"
 
 class DrawStrategy {
-public:
+ public:
   DrawStrategy() = default;
   virtual ~DrawStrategy() = default;
 
   virtual void update_draw_info(const UnitDrawInfo &udi) = 0;
-  //virtual void fill_draw_structures(std::vector<GLfloat> & vertices, std::vector<GLuint> & indecies, glm::mat4 & transformation) = 0;
+  // virtual void fill_draw_structures(std::vector<GLfloat> & vertices,
+  // std::vector<GLuint> & indecies, glm::mat4 & transformation) = 0;
   virtual RenderInfo fill_draw_structures() = 0;
 
-  bool is_modified() const {return is_modified_;}
+  bool is_modified() const { return is_modified_; }
 
-protected:
-  bool is_modified_ {false};
+ protected:
+  bool is_modified_{false};
 };
 
 #endif /* CORE_DRAWSTRATEGY_H_ */

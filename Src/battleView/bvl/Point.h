@@ -21,39 +21,39 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 
 namespace bvl {
-  namespace core {
-    namespace types {
+namespace core {
+namespace types {
 
-      template<typename T>
-      class Point {
-      public:
-        Point(const T &i_x = 0, const T &i_y = 0) : x_(i_x), y_(i_y) { }
+template <typename T>
+class Point {
+ public:
+  Point(const T &i_x = 0, const T &i_y = 0) : x_(i_x), y_(i_y) {}
 
-        T x() const { return x_; }
+  T x() const { return x_; }
 
-        T y() const { return y_; }
+  T y() const { return y_; }
 
-        void set_x(T x) { x_ = x; }
-        void set_y(T y) { y_ = y; }
+  void set_x(T x) { x_ = x; }
+  void set_y(T y) { y_ = y; }
 
-        Point operator+=(const Point &that) {
-          x_ += that.x();
-          y_ += that.y();
-          return *this;
-        }
-
-      private:
-        T x_;
-        T y_;
-      };
-
-      template<typename T>
-      Point<T> operator+(const Point<T> &lhs, const Point<T> &rhs) {
-        return Point<T>(lhs.x() + rhs.x(), lhs.y() + rhs.y());
-      }
-
-    }
+  Point operator+=(const Point &that) {
+    x_ += that.x();
+    y_ += that.y();
+    return *this;
   }
+
+ private:
+  T x_;
+  T y_;
+};
+
+template <typename T>
+Point<T> operator+(const Point<T> &lhs, const Point<T> &rhs) {
+  return Point<T>(lhs.x() + rhs.x(), lhs.y() + rhs.y());
 }
 
-#endif // POINT_H
+}  // namespace types
+}  // namespace core
+}  // namespace bvl
+
+#endif  // POINT_H

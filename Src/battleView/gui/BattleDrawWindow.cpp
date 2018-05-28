@@ -27,15 +27,13 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 ViewState view_state;
 UnitAdjustInfo unit_adjust_info;
 
-BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t height, std::string&& title) :
-    width_(width),
-    height_(height),
-    title_(title),
-    texture_filename_("bm.tga") {
-
+BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t height,
+                                   std::string&& title)
+    : width_(width), height_(height), title_(title), texture_filename_("bm.tga") {
   init_open_gl();
   createField(texture_filename_);
-  view_state.zoom_number = 1. / std::max(battle_field_.texture_width(), battle_field_.texture_height());
+  view_state.zoom_number =
+      1. / std::max(battle_field_.texture_width(), battle_field_.texture_height());
 
   units_processor_.set_working_file("Marathon.battle");
   units_processor_.create_units();
@@ -53,23 +51,21 @@ BattleDrawWindow::~BattleDrawWindow() {
 }
 
 void BattleDrawWindow::update_size() {
-  static int old_width {0}, old_height {0};
+  static int old_width{0}, old_height{0};
   int width, height;
   glfwGetFramebufferSize(glfw_window_, &width, &height);
 
   if (width != old_width || height != old_height) {
-
     assert(height);
 
     GLfloat ratio = static_cast<float>(width) / static_cast<float>(height);
 
-    glViewport(0, 0, (GLsizei) width, (GLsizei) height);
+    glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
     old_height = height;
     old_width = width;
 
     Logger::debug("BattleWindow: New size: width: %d, height: %d, ratio: %f", width, height, ratio);
-
   }
 }
 
@@ -86,13 +82,15 @@ void BattleDrawWindow::draw() {
 
   update_size();
 
-  model = glm::translate(model, glm::vec3(view_state.trans_x_number, view_state.trans_y_number, 0.f));
-  model = glm::rotate(model, glm::radians(static_cast<float>(view_state.rotate_y_number)), glm::vec3(1.0f, 0.0f, 0.0f));
-  model = glm::rotate(model, glm::radians(static_cast<float>(view_state.rotate_x_number)), glm::vec3(0.0f, 1.0f, 0.0f));
+  model =
+      glm::translate(model, glm::vec3(view_state.trans_x_number, view_state.trans_y_number, 0.f));
+  model = glm::rotate(model, glm::radians(static_cast<float>(view_state.rotate_y_number)),
+                      glm::vec3(1.0f, 0.0f, 0.0f));
+  model = glm::rotate(model, glm::radians(static_cast<float>(view_state.rotate_x_number)),
+                      glm::vec3(0.0f, 1.0f, 0.0f));
   model = glm::scale(model, glm::vec3(view_state.zoom_number, view_state.zoom_number, 1.));
   model = glm::translate(model, glm::vec3(-1 * battle_field_.texture_width() / 2,
-                                          -1 * battle_field_.texture_height() / 2,
-                                          0.f));
+                                          -1 * battle_field_.texture_height() / 2, 0.f));
 
   battle_field_.draw(projection_, view_, model);
 
@@ -127,7 +125,6 @@ void BattleDrawWindow::draw() {
     units_processor_.prev_selected_unit();
     unit_adjust_info.prev_unit = false;
   }
-
 }
 
 void BattleDrawWindow::init_open_gl() {
@@ -143,17 +140,14 @@ void BattleDrawWindow::init_open_gl() {
   if (glfw_window_ == nullptr) {
     Logger::error("GLFW: Failed to create GLFW window");
     glfwTerminate();
-  }
-  else {
+  } else {
     Logger::info("GLFW: GLFW window successfully created");
   }
   glfwMakeContextCurrent(glfw_window_);
 
-
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     Logger::error("GLAD: Failed to initialize GLAD");
-  } 
-  else {
+  } else {
     Logger::info("GLAD: GLAD successfully initialized");
   }
 
@@ -170,10 +164,10 @@ void BattleDrawWindow::init_open_gl() {
 }
 
 int BattleDrawWindow::run() {
-  static uint32_t fps {0};
+  static uint32_t fps{0};
   static DelayTimer<uint16_t> fps_counter(1000);
   static DelayTimer<uint16_t> frame_update_counter(10);
-  
+
   while (!glfwWindowShouldClose(glfw_window_)) {
     if (!to_refresh_) continue;
     if (!frame_update_counter.elapsed()) continue;
@@ -192,11 +186,11 @@ int BattleDrawWindow::run() {
 
     // m_to_refresh = false;
   }
-  
+
   return 0;
 }
 
-void key_callback(GLFWwindow *window, int key, int /*scancode*/, int action, int mode) {
+void key_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int mode) {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
     glfwSetWindowShouldClose(window, GL_TRUE);
   }
@@ -252,8 +246,7 @@ void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /
       view_state.drag_started = true;
       view_state.drag_start_x = -1;
       view_state.drag_start_y = -1;
-    }
-    else {
+    } else {
       view_state.drag_started = false;
       view_state.init_trans_x = view_state.trans_x_number;
       view_state.init_trans_y = view_state.trans_y_number;
@@ -264,8 +257,7 @@ void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /
       view_state.rotate_started = true;
       view_state.rotate_start_x = 0;
       view_state.rotate_start_y = 0;
-    }
-    else {
+    } else {
       view_state.rotate_started = false;
       view_state.init_rotate_x = view_state.rotate_x_number;
       view_state.init_rotate_y = view_state.rotate_y_number;
@@ -278,20 +270,24 @@ void cursor_position_callback(GLFWwindow* /*window*/, double xpos, double ypos) 
     if (view_state.drag_start_x < 0) {
       view_state.drag_start_x = xpos;
       view_state.drag_start_y = ypos;
-    }
-    else {
-      view_state.trans_x_number = (xpos - view_state.drag_start_x) / Settings::main_window_width + view_state.init_trans_x;
-      view_state.trans_y_number = (view_state.drag_start_y - ypos) / Settings::main_window_height + view_state.init_trans_y;
+    } else {
+      view_state.trans_x_number =
+          (xpos - view_state.drag_start_x) / Settings::main_window_width + view_state.init_trans_x;
+      view_state.trans_y_number =
+          (view_state.drag_start_y - ypos) / Settings::main_window_height + view_state.init_trans_y;
     }
   }
   if (view_state.rotate_started) {
     if (view_state.rotate_start_x == 0) {
       view_state.rotate_start_x = xpos;
       view_state.rotate_start_y = ypos;
-    }
-    else {
-      view_state.rotate_x_number = 100. * (xpos - view_state.rotate_start_x) / Settings::main_window_width + view_state.init_rotate_x;
-      view_state.rotate_y_number = 100. * (ypos - view_state.rotate_start_y) / Settings::main_window_height + view_state.init_rotate_y;
+    } else {
+      view_state.rotate_x_number =
+          100. * (xpos - view_state.rotate_start_x) / Settings::main_window_width +
+          view_state.init_rotate_x;
+      view_state.rotate_y_number =
+          100. * (ypos - view_state.rotate_start_y) / Settings::main_window_height +
+          view_state.init_rotate_y;
     }
   }
 }

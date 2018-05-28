@@ -21,18 +21,17 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 
 namespace bvl {
-  namespace gui {
+namespace gui {
 
-    struct Gap {
-      static const uint16_t small = 5;
-      static const uint16_t normal = 10;
+struct Gap {
+  static const uint16_t small = 5;
+  static const uint16_t normal = 10;
 
-      static const uint16_t double_small = small * 2;
-      static const uint16_t double_normal = normal * 2;
-    };
+  static const uint16_t double_small = small * 2;
+  static const uint16_t double_normal = normal * 2;
+};
 
-  }
-}
-
+}  // namespace gui
+}  // namespace bvl
 
 #endif /* WINDOWSETTINGS_H_ */

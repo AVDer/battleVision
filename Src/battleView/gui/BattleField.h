@@ -29,7 +29,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "ShaderProgram.h"
 
 class BattleField {
-public:
+ public:
   void create(const std::string& texture_filename);
   void destroy();
 
@@ -39,16 +39,15 @@ public:
   int texture_width() const { return texture_->width(); }
   int texture_height() const { return texture_->height(); }
 
-private:
+ private:
   void load_map_texture(const std::string& filename);
 
-  GLuint gl_field_vbo {0};
-  GLuint gl_field_vao {0};
-  GLuint gl_field_ebo {0};
+  GLuint gl_field_vbo{0};
+  GLuint gl_field_vao{0};
+  GLuint gl_field_ebo{0};
 
   ShaderProgram shader_program_;
   std::unique_ptr<OGLTexture> texture_;
 };
 
-
-#endif //BATTLEVISION_BATTLEFIELD_H
+#endif  // BATTLEVISION_BATTLEFIELD_H

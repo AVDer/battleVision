@@ -21,25 +21,20 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "Maneuver.h"
 
 class RotateManeuver : public Maneuver {
-
-public:
-
-  RotateManeuver(uint32_t unit_id,
-                 time_point_t start_time,
-                 time_point_t stop_time,
+ public:
+  RotateManeuver(uint32_t unit_id, time_point_t start_time, time_point_t stop_time,
                  maneuver_data_t &&data)
       : Maneuver(unit_id, ManeuverType::rotate, start_time, stop_time, std::move(data)) {
     if (data_valid()) {
-      start_angle_ = static_cast<coordinate_t >(std::stoi(maneuver_data_.at(0)));
-      stop_angle_ = static_cast<coordinate_t >(std::stoi(maneuver_data_.at(1)));
+      start_angle_ = static_cast<coordinate_t>(std::stoi(maneuver_data_.at(0)));
+      stop_angle_ = static_cast<coordinate_t>(std::stoi(maneuver_data_.at(1)));
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id,
-                          time_point_t start_time,
-                          time_point_t stop_time,
-                          std::vector<std::string> &&data) {
-    return std::make_unique<RotateManeuver>(RotateManeuver(unit_id, start_time, stop_time, std::move(data)));
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, time_point_t start_time,
+                                          time_point_t stop_time, std::vector<std::string> &&data) {
+    return std::make_unique<RotateManeuver>(
+        RotateManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
   void operator()(Unit &unit) override {
@@ -49,23 +44,18 @@ public:
     } else if (global_time >= stop_time_) {
       unit.set_angle(stop_angle_);
     } else {
-      unit.set_angle(
-          static_cast<coordinate_t>(
-              static_cast<double>((global_time - start_time_).count()) / (stop_time_ - start_time_).count() *
-              (stop_angle_ - start_angle_) + start_angle_)
-      );
+      unit.set_angle(static_cast<coordinate_t>(
+          static_cast<double>((global_time - start_time_).count()) /
+              (stop_time_ - start_time_).count() * (stop_angle_ - start_angle_) +
+          start_angle_));
     }
   }
 
-private:
-
-  size_t data_arity() override {
-    return 2;
-  }
+ private:
+  size_t data_arity() override { return 2; }
 
   angle_t start_angle_;
   angle_t stop_angle_;
 };
 
-
-#endif //BATTLEVISION_ROTATEMANEUVER_H
+#endif  // BATTLEVISION_ROTATEMANEUVER_H

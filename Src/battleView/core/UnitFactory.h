@@ -21,8 +21,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "Unit.h"
 
 class UnitFactory {
-public:
-  static Unit get_unit(UnitInfo && ui);
+ public:
+  static Unit get_unit(UnitInfo&& ui);
 };
 
 #endif /* CORE_UNITFACTORY_H_ */

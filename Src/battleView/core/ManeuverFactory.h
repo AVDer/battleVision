@@ -23,29 +23,25 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "Maneuver.h"
 
 class ManeuverFactory {
-
-public:
-
+ public:
   static std::unique_ptr<Maneuver> create(ManeuverType type, uint32_t unit_id,
-                          time_point_t start_time,
-                          time_point_t stop_time,
-                          std::vector<std::string> &&data);
+                                          time_point_t start_time, time_point_t stop_time,
+                                          std::vector<std::string> &&data);
 
   static ManeuverFactory &get() {
     static ManeuverFactory instance;
     return instance;
   }
 
-  using ManeuverConstructor = std::unique_ptr<Maneuver> (*)(uint32_t, time_point_t, time_point_t, std::vector<std::string> &&);
+  using ManeuverConstructor = std::unique_ptr<Maneuver> (*)(uint32_t, time_point_t, time_point_t,
+                                                            std::vector<std::string> &&);
 
   void register_maneuver(ManeuverType type, ManeuverConstructor constructor);
 
-private:
+ private:
   ManeuverFactory() = default;
 
   static std::map<ManeuverType, ManeuverConstructor> maneuver_base;
-
 };
 
-
-#endif //BATTLEVISION_MANEUVERFACTORY_H
+#endif  // BATTLEVISION_MANEUVERFACTORY_H

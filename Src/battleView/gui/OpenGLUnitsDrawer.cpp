@@ -21,7 +21,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "OpenGLUnitsDrawer.h"
 #include "RenderInfo.h"
 
-OpenGLUnitsDrawer * OpenGLUnitsDrawer::m_instance {nullptr};
+OpenGLUnitsDrawer *OpenGLUnitsDrawer::m_instance{nullptr};
 
 OpenGLUnitsDrawer::OpenGLUnitsDrawer() {
   m_shader.init(ShadersUnit::vertex_shader, ShadersUnit::fragment_shader);
@@ -34,12 +34,16 @@ OpenGLUnitsDrawer::OpenGLUnitsDrawer() {
   glBindVertexArray(gl_field_vao);
   {
     glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo);
-    glBufferData(GL_ARRAY_BUFFER, m_unit_vertices.size() * sizeof(GLfloat), m_unit_vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, m_unit_vertices.size() * sizeof(GLfloat), m_unit_vertices.data(),
+                 GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_unit_indices.size() * sizeof(GLuint), m_unit_indices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLfloat *) (0 * sizeof(GLfloat)));
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_unit_indices.size() * sizeof(GLuint),
+                 m_unit_indices.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
+                          (GLfloat *)(0 * sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLfloat *) (3 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
+                          (GLfloat *)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
   }
   glBindVertexArray(0);
@@ -52,30 +56,26 @@ OpenGLUnitsDrawer::~OpenGLUnitsDrawer() {
   glDeleteBuffers(1, &_indirect_buffer);
 }
 
-void OpenGLUnitsDrawer::prepare() {
-  m_unit_draw_vector.clear();
-}
+void OpenGLUnitsDrawer::prepare() { m_unit_draw_vector.clear(); }
 
-
-void OpenGLUnitsDrawer::draw_units(const std::vector<Unit>& units) {
-
-  //ToDo: Don't need to update data if no changes. Don't need to re-_indirect_buffer data if no changes.
-  bool re_buffer {false};
+void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
+  // ToDo: Don't need to update data if no changes. Don't need to re-_indirect_buffer data if no
+  // changes.
+  bool re_buffer{false};
 
   if (units.size() != _indirect_draw.size()) {
     _indirect_draw.resize(units.size());
     _transformations.resize(units.size());
   }
 
-  if (std::any_of(std::begin(units), std::end(units), [](const Unit& u) {return u.draw_strategy()->is_modified();})) {
-
+  if (std::any_of(std::begin(units), std::end(units),
+                  [](const Unit &u) { return u.draw_strategy()->is_modified(); })) {
     m_unit_vertices.clear();
     m_unit_indices.clear();
 
     RenderInfo render_info;
 
     for (size_t i = 0; i < units.size(); ++i) {
-
       render_info = units.at(i).draw_strategy()->fill_draw_structures();
 
       _indirect_draw[i].count = static_cast<GLuint>(render_info.indecies.size());
@@ -86,7 +86,8 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit>& units) {
 
       m_unit_vertices.insert(std::end(m_unit_vertices), std::begin(render_info.vertices),
                              std::end(render_info.vertices));
-      m_unit_indices.insert(std::end(m_unit_indices), std::begin(render_info.indecies), std::end(render_info.indecies));
+      m_unit_indices.insert(std::end(m_unit_indices), std::begin(render_info.indecies),
+                            std::end(render_info.indecies));
       _transformations[i] = render_info.transformation;
     }
 
@@ -108,30 +109,28 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit>& units) {
 
   if (re_buffer) {
     glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo);
-    glBufferData(GL_ARRAY_BUFFER, m_unit_vertices.size() * sizeof(GLfloat), m_unit_vertices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_unit_indices.size() * sizeof(GLuint), m_unit_indices.data(),
+    glBufferData(GL_ARRAY_BUFFER, m_unit_vertices.size() * sizeof(GLfloat), m_unit_vertices.data(),
                  GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_unit_indices.size() * sizeof(GLuint),
+                 m_unit_indices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_DRAW_INDIRECT_BUFFER, _indirect_buffer);
-    glBufferData(GL_DRAW_INDIRECT_BUFFER, _indirect_draw.size() * sizeof(DrawElementsIndirectCommand),
-                 _indirect_draw.data(), GL_STATIC_DRAW);
-                 
+    glBufferData(GL_DRAW_INDIRECT_BUFFER,
+                 _indirect_draw.size() * sizeof(DrawElementsIndirectCommand), _indirect_draw.data(),
+                 GL_STATIC_DRAW);
   }
 
   glBindVertexArray(gl_field_vao);
   {
     for (size_t i = 0; i < units.size(); ++i) {
       glUniformMatrix4fv(rotate_location, 1, GL_FALSE, glm::value_ptr(_transformations[i]));
-      glDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, (void *)(i * sizeof(DrawElementsIndirectCommand)));
+      glDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT,
+                             (void *)(i * sizeof(DrawElementsIndirectCommand)));
 
       GLenum err = glGetError();
       if (err != GL_NO_ERROR) {
         Logger::warning("OpenGL: glDrawElementsIndirect error: %d", err);
       }
     }
-
-    
-
   }
-
 }

@@ -26,28 +26,24 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "RenderInfo.h"
 #include "ShaderProgram.h"
 #include "ShadersUnit.h"
-#include "RenderInfo.h"
 
-#include "core/Unit.h"
 #include "bvl/BVTypes.h"
+#include "core/Unit.h"
 
 struct UnitDrawData {
-  UnitDrawData(GLuint v, GLsizei p, glm::mat4 t) :
-      vao_index(v),
-      points_number(p),
-      transformation(t) {}
+  UnitDrawData(GLuint v, GLsizei p, glm::mat4 t)
+      : vao_index(v), points_number(p), transformation(t) {}
   GLuint vao_index;
   GLsizei points_number;
   glm::mat4 transformation;
 };
 
 class OpenGLUnitsDrawer {
-
-public:
-
-  static OpenGLUnitsDrawer * instance() {
+ public:
+  static OpenGLUnitsDrawer* instance() {
     if (!m_instance) {
       m_instance = new OpenGLUnitsDrawer;
     }
@@ -66,14 +62,13 @@ public:
     m_model = model;
   }
 
-private:
-
+ private:
   const static uint16_t POINTS_PER_PIXEL = 6;
   const static uint16_t MAX_UNITS_NUMBER = 20;
 
   using unit_draw_data = UnitDrawData;
   OpenGLUnitsDrawer();
-  static OpenGLUnitsDrawer * m_instance;
+  static OpenGLUnitsDrawer* m_instance;
   std::vector<unit_draw_data> m_unit_draw_vector;
 
   glm::mat4 m_projection;
@@ -94,5 +89,4 @@ private:
   std::vector<glm::mat4> _transformations;
 };
 
-
-#endif //BATTLEVISION_OPENGLUNITSDRAWER_H
+#endif  // BATTLEVISION_OPENGLUNITSDRAWER_H

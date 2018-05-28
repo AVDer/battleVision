@@ -16,4 +16,3 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 #include "UnitInfo.h"
-

@@ -19,26 +19,19 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Logger.h"
 
-Unit::Unit(DrawStrategy *str) :
-  draw_strategy_(str) {
-}
+Unit::Unit(DrawStrategy *str) : draw_strategy_(str) {}
 
-Unit::Unit(const UnitInfo &unit_info) :
-  unit_info_(unit_info),
-  draw_strategy_(nullptr) {
-}
+Unit::Unit(const UnitInfo &unit_info) : unit_info_(unit_info), draw_strategy_(nullptr) {}
 
-Unit::Unit(const Unit &that) :
-  sub_units_(that.sub_units_),
-  unit_info_(that.unit_info_),
-  draw_strategy_(that.draw_strategy_) {
-}
+Unit::Unit(const Unit &that)
+    : sub_units_(that.sub_units_),
+      unit_info_(that.unit_info_),
+      draw_strategy_(that.draw_strategy_) {}
 
-Unit::Unit(Unit &&that) noexcept :
-  sub_units_(std::move(that.sub_units_)),
-  unit_info_(that.unit_info_),
-  draw_strategy_(std::move(that.draw_strategy_)) {
-}
+Unit::Unit(Unit &&that) noexcept
+    : sub_units_(std::move(that.sub_units_)),
+      unit_info_(that.unit_info_),
+      draw_strategy_(std::move(that.draw_strategy_)) {}
 
 Unit Unit::set_unit_info(const UnitInfo &unit_info) {
   unit_info_ = unit_info;
@@ -55,7 +48,7 @@ void Unit::draw() const {
     */
 }
 
-Unit Unit::set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy) {
+Unit Unit::set_draw_strategy(std::shared_ptr<DrawStrategy> &&strategy) {
   draw_strategy_ = strategy;
   draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
   return (*this);
@@ -92,6 +85,7 @@ void Unit::enlarge(int16_t xdiff, int16_t ydiff) {
 }
 
 void Unit::print_info() {
-  Logger::info("Unit info: %dx%d @ Position: %d:%d / %d", unit_info_.unit_draw_info().size.x(), unit_info_.unit_draw_info().size.y(),
-            unit_info_.unit_draw_info().position.x(), unit_info_.unit_draw_info().position.y(), unit_info_.unit_draw_info().angle);
+  Logger::info("Unit info: %dx%d @ Position: %d:%d / %d", unit_info_.unit_draw_info().size.x(),
+               unit_info_.unit_draw_info().size.y(), unit_info_.unit_draw_info().position.x(),
+               unit_info_.unit_draw_info().position.y(), unit_info_.unit_draw_info().angle);
 }

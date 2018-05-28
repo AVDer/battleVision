@@ -23,29 +23,20 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "bvl/BVTypes.h"
 
 class OpponentInfo {
-public:
+ public:
   OpponentInfo() = default;
 
-  OpponentInfo(uint32_t id, std::string&& name, bvl::core::types::color_t color) :
-      id_(id),
-      name_(name),
-      color_(color) {
-  }
+  OpponentInfo(uint32_t id, std::string&& name, bvl::core::types::color_t color)
+      : id_(id), name_(name), color_(color) {}
 
-  uint32_t id() const {
-    return id_;
-  }
+  uint32_t id() const { return id_; }
 
-  std::string name() const {
-    return name_;
-  }
+  std::string name() const { return name_; }
 
-  bvl::core::types::color_t color() const {
-    return color_;
-  }
+  bvl::core::types::color_t color() const { return color_; }
 
-private:
-  uint32_t id_ {0};
+ private:
+  uint32_t id_{0};
   std::string name_;
   bvl::core::types::color_t color_;
 };

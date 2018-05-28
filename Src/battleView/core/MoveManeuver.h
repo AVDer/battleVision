@@ -21,11 +21,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "Maneuver.h"
 
 class MoveManeuver : public Maneuver {
-
-public:
-  MoveManeuver(uint32_t unit_id,
-               time_point_t start_time,
-               time_point_t stop_time,
+ public:
+  MoveManeuver(uint32_t unit_id, time_point_t start_time, time_point_t stop_time,
                maneuver_data_t &&data)
       : Maneuver(unit_id, ManeuverType::move, start_time, stop_time, std::move(data)) {
     if (data_valid()) {
@@ -36,11 +33,10 @@ public:
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id,
-                          time_point_t start_time,
-                          time_point_t stop_time,
-                          maneuver_data_t &&data) {
-    return std::make_unique<MoveManeuver>(MoveManeuver(unit_id, start_time, stop_time, std::move(data)));
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, time_point_t start_time,
+                                          time_point_t stop_time, maneuver_data_t &&data) {
+    return std::make_unique<MoveManeuver>(
+        MoveManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
   void operator()(Unit &unit) override {
@@ -51,28 +47,22 @@ public:
       unit.set_position(stop_x_, stop_y_);
     } else {
       unit.set_position(
-          static_cast<coordinate_t>(
-              static_cast<double>((global_time - start_time_).count()) / (stop_time_ - start_time_).count() *
-              (stop_x_ - start_x_) + start_x_),
-          static_cast<coordinate_t>(
-              static_cast<double>((global_time - start_time_).count()) / (stop_time_ - start_time_).count() *
-              (stop_y_ - start_y_) + start_y_)
-      );
+          static_cast<coordinate_t>(static_cast<double>((global_time - start_time_).count()) /
+                                        (stop_time_ - start_time_).count() * (stop_x_ - start_x_) +
+                                    start_x_),
+          static_cast<coordinate_t>(static_cast<double>((global_time - start_time_).count()) /
+                                        (stop_time_ - start_time_).count() * (stop_y_ - start_y_) +
+                                    start_y_));
     }
   }
 
-
-private:
-
-  size_t data_arity() override {
-    return 4;
-  }
+ private:
+  size_t data_arity() override { return 4; }
 
   coordinate_t start_x_ = 0;
   coordinate_t stop_x_ = 0;
   coordinate_t start_y_ = 0;
   coordinate_t stop_y_ = 0;
-
 };
 
-#endif //#define BATTLEVISION_MOVEMANEUVER_H
+#endif  //#define BATTLEVISION_MOVEMANEUVER_H

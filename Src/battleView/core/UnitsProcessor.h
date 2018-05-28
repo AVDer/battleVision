@@ -26,7 +26,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "UnitFactory.h"
 
 class UnitsProcessor {
-public:
+ public:
   UnitsProcessor();
 
   ~UnitsProcessor();
@@ -41,21 +41,13 @@ public:
 
   void reset();
 
-  void rotate(bvl::core::types::angle_t angle) {
-    units_[selected_unit_].rotate(angle);
-  }
+  void rotate(bvl::core::types::angle_t angle) { units_[selected_unit_].rotate(angle); }
 
-  void move(int16_t xdiff, int16_t ydiff) {
-    units_[selected_unit_].move(xdiff, ydiff);
-  }
+  void move(int16_t xdiff, int16_t ydiff) { units_[selected_unit_].move(xdiff, ydiff); }
 
-  void enlarge(int16_t xdsize, int16_t ydsize) {
-    units_[selected_unit_].enlarge(xdsize, ydsize);
-  }
+  void enlarge(int16_t xdsize, int16_t ydsize) { units_[selected_unit_].enlarge(xdsize, ydsize); }
 
-  void print_unit_info() {
-    units_[selected_unit_].print_info();
-  }
+  void print_unit_info() { units_[selected_unit_].print_info(); }
 
   void next_selected_unit() {
     units_.at(selected_unit_).set_selected(false);
@@ -67,17 +59,15 @@ public:
     units_.at(selected_unit_).set_selected(false);
     if (selected_unit_ == 0) {
       selected_unit_ = units_.size() - 1;
-    }
-    else {
+    } else {
       --selected_unit_;
     }
     units_.at(selected_unit_).set_selected(true);
   }
 
-private:
-
-  const time_point_t start_time {std::chrono::seconds(0)};
-  const time_point_t stop_time {std::chrono::seconds(10)};
+ private:
+  const time_point_t start_time{std::chrono::seconds(0)};
+  const time_point_t stop_time{std::chrono::seconds(10)};
   time_point_t model_start;
 
   std::string working_file_;
@@ -86,7 +76,7 @@ private:
 
   void fill_units();
 
-  std::size_t selected_unit_ {0};
+  std::size_t selected_unit_{0};
 };
 
 #endif /* CORE_UNITSPROCESSOR_H_ */

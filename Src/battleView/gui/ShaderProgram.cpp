@@ -26,7 +26,6 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   const GLchar* vertex_shader_code = vertex_source.c_str();
   const GLchar* fragment_shader_code = fragment_source.c_str();
 
-
   GLuint vertex_shader;
   vertex_shader = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertex_shader, 1, &vertex_shader_code, nullptr);
@@ -37,7 +36,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
     Logger::error("Shader: Vertex compilation failed: %s", infoLog);
   }
 
-  GLuint fragment_shader { glCreateShader(GL_FRAGMENT_SHADER) };
+  GLuint fragment_shader{glCreateShader(GL_FRAGMENT_SHADER)};
   glShaderSource(fragment_shader, 1, &fragment_shader_code, nullptr);
   glCompileShader(fragment_shader);
   glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
@@ -52,7 +51,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glLinkProgram(program_id_);
 
   glGetProgramiv(program_id_, GL_LINK_STATUS, &success);
-  if(!success) {
+  if (!success) {
     glGetProgramInfoLog(program_id_, 512, nullptr, infoLog);
     Logger::error("Shader: Program compilation failed: %s", infoLog);
   }
@@ -61,6 +60,4 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glDeleteShader(fragment_shader);
 }
 
-void ShaderProgram::use() {
-  glUseProgram(program_id_);
-}
+void ShaderProgram::use() { glUseProgram(program_id_); }

@@ -20,8 +20,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 
-#include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 
 #include "ManeuverFactory.h"
 #include "MoveManeuver.h"
@@ -40,9 +40,7 @@ UnitsProcessor::UnitsProcessor() {
   model_start = std::chrono::system_clock::now();
 }
 
-UnitsProcessor::~UnitsProcessor() {
-  reset();
-}
+UnitsProcessor::~UnitsProcessor() { reset(); }
 
 void UnitsProcessor::set_working_file(const std::string &new_string, bool renew) {
   if (working_file_ != new_string || !renew) {
@@ -51,9 +49,7 @@ void UnitsProcessor::set_working_file(const std::string &new_string, bool renew)
   }
 }
 
-void UnitsProcessor::create_units() {
-  fill_units();
-}
+void UnitsProcessor::create_units() { fill_units(); }
 
 void UnitsProcessor::maneuver() {
   Maneuver::setTime(time_point_t(std::chrono::system_clock::now() - model_start));
@@ -79,69 +75,55 @@ void UnitsProcessor::reset() {
 }
 
 void UnitsProcessor::fill_units() {
-
   boost::property_tree::ptree battle_description;
   boost::property_tree::read_json(working_file_, battle_description);
 
-  //int meta_version = battle_description.get("general.version", 0);
+  // int meta_version = battle_description.get("general.version", 0);
 
   // Opponents
 
   std::vector<OpponentInfo> opponents;
-  for (boost::property_tree::ptree::value_type &opponent : battle_description.get_child("opponents")) {
-    opponents.emplace_back(
-        opponent.second.get<int>("id"),
-        opponent.second.get<std::string>("name"),
-        color_t(opponent.second.get<uint32_t>("color"))
-    );
+  for (boost::property_tree::ptree::value_type &opponent :
+       battle_description.get_child("opponents")) {
+    opponents.emplace_back(opponent.second.get<int>("id"), opponent.second.get<std::string>("name"),
+                           color_t(opponent.second.get<uint32_t>("color")));
   }
 
   // Units
 
   for (boost::property_tree::ptree::value_type &unit : battle_description.get_child("units")) {
     UnitInfo unit_info = UnitInfo(
-        UnitGeneralInfo(
-            unit.second.get<uint32_t>("id"),
-            unit.second.get<uint32_t>("side"),
-            unit.second.get<uint32_t>("count"),
-            static_cast<unit_type_t>(unit.second.get<int>("type", 0)),
-            unit.second.get<std::string>("name")),
+        UnitGeneralInfo(unit.second.get<uint32_t>("id"), unit.second.get<uint32_t>("side"),
+                        unit.second.get<uint32_t>("count"),
+                        static_cast<unit_type_t>(unit.second.get<int>("type", 0)),
+                        unit.second.get<std::string>("name")),
         UnitDrawInfo(
-            point_t(unit.second.get<int>("position_x"),
-                    unit.second.get<int>("position_y")),
-            color_t(0),
-            static_cast<shape_t>(unit.second.get<int>("shape")),
-            point_t(unit.second.get<int>("size_x"),
-                    unit.second.get<int>("size_y")),
-            static_cast<angle_t>(unit.second.get<int>("angle")),
-            unit_state_t::alive
-        )
-    );
-    unit_info.set_color((*std::find_if(
-        std::begin(opponents),
-        std::end(opponents),
-        [unit_info](const OpponentInfo &o) -> bool {
-          return o.id() == unit_info.unit_general_info().opponent_id;
-        })).color());
+            point_t(unit.second.get<int>("position_x"), unit.second.get<int>("position_y")),
+            color_t(0), static_cast<shape_t>(unit.second.get<int>("shape")),
+            point_t(unit.second.get<int>("size_x"), unit.second.get<int>("size_y")),
+            static_cast<angle_t>(unit.second.get<int>("angle")), unit_state_t::alive));
+    unit_info.set_color((*std::find_if(std::begin(opponents), std::end(opponents),
+                                       [unit_info](const OpponentInfo &o) -> bool {
+                                         return o.id() == unit_info.unit_general_info().opponent_id;
+                                       }))
+                            .color());
     units_.push_back(std::move(UnitFactory::get_unit(std::move(unit_info))));
   }
 
   // Maneuvers
 
-  for (boost::property_tree::ptree::value_type &maneuver : battle_description.get_child("maneuvers")) {
+  for (boost::property_tree::ptree::value_type &maneuver :
+       battle_description.get_child("maneuvers")) {
     maneuver_data_t local_data;
     for (boost::property_tree::ptree::value_type &data_item : maneuver.second.get_child("data")) {
       local_data.push_back(data_item.second.data());
     }
-    maneuvers_.push_back(ManeuverFactory::create(ManeuverType(maneuver.second.get<int>("type")),
-                                                  maneuver.second.get<uint32_t>("unit"),
-                                                  time_point_t(
-                                                      std::chrono::seconds(maneuver.second.get<int>("start_time"))),
-                                                  time_point_t(
-                                                      std::chrono::seconds(maneuver.second.get<int>("stop_time"))),
-                                                  std::move(local_data)
+    maneuvers_.push_back(ManeuverFactory::create(
+        ManeuverType(maneuver.second.get<int>("type")), maneuver.second.get<uint32_t>("unit"),
+        time_point_t(std::chrono::seconds(maneuver.second.get<int>("start_time"))),
+        time_point_t(std::chrono::seconds(maneuver.second.get<int>("stop_time"))),
+        std::move(local_data)
 
-    ));
+            ));
   }
-
 }

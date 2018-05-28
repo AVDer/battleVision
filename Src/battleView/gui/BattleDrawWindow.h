@@ -18,9 +18,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BATTLEDRAWWINDOW_H_
 #define BATTLEDRAWWINDOW_H_
 
-#include <cstdint>
-#include <cmath>
 #include <cassert>
+#include <cmath>
+#include <cstdint>
 #include <string>
 
 #include "glad/glad.h"
@@ -45,38 +45,38 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
 struct ViewState {
-  double zoom_number {1};
-  double trans_y_number {0};
-  double trans_x_number {0};
-  double rotate_y_number {0};
-  double rotate_x_number {0};
+  double zoom_number{1};
+  double trans_y_number{0};
+  double trans_x_number{0};
+  double rotate_y_number{0};
+  double rotate_x_number{0};
 
-  bool drag_started {false};
-  double drag_start_x {0};
-  double drag_start_y {0};
-  double init_trans_x {0};
-  double init_trans_y {0};
+  bool drag_started{false};
+  double drag_start_x{0};
+  double drag_start_y{0};
+  double init_trans_x{0};
+  double init_trans_y{0};
 
-  bool rotate_started {false};
-  double rotate_start_x {0};
-  double rotate_start_y {0};
-  double init_rotate_x {rotate_x_number};
-  double init_rotate_y {rotate_y_number};
+  bool rotate_started{false};
+  double rotate_start_x{0};
+  double rotate_start_y{0};
+  double init_rotate_x{rotate_x_number};
+  double init_rotate_y{rotate_y_number};
 };
 
 struct UnitAdjustInfo {
-  bvl::core::types::angle_t add_rotation {0};
-  uint16_t add_x {0};
-  uint16_t add_y {0};
-  uint16_t add_w_x {0};
-  uint16_t add_w_y {0};
-  bool to_print {false};
-  bool next_unit {false};
-  bool prev_unit {false};
+  bvl::core::types::angle_t add_rotation{0};
+  uint16_t add_x{0};
+  uint16_t add_y{0};
+  uint16_t add_w_x{0};
+  uint16_t add_w_y{0};
+  bool to_print{false};
+  bool next_unit{false};
+  bool prev_unit{false};
 };
 
 class BattleDrawWindow {
-public:
+ public:
   BattleDrawWindow(types::gui_res_t width, types::gui_res_t height, std::string&& title = "");
 
   virtual ~BattleDrawWindow();
@@ -91,15 +91,15 @@ public:
 
   void draw();
 
-private:
-  static constexpr float gl_field_size {1000.f};
-  GLFWwindow* glfw_window_ {nullptr};
+ private:
+  static constexpr float gl_field_size{1000.f};
+  GLFWwindow* glfw_window_{nullptr};
   BattleField battle_field_;
 
   types::gui_res_t width_;
   types::gui_res_t height_;
   std::string title_;
-  bool to_refresh_ {true};
+  bool to_refresh_{true};
 
   UnitsProcessor units_processor_;
 

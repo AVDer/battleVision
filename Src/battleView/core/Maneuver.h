@@ -18,7 +18,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BATTLEVISION_MANEUVER_H
 #define BATTLEVISION_MANEUVER_H
 
-
 #include <chrono>
 #include <cstdint>
 #include <string>
@@ -29,26 +28,21 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 using time_point_t = std::chrono::system_clock::time_point;
 using maneuver_data_t = std::vector<std::string>;
+using bvl::core::types::coordinate_t;
 
-enum class ManeuverType {
-  stop = 0,
-  move,
-  rotate,
-  resize
-};
+enum class ManeuverType { stop = 0, move, rotate, resize };
 
 class Maneuver {
-public:
-
+ public:
   Maneuver() = default;
 
-  Maneuver(uint32_t unit_id, ManeuverType maneuver_type, time_point_t start_time, time_point_t stop_time,
-           maneuver_data_t &&maneuver_data)
+  Maneuver(uint32_t unit_id, ManeuverType maneuver_type, time_point_t start_time,
+           time_point_t stop_time, maneuver_data_t &&maneuver_data)
       : unit_id_(unit_id),
         maneuver_type_(maneuver_type),
         start_time_(start_time),
         stop_time_(stop_time),
-        maneuver_data_(std::move(maneuver_data)) { }
+        maneuver_data_(std::move(maneuver_data)) {}
 
   virtual ~Maneuver() = default;
 
@@ -57,9 +51,7 @@ public:
     global_stop_time = stop;
   }
 
-  static void setTime(time_point_t time) {
-    global_time = time;
-  }
+  static void setTime(time_point_t time) { global_time = time; }
 
   static time_point_t global_start_time;
   static time_point_t global_stop_time;
@@ -77,8 +69,7 @@ public:
 
   maneuver_data_t data() const { return maneuver_data_; }
 
-protected:
-
+ protected:
   virtual size_t data_arity() = 0;
 
   bool data_valid() {
@@ -90,12 +81,11 @@ protected:
     }
   }
 
-  uint32_t unit_id_ {0};
-  ManeuverType maneuver_type_ {ManeuverType::stop};
+  uint32_t unit_id_{0};
+  ManeuverType maneuver_type_{ManeuverType::stop};
   time_point_t start_time_;
   time_point_t stop_time_;
   maneuver_data_t maneuver_data_;
 };
 
-
-#endif //BATTLEVISION_MANEUVER_H
+#endif  // BATTLEVISION_MANEUVER_H

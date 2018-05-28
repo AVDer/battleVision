@@ -18,9 +18,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsWindow.h"
 
 /*
-SettingsWindow::SettingsWindow(types::gui_res_t x, types::gui_res_t y, types::gui_res_t w, types::gui_res_t h) :
-  Fl_Window(x + Gap::small, y + Gap::small, w - Gap::double_small, h - Gap::double_small),
-  box(new Fl_Box(10, 10, this->w() - 10, this->h() - 10, "Hello, World!")) {
+SettingsWindow::SettingsWindow(types::gui_res_t x, types::gui_res_t y, types::gui_res_t w,
+types::gui_res_t h) : Fl_Window(x + Gap::small, y + Gap::small, w - Gap::double_small, h -
+Gap::double_small), box(new Fl_Box(10, 10, this->w() - 10, this->h() - 10, "Hello, World!")) {
   box->box(FL_UP_BOX);
   box->labelfont(FL_BOLD + FL_ITALIC);
   box->labelsize(14);
@@ -29,7 +29,8 @@ SettingsWindow::SettingsWindow(types::gui_res_t x, types::gui_res_t y, types::gu
   this->resizable(this); {
 }
 
-void SettingsWindow::resize(types::gui_res_t x, types::gui_res_t y, types::gui_res_t w, types::gui_res_t h) {
+void SettingsWindow::resize(types::gui_res_t x, types::gui_res_t y, types::gui_res_t w,
+types::gui_res_t h) {
   //Fl_Window::resize(x, y, w, h);
 }
 

@@ -24,14 +24,14 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "UnitInfo.h"
 
 class Unit {
-public:
+ public:
   Unit(const Unit& that);
   Unit(Unit&& that) noexcept;
-  explicit Unit(DrawStrategy *str);
-  explicit Unit(const UnitInfo &unit_info);
+  explicit Unit(DrawStrategy* str);
+  explicit Unit(const UnitInfo& unit_info);
 
   void draw() const;
-  Unit set_unit_info(const UnitInfo &unit_info);
+  Unit set_unit_info(const UnitInfo& unit_info);
   Unit set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);
 
   void rotate(bvl::core::types::angle_t angle);
@@ -42,23 +42,19 @@ public:
   void enlarge(int16_t xdiff, int16_t ydiff);
   void print_info();
 
-  void set_active(bool active) {
-    is_active_ = active;
-  }
+  void set_active(bool active) { is_active_ = active; }
 
-  void set_selected(bool selected) {
-    is_selected_ = selected;
-  }
+  void set_selected(bool selected) { is_selected_ = selected; }
 
   auto draw_strategy() const { return draw_strategy_; }
   auto id() const { return unit_info_.unit_general_info().unit_id; }
 
-private:
+ private:
   std::vector<Unit> sub_units_;
   UnitInfo unit_info_;
   std::shared_ptr<DrawStrategy> draw_strategy_;
-  bool is_active_ {false};
-  bool is_selected_ {false};
+  bool is_active_{false};
+  bool is_selected_{false};
 };
 
 #endif /* CORE_UNIT_H_ */

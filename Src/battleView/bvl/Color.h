@@ -26,28 +26,22 @@ struct gl_color_s {
   float b;
 };
 
-template<typename T = uint32_t>
+template <typename T = uint32_t>
 class Color {
-public:
-  explicit Color(T i_color = 0) : color_(i_color) { };
+ public:
+  explicit Color(T i_color = 0) : color_(i_color){};
 
   gl_color_s get() const {
-    return gl_color_s{
-        static_cast<float>((color_ >> 24) & 0xFF) / 255.f,
-        static_cast<float>((color_ >> 16) & 0xFF) / 255.f,
-        static_cast<float>((color_ >> 8) & 0xFF) / 255.f
-    };
+    return gl_color_s{static_cast<float>((color_ >> 24) & 0xFF) / 255.f,
+                      static_cast<float>((color_ >> 16) & 0xFF) / 255.f,
+                      static_cast<float>((color_ >> 8) & 0xFF) / 255.f};
   }
 
-  T raw_color() const {
-    return color_;
-  }
+  T raw_color() const { return color_; }
 
-  T operator*(double scale) {
-    return color_ * scale;
-  }
+  T operator*(double scale) { return color_ * scale; }
 
-private:
+ private:
   T color_;
 };
 

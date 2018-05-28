@@ -21,11 +21,11 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 /*
 
 #include <cstdint>
-#include <string>
 #include <memory>
+#include <string>
 
-#include "SettingsWindow.h"
 #include "BattleDrawWindow.h"
+#include "SettingsWindow.h"
 #include "bvl/WindowSettings.h"
 
 

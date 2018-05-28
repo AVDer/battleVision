@@ -18,53 +18,39 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TYPES_H
 #define TYPES_H
 
-#include <cstdint>
 #include <cmath>
+#include <cstdint>
 #include <utility>
 
-#include "Point.h"
-#include "Color.h"
 #include "BVGlobal.h"
+#include "Color.h"
+#include "Point.h"
 
 namespace bvl {
-  namespace core {
-    namespace types {
+namespace core {
+namespace types {
 
-      template <typename Enumeration>
-      auto as_integer(Enumeration const value) {
-        return static_cast<typename std::underlying_type_t<Enumeration>>(value);
-      }
-
-      enum class unit_type_t {
-        undefined,
-        infantry,
-        cavalry,
-        archery
-      };
-
-      enum class shape_t {
-        undefined = 0,
-        rectangle = 1,
-        triangle
-      };
-
-      enum class unit_state_t {
-        undefined = 0,
-        alive = 1,
-        active,
-        killed
-      };
-
-      using coordinate_t = int16_t;
-      using point_t = Point<coordinate_t>;
-      using rect_size_t = Point<coordinate_t>;
-      using angle_t = double;
-      using color_t = Color<uint32_t>;
-
-      using Proportion = std::pair<uint8_t, uint8_t>;
-
-    }
-  }
+template <typename Enumeration>
+auto as_integer(Enumeration const value) {
+  return static_cast<typename std::underlying_type_t<Enumeration>>(value);
 }
 
-#endif // TYPES_H
+enum class unit_type_t { undefined, infantry, cavalry, archery };
+
+enum class shape_t { undefined = 0, rectangle = 1, triangle };
+
+enum class unit_state_t { undefined = 0, alive = 1, active, killed };
+
+using coordinate_t = int16_t;
+using point_t = Point<coordinate_t>;
+using rect_size_t = Point<coordinate_t>;
+using angle_t = double;
+using color_t = Color<uint32_t>;
+
+using Proportion = std::pair<uint8_t, uint8_t>;
+
+}  // namespace types
+}  // namespace core
+}  // namespace bvl
+
+#endif  // TYPES_H

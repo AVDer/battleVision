@@ -20,10 +20,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <GL/gl.h>
 
-
 namespace ShadersField {
 
-  constexpr GLchar *vertex_shader = (GLchar *)R"(
+constexpr GLchar *vertex_shader = (GLchar *)R"(
 #version 330 core
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texCoord;
@@ -40,7 +39,7 @@ void main() {
 }
 )";
 
-  constexpr GLchar *fragment_shader = (GLchar *)R"(
+constexpr GLchar *fragment_shader = (GLchar *)R"(
 #version 330 core
 
 out vec4 color;
@@ -54,7 +53,6 @@ void main() {
 }
 )";
 
-};
+};  // namespace ShadersField
 
-
-#endif //BATTLEVISION_SHADERSFIELD_H
+#endif  // BATTLEVISION_SHADERSFIELD_H

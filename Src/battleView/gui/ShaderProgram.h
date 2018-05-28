@@ -24,15 +24,14 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "GLFW/glfw3.h"
 
 class ShaderProgram {
-public:
+ public:
   ShaderProgram() = default;
   void init(const std::string& vertex_source, const std::string& fragment_source);
   void use();
   GLuint shader_id() const { return program_id_; }
 
-private:
-  GLuint program_id_ {0};
+ private:
+  GLuint program_id_{0};
 };
 
-
-#endif //BATTLEVISION_SHADERPROGRAM_H
+#endif  // BATTLEVISION_SHADERPROGRAM_H
