@@ -74,7 +74,7 @@ class Maneuver {
 
   bool data_valid() {
     if (maneuver_data_.size() != data_arity()) {
-      Logger::error("Maneuver: Incorect maneuver data arity");
+      Logger::error("Maneuver: Incorect maneuver data arity: %d != %d", maneuver_data_.size(), data_arity());
       return false;
     } else {
       return true;

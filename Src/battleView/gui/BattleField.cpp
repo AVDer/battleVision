@@ -76,15 +76,15 @@ void BattleField::create(const std::string& texture_filename) {
 
   shader_program_.init(ShadersField::vertex_shader, ShadersField::fragment_shader);
 
-  glGenVertexArrays(1, &gl_field_vao);
-  glGenBuffers(1, &gl_field_vbo);
-  glGenBuffers(1, &gl_field_ebo);
+  glGenVertexArrays(1, &gl_field_vao_);
+  glGenBuffers(1, &gl_field_vbo_);
+  glGenBuffers(1, &gl_field_ebo_);
 
-  glBindVertexArray(gl_field_vao);
+  glBindVertexArray(gl_field_vao_);
   {
-    glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo_);
     glBufferData(GL_ARRAY_BUFFER, sizeof(field_vertices), field_vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo_);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)nullptr);
     glEnableVertexAttribArray(0);
@@ -96,9 +96,9 @@ void BattleField::create(const std::string& texture_filename) {
 }
 
 void BattleField::destroy() {
-  glDeleteVertexArrays(1, &gl_field_vao);
-  glDeleteBuffers(1, &gl_field_vbo);
-  glDeleteBuffers(1, &gl_field_ebo);
+  glDeleteVertexArrays(1, &gl_field_vao_);
+  glDeleteBuffers(1, &gl_field_vbo_);
+  glDeleteBuffers(1, &gl_field_ebo_);
 }
 
 void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
@@ -114,7 +114,7 @@ void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
   glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
 
   glBindTexture(GL_TEXTURE_2D, texture_->id());
-  glBindVertexArray(gl_field_vao);
+  glBindVertexArray(gl_field_vao_);
   {
     glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, (GLvoid*)(0 * sizeof(GLfloat)));
     glBindTexture(GL_TEXTURE_2D, 0);

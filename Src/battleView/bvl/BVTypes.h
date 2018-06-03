@@ -47,7 +47,7 @@ using rect_size_t = Point<coordinate_t>;
 using angle_t = double;
 using color_t = Color<uint32_t>;
 
-using Proportion = std::pair<uint8_t, uint8_t>;
+using proportion_t = std::pair<uint8_t, uint8_t>;
 
 }  // namespace types
 }  // namespace core

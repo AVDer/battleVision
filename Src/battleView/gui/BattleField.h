@@ -42,9 +42,9 @@ class BattleField {
  private:
   void load_map_texture(const std::string& filename);
 
-  GLuint gl_field_vbo{0};
-  GLuint gl_field_vao{0};
-  GLuint gl_field_ebo{0};
+  GLuint gl_field_vbo_{0};
+  GLuint gl_field_vao_{0};
+  GLuint gl_field_ebo_{0};
 
   ShaderProgram shader_program_;
   std::unique_ptr<OGLTexture> texture_;

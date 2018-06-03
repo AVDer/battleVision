@@ -25,46 +25,46 @@ class CavalryOpenGLDraw : public OpenGLDrawStrategy {
   CavalryOpenGLDraw() = default;
 
   void fill_vertex(const UnitDrawInfo & /*udi*/) override {
-    m_unit_vertices = {
+    unit_vertices_ = {
         // top
         1.f,
         1.f,
-        unit_height,
+        kUnitHeight,
         1.f,
         1.f,
         1.f,
         1.f,
         0.f,
-        unit_height,
-        _color.r,
-        _color.g,
-        _color.b,
+        kUnitHeight,
+        color_.r,
+        color_.g,
+        color_.b,
         0.f,
         0.f,
-        unit_height,
-        _color.r,
-        _color.g,
-        _color.b,
+        kUnitHeight,
+        color_.r,
+        color_.g,
+        color_.b,
         0.f,
         1.f,
-        unit_height,
-        _color.r,
-        _color.g,
-        _color.b,
+        kUnitHeight,
+        color_.r,
+        color_.g,
+        color_.b,
 
         // bottom
         1.f,
         1.f,
         0.f,
-        _color.r,
-        _color.g,
-        _color.b,
+        color_.r,
+        color_.g,
+        color_.b,
         1.f,
         0.f,
         0.f,
-        _color.r,
-        _color.g,
-        _color.b,
+        color_.r,
+        color_.g,
+        color_.b,
         0.f,
         0.f,
         0.f,
@@ -74,12 +74,12 @@ class CavalryOpenGLDraw : public OpenGLDrawStrategy {
         0.f,
         1.f,
         0.f,
-        _color.r,
-        _color.g,
-        _color.b,
+        color_.r,
+        color_.g,
+        color_.b,
     };
 
-    m_unit_indices = {
+    unit_indices_ = {
         // top
         0, 1, 3, 1, 2, 3,
         // right side

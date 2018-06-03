@@ -24,11 +24,11 @@ namespace bvl {
 namespace gui {
 
 struct Gap {
-  static const uint16_t small = 5;
-  static const uint16_t normal = 10;
+  static const uint16_t small{5};
+  static const uint16_t normal{10};
 
-  static const uint16_t double_small = small * 2;
-  static const uint16_t double_normal = normal * 2;
+  static const uint16_t double_small{small * 2};
+  static const uint16_t double_normal{normal * 2};
 };
 
 }  // namespace gui

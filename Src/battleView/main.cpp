@@ -23,7 +23,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 int main(int /*argc*/, char** /*argv*/) {
   test_generator::generate_battle_file();
   std::unique_ptr<BattleDrawWindow> main_window{new BattleDrawWindow(
-      Settings::main_window_width, Settings::main_window_height, "BattleVision 1.1.0.0")};
+      Settings::kMainWindowWidth, Settings::kMainWindowHeight, "BattleVision 1.1.0.0")};
 
   return main_window->run();
 }

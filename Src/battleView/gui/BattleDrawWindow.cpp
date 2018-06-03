@@ -45,9 +45,9 @@ BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t heig
 BattleDrawWindow::~BattleDrawWindow() {
   battle_field_.destroy();
   glfwDestroyWindow(glfw_window_);
-  Logger::info("GLFW: GLFW window destroyed");
+  Logger::info("GLFW: %s", "Window destroyed");
   glfwTerminate();
-  Logger::info("GLFW: GLFW terminated");
+  Logger::info("GLFW: %s", "Terminated");
 }
 
 void BattleDrawWindow::update_size() {
@@ -129,7 +129,7 @@ void BattleDrawWindow::draw() {
 
 void BattleDrawWindow::init_open_gl() {
   if (!glfwInit()) {
-    Logger::error("GLFW: glfwInit error");
+    Logger::error("GLFW: %s" , "glfwInit error");
   }
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -138,17 +138,17 @@ void BattleDrawWindow::init_open_gl() {
 
   glfw_window_ = glfwCreateWindow(width_, height_, title_.c_str(), nullptr, nullptr);
   if (glfw_window_ == nullptr) {
-    Logger::error("GLFW: Failed to create GLFW window");
+    Logger::error("GLFW: %s", "Failed to create GLFW window");
     glfwTerminate();
   } else {
-    Logger::info("GLFW: GLFW window successfully created");
+    Logger::info("GLFW: %s", "Window successfully created");
   }
   glfwMakeContextCurrent(glfw_window_);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    Logger::error("GLAD: Failed to initialize GLAD");
+    Logger::error("GLAD: %s", "Failed to initialize GLAD");
   } else {
-    Logger::info("GLAD: GLAD successfully initialized");
+    Logger::info("GLAD: %s", "GLAD successfully initialized");
   }
 
   int width, height;
@@ -272,9 +272,9 @@ void cursor_position_callback(GLFWwindow* /*window*/, double xpos, double ypos) 
       view_state.drag_start_y = ypos;
     } else {
       view_state.trans_x_number =
-          (xpos - view_state.drag_start_x) / Settings::main_window_width + view_state.init_trans_x;
+          (xpos - view_state.drag_start_x) / Settings::kMainWindowWidth + view_state.init_trans_x;
       view_state.trans_y_number =
-          (view_state.drag_start_y - ypos) / Settings::main_window_height + view_state.init_trans_y;
+          (view_state.drag_start_y - ypos) / Settings::kMainWindowHeight + view_state.init_trans_y;
     }
   }
   if (view_state.rotate_started) {
@@ -283,10 +283,10 @@ void cursor_position_callback(GLFWwindow* /*window*/, double xpos, double ypos) 
       view_state.rotate_start_y = ypos;
     } else {
       view_state.rotate_x_number =
-          100. * (xpos - view_state.rotate_start_x) / Settings::main_window_width +
+          100. * (xpos - view_state.rotate_start_x) / Settings::kMainWindowWidth +
           view_state.init_rotate_x;
       view_state.rotate_y_number =
-          100. * (ypos - view_state.rotate_start_y) / Settings::main_window_height +
+          100. * (ypos - view_state.rotate_start_y) / Settings::kMainWindowHeight +
           view_state.init_rotate_y;
     }
   }

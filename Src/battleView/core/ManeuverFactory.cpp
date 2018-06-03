@@ -18,13 +18,13 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "ManeuverFactory.h"
 
 void ManeuverFactory::register_maneuver(ManeuverType type, ManeuverConstructor constructor) {
-  maneuver_base[type] = constructor;
+  maneuver_base_[type] = constructor;
 }
 
 std::unique_ptr<Maneuver> ManeuverFactory::create(ManeuverType type, uint32_t unit_id,
                                                   time_point_t start_time, time_point_t stop_time,
                                                   std::vector<std::string>&& data) {
-  return std::move(maneuver_base[type](unit_id, start_time, stop_time, std::move(data)));
+  return std::move(maneuver_base_[type](unit_id, start_time, stop_time, std::move(data)));
 }
 
-std::map<ManeuverType, ManeuverFactory::ManeuverConstructor> ManeuverFactory::maneuver_base;
+std::map<ManeuverType, ManeuverFactory::ManeuverConstructor> ManeuverFactory::maneuver_base_;

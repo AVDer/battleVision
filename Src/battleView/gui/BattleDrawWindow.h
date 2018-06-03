@@ -92,7 +92,7 @@ class BattleDrawWindow {
   void draw();
 
  private:
-  static constexpr float gl_field_size{1000.f};
+  static constexpr float kGLFieldSize{1000.f};
   GLFWwindow* glfw_window_{nullptr};
   BattleField battle_field_;
 

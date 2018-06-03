@@ -41,7 +41,7 @@ class ManeuverFactory {
  private:
   ManeuverFactory() = default;
 
-  static std::map<ManeuverType, ManeuverConstructor> maneuver_base;
+  static std::map<ManeuverType, ManeuverConstructor> maneuver_base_;
 };
 
 #endif  // BATTLEVISION_MANEUVERFACTORY_H

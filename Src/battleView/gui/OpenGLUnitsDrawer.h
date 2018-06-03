@@ -42,12 +42,14 @@ struct UnitDrawData {
 };
 
 class OpenGLUnitsDrawer {
+  using unit_draw_data_t = UnitDrawData;
+
  public:
   static OpenGLUnitsDrawer* instance() {
-    if (!m_instance) {
-      m_instance = new OpenGLUnitsDrawer;
+    if (!instance_) {
+      instance_ = new OpenGLUnitsDrawer;
     }
-    return m_instance;
+    return instance_;
   }
 
   ~OpenGLUnitsDrawer();
@@ -57,36 +59,36 @@ class OpenGLUnitsDrawer {
   void draw_units(const std::vector<Unit>& units);
 
   void set_transitions(const glm::mat4& projection, const glm::mat4& view, const glm::mat4& model) {
-    m_projection = projection;
-    m_view = view;
-    m_model = model;
+    projection_ = projection;
+    view_ = view;
+    model_ = model;
   }
 
  private:
-  const static uint16_t POINTS_PER_PIXEL = 6;
-  const static uint16_t MAX_UNITS_NUMBER = 20;
+  const static uint16_t kPointsPerPixel{6};
+  const static uint16_t kMaxUnitsNumber{20};
 
-  using unit_draw_data = UnitDrawData;
   OpenGLUnitsDrawer();
-  static OpenGLUnitsDrawer* m_instance;
-  std::vector<unit_draw_data> m_unit_draw_vector;
 
-  glm::mat4 m_projection;
-  glm::mat4 m_view;
-  glm::mat4 m_model;
+  static OpenGLUnitsDrawer* instance_;
+  std::vector<unit_draw_data_t> unit_draw_vector_;
 
-  ShaderProgram m_shader;
+  glm::mat4 projection_;
+  glm::mat4 view_;
+  glm::mat4 model_;
 
-  std::vector<GLfloat> m_unit_vertices;
-  std::vector<GLuint> m_unit_indices;
+  ShaderProgram shader_;
 
-  GLuint gl_field_vbo;
-  GLuint gl_field_vao;
-  GLuint gl_field_ebo;
-  GLuint _indirect_buffer;
+  std::vector<GLfloat> unit_vertices_;
+  std::vector<GLuint> unit_indices_;
 
-  std::vector<DrawElementsIndirectCommand> _indirect_draw;
-  std::vector<glm::mat4> _transformations;
+  GLuint gl_field_vbo_;
+  GLuint gl_field_vao_;
+  GLuint gl_field_ebo_;
+  GLuint indirect_buffer_;
+
+  std::vector<DrawElementsIndirectCommand> indirect_draw_;
+  std::vector<glm::mat4> transformations_;
 };
 
 #endif  // BATTLEVISION_OPENGLUNITSDRAWER_H
