@@ -25,7 +25,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 class ManeuverFactory {
  public:
   static std::unique_ptr<Maneuver> create(ManeuverType type, uint32_t unit_id,
-                                          time_point_t start_time, time_point_t stop_time,
+                                          model_time_t start_time, model_time_t stop_time,
                                           std::vector<std::string> &&data);
 
   static ManeuverFactory &get() {
@@ -33,7 +33,7 @@ class ManeuverFactory {
     return instance;
   }
 
-  using ManeuverConstructor = std::unique_ptr<Maneuver> (*)(uint32_t, time_point_t, time_point_t,
+  using ManeuverConstructor = std::unique_ptr<Maneuver> (*)(uint32_t, model_time_t, model_time_t,
                                                             std::vector<std::string> &&);
 
   void register_maneuver(ManeuverType type, ManeuverConstructor constructor);

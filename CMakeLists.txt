@@ -18,7 +18,7 @@ set(GLFW_LIBRARIES glfw3)
 
 # ---------- Required packages ----------
 
-find_package(Boost 1.55.0 REQUIRED)
+find_package(Boost 1.55.0 REQUIRED COMPONENTS date_time)
 find_package(OpenGL REQUIRED)
 
 # ---------- Include directories ----------
@@ -107,7 +107,6 @@ else(MINGW)
 endif(MINGW)
 
 set(GRAPHICAL_LIBRARIES)
-set(BOOST_LIBRARIES boost_date_time)
 
 set(WM_FOUND OFF)
 find_package(X11)
@@ -136,5 +135,4 @@ target_link_libraries(battleVision ${GLFW_LIBRARIES})
 target_link_libraries(battleVision ${OPENGL_gl_LIBRARY})
 
 target_link_libraries(battleVision ${ADDITIONAL_LIBRARIES})
-target_link_libraries(battleVision ${BOOST_LIBRARIES})
 target_link_libraries(battleVision ${WINDOW_MANAGER_LIBRARIES})

@@ -35,6 +35,9 @@ namespace test_generator {
 int generate_battle_file() {
   boost::property_tree::ptree battle_description_tree;
   battle_description_tree.put("general.version", 2);
+  battle_description_tree.put("general.map", "bm.tga");
+  battle_description_tree.put("general.start_time", "0");
+  battle_description_tree.put("general.stop_time", "9");
 
   // Opponents
 
@@ -108,14 +111,14 @@ int generate_battle_file() {
   ManeuverFactory::get().register_maneuver(ManeuverType::rotate, &RotateManeuver::create);
   ManeuverFactory::get().register_maneuver(ManeuverType::resize, &ResizeManeuver::create);
   maneuvers.push_back(std::move(ManeuverFactory::create(
-      ManeuverType::move, 1, time_point_t(std::chrono::seconds(1)),
-      time_point_t(std::chrono::seconds(9)), {"280", "601", "340", "548"})));
+      ManeuverType::move, 1, model_time_t(1),
+      model_time_t(9), {"280", "601", "340", "548"})));
   maneuvers.push_back(
-      ManeuverFactory::create(ManeuverType::rotate, 1, time_point_t(std::chrono::seconds(1)),
-                              time_point_t(std::chrono::seconds(9)), {"226", "224"}));
+      ManeuverFactory::create(ManeuverType::rotate, 1, model_time_t(1),
+                              model_time_t(9), {"226", "224"}));
   maneuvers.push_back(
-      ManeuverFactory::create(ManeuverType::resize, 1, time_point_t(std::chrono::seconds(1)),
-                              time_point_t(std::chrono::seconds(9)), {"220", "18", "235", "12"}));
+      ManeuverFactory::create(ManeuverType::resize, 1, model_time_t(1),
+                              model_time_t(9), {"220", "18", "235", "12"}));
 
   boost::property_tree::ptree menauvers_tree;
   for (const auto& maneuver : maneuvers) {
@@ -124,8 +127,8 @@ int generate_battle_file() {
     maneuver_node.put("unit", maneuver->unit_id());
     maneuver_node.put("type",
                       static_cast<std::underlying_type_t<ManeuverType>>(maneuver->maneuver_type()));
-    maneuver_node.put("start_time", maneuver->start_time().time_since_epoch().count() / 1000000000);
-    maneuver_node.put("stop_time", maneuver->stop_time().time_since_epoch().count() / 1000000000);
+    maneuver_node.put("start_time", maneuver->start_time().to_string());
+    maneuver_node.put("stop_time", maneuver->stop_time().to_string());
 
     boost::property_tree::ptree maneuver_data;
     for (const auto& md : maneuver->data()) {

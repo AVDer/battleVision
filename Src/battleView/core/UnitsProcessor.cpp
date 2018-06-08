@@ -36,8 +36,7 @@ UnitsProcessor::UnitsProcessor() {
   ManeuverFactory::get().register_maneuver(ManeuverType::move, &MoveManeuver::create);
   ManeuverFactory::get().register_maneuver(ManeuverType::rotate, &RotateManeuver::create);
   ManeuverFactory::get().register_maneuver(ManeuverType::resize, &ResizeManeuver::create);
-  Maneuver::setGlobalTime(start_time, stop_time);
-  model_start = std::chrono::system_clock::now();
+  simulation_start_ = std::chrono::system_clock::now();
 }
 
 UnitsProcessor::~UnitsProcessor() { reset(); }
@@ -52,7 +51,7 @@ void UnitsProcessor::set_working_file(const std::string &new_string, bool renew)
 void UnitsProcessor::create_units() { fill_units(); }
 
 void UnitsProcessor::maneuver() {
-  Maneuver::setTime(time_point_t(std::chrono::system_clock::now() - model_start));
+  Maneuver::setTime(static_cast<double_t>((std::chrono::system_clock::now() - simulation_start_).count()) / (real_stop_time_ - real_start_time_).count());
   for (Unit &unit : units_) {
     for (auto &maneuver : maneuvers_) {
       maneuver->operator()(unit);
@@ -79,6 +78,12 @@ void UnitsProcessor::fill_units() {
   boost::property_tree::read_json(working_file_, battle_description);
 
   // int meta_version = battle_description.get("general.version", 0);
+
+  map_file_name_ = battle_description.get("general.map", "");
+  model_start_time_ = battle_description.get("general.start_time", "0");
+  model_stop_time_ = battle_description.get("general.stop_time", "9");
+  Maneuver::setGlobalTime(model_start_time_, model_stop_time_);
+  
 
   // Opponents
 
@@ -120,8 +125,8 @@ void UnitsProcessor::fill_units() {
     }
     maneuvers_.push_back(ManeuverFactory::create(
         ManeuverType(maneuver.second.get<int>("type")), maneuver.second.get<uint32_t>("unit"),
-        time_point_t(std::chrono::seconds(maneuver.second.get<int>("start_time"))),
-        time_point_t(std::chrono::seconds(maneuver.second.get<int>("stop_time"))),
+        model_time_t(maneuver.second.get<std::string>("start_time")),
+        model_time_t(maneuver.second.get<std::string>("stop_time")),
         std::move(local_data)
 
             ));

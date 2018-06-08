@@ -17,6 +17,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Maneuver.h"
 
-std::chrono::system_clock::time_point Maneuver::global_start_time;
-std::chrono::system_clock::time_point Maneuver::global_stop_time;
-std::chrono::system_clock::time_point Maneuver::global_time;
+model_time_t Maneuver::global_start_time_;
+model_time_t Maneuver::global_stop_time_;
+model_time_t Maneuver::global_time_;

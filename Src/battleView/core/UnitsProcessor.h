@@ -33,6 +33,8 @@ class UnitsProcessor {
 
   void set_working_file(const std::string &, bool renew = false);
 
+  auto map_file_name() const { return map_file_name_; }
+
   void create_units();
 
   void maneuver();
@@ -66,11 +68,15 @@ class UnitsProcessor {
   }
 
  private:
-  const time_point_t start_time{std::chrono::seconds(0)};
-  const time_point_t stop_time{std::chrono::seconds(10)};
-  time_point_t model_start;
+  const real_time_t real_start_time_{std::chrono::seconds(0)};
+  const real_time_t real_stop_time_{std::chrono::seconds(2)};
+  real_time_t simulation_start_;
+
+  model_time_t model_start_time_;
+  model_time_t model_stop_time_;
 
   std::string working_file_;
+  std::string map_file_name_;
   std::vector<Unit> units_;
   std::vector<std::unique_ptr<Maneuver>> maneuvers_;
 

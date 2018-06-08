@@ -22,7 +22,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 class RotateManeuver : public Maneuver {
  public:
-  RotateManeuver(uint32_t unit_id, time_point_t start_time, time_point_t stop_time,
+  RotateManeuver(uint32_t unit_id, model_time_t start_time, model_time_t stop_time,
                  maneuver_data_t &&data)
       : Maneuver(unit_id, ManeuverType::rotate, start_time, stop_time, std::move(data)) {
     if (data_valid()) {
@@ -31,23 +31,23 @@ class RotateManeuver : public Maneuver {
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id, time_point_t start_time,
-                                          time_point_t stop_time, std::vector<std::string> &&data) {
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, model_time_t start_time,
+                                          model_time_t stop_time, std::vector<std::string> &&data) {
     return std::make_unique<RotateManeuver>(
         RotateManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
   void operator()(Unit &unit) override {
     if (unit.id() != unit_id_) return;
-    if (global_time < start_time_) {
+    if (global_time_.value() < start_time_.value()) {
       unit.set_angle(start_angle_);
-    } else if (global_time >= stop_time_) {
+    } else if (global_time_.value() >= stop_time_.value()) {
       unit.set_angle(stop_angle_);
     } else {
-      unit.set_angle(static_cast<coordinate_t>(
-          static_cast<double>((global_time - start_time_).count()) /
-              (stop_time_ - start_time_).count() * (stop_angle_ - start_angle_) +
-          start_angle_));
+      unit.set_angle(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                   (stop_time_.value() - start_time_.value()) *
+                                                   (stop_angle_ - start_angle_) +
+                                               start_angle_));
     }
   }
 

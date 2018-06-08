@@ -25,8 +25,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Logger.h"
 #include "Unit.h"
+#include "bvl/TimePoint.h"
 
-using time_point_t = std::chrono::system_clock::time_point;
 using maneuver_data_t = std::vector<std::string>;
 using bvl::core::types::coordinate_t;
 
@@ -36,8 +36,8 @@ class Maneuver {
  public:
   Maneuver() = default;
 
-  Maneuver(uint32_t unit_id, ManeuverType maneuver_type, time_point_t start_time,
-           time_point_t stop_time, maneuver_data_t &&maneuver_data)
+  Maneuver(uint32_t unit_id, ManeuverType maneuver_type, model_time_t start_time,
+           model_time_t stop_time, maneuver_data_t &&maneuver_data)
       : unit_id_(unit_id),
         maneuver_type_(maneuver_type),
         start_time_(start_time),
@@ -46,16 +46,21 @@ class Maneuver {
 
   virtual ~Maneuver() = default;
 
-  static void setGlobalTime(time_point_t start, time_point_t stop) {
-    global_start_time = start;
-    global_stop_time = stop;
+  static void setGlobalTime(model_time_t start, model_time_t stop) {
+    global_start_time_ = start;
+    global_stop_time_ = stop;
   }
 
-  static void setTime(time_point_t time) { global_time = time; }
+  static void setTime(model_time_t time) { global_time_ = time; }
 
-  static time_point_t global_start_time;
-  static time_point_t global_stop_time;
-  static time_point_t global_time;
+  static void setTime(double_t position) {
+    global_time_ = model_time_t(position * (global_stop_time_.value() - global_start_time_.value()) +
+                   global_start_time_.value());
+  }
+
+  static model_time_t global_start_time_;
+  static model_time_t global_stop_time_;
+  static model_time_t global_time_;
 
   virtual void operator()(Unit &unit) = 0;
 
@@ -63,9 +68,9 @@ class Maneuver {
 
   ManeuverType maneuver_type() const { return maneuver_type_; }
 
-  time_point_t start_time() const { return start_time_; }
+  model_time_t start_time() const { return start_time_; }
 
-  time_point_t stop_time() const { return stop_time_; }
+  model_time_t stop_time() const { return stop_time_; }
 
   maneuver_data_t data() const { return maneuver_data_; }
 
@@ -74,7 +79,8 @@ class Maneuver {
 
   bool data_valid() {
     if (maneuver_data_.size() != data_arity()) {
-      Logger::error("Maneuver: Incorect maneuver data arity: %d != %d", maneuver_data_.size(), data_arity());
+      Logger::error("Maneuver: Incorect maneuver data arity: %d != %d", maneuver_data_.size(),
+                    data_arity());
       return false;
     } else {
       return true;
@@ -83,8 +89,8 @@ class Maneuver {
 
   uint32_t unit_id_{0};
   ManeuverType maneuver_type_{ManeuverType::stop};
-  time_point_t start_time_;
-  time_point_t stop_time_;
+  model_time_t start_time_;
+  model_time_t stop_time_;
   maneuver_data_t maneuver_data_;
 };
 

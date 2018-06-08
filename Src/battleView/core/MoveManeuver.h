@@ -22,7 +22,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 class MoveManeuver : public Maneuver {
  public:
-  MoveManeuver(uint32_t unit_id, time_point_t start_time, time_point_t stop_time,
+  MoveManeuver(uint32_t unit_id, model_time_t start_time, model_time_t stop_time,
                maneuver_data_t &&data)
       : Maneuver(unit_id, ManeuverType::move, start_time, stop_time, std::move(data)) {
     if (data_valid()) {
@@ -33,26 +33,27 @@ class MoveManeuver : public Maneuver {
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id, time_point_t start_time,
-                                          time_point_t stop_time, maneuver_data_t &&data) {
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, model_time_t start_time,
+                                          model_time_t stop_time, maneuver_data_t &&data) {
     return std::make_unique<MoveManeuver>(
         MoveManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
   void operator()(Unit &unit) override {
     if (unit.id() != unit_id_) return;
-    if (global_time < start_time_) {
+    if (global_time_.value() < start_time_.value()) {
       unit.set_position(start_x_, start_y_);
-    } else if (global_time >= stop_time_) {
+    } else if (global_time_.value() >= stop_time_.value()) {
       unit.set_position(stop_x_, stop_y_);
     } else {
-      unit.set_position(
-          static_cast<coordinate_t>(static_cast<double>((global_time - start_time_).count()) /
-                                        (stop_time_ - start_time_).count() * (stop_x_ - start_x_) +
-                                    start_x_),
-          static_cast<coordinate_t>(static_cast<double>((global_time - start_time_).count()) /
-                                        (stop_time_ - start_time_).count() * (stop_y_ - start_y_) +
-                                    start_y_));
+      unit.set_position(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                      (stop_time_.value() - start_time_.value()) *
+                                                      (stop_x_ - start_x_) +
+                                                  start_x_),
+                        static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                      (stop_time_.value() - start_time_.value()) *
+                                                      (stop_y_ - start_y_) +
+                                                  start_y_));
     }
   }
 

@@ -29,14 +29,15 @@ UnitAdjustInfo unit_adjust_info;
 
 BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t height,
                                    std::string&& title)
-    : width_(width), height_(height), title_(title), texture_filename_("bm.tga") {
+    : width_(width), height_(height), title_(title) {
+
+  units_processor_.set_working_file("Marathon.battle");
+  texture_filename_ = units_processor_.map_file_name();
+
   init_open_gl();
   createField(texture_filename_);
   view_state.zoom_number =
       1. / std::max(battle_field_.texture_width(), battle_field_.texture_height());
-
-  units_processor_.set_working_file("Marathon.battle");
-  units_processor_.create_units();
 
   projection_ = glm::perspective(45.0f, (GLfloat)width_ / (GLfloat)height_, 0.1f, 100.0f);
   view_ = glm::translate(view_, glm::vec3(0, 0, -1.f));
