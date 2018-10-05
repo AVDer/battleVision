@@ -8,6 +8,9 @@ RemoteSystemsTempFiles
 .settings
 .idea
 .vscode
+*.srctrlbm
+*.srctrldb
+*.srctrlprj
 
 # Built files
 Makefile

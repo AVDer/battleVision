@@ -20,9 +20,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdint>
 
-namespace bvl {
-namespace core {
-namespace types {
+namespace bvl::core::types {
 
 template <typename T>
 class Point {
@@ -52,8 +50,6 @@ Point<T> operator+(const Point<T> &lhs, const Point<T> &rhs) {
   return Point<T>(lhs.x() + rhs.x(), lhs.y() + rhs.y());
 }
 
-}  // namespace types
-}  // namespace core
-}  // namespace bvl
+}
 
 #endif  // POINT_H

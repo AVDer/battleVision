@@ -20,19 +20,19 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdint>
 
-namespace bvl {
-namespace gui {
-namespace types {
+namespace bvl::gui::types {
 
 using gui_res_t = uint16_t;
+
 }
+
+namespace bvl::gui {
 
 template <class T>
 types::gui_res_t toGuiRes(T t) {
   return static_cast<types::gui_res_t>(t);
 }
 
-}  // namespace gui
-}  // namespace bvl
+}
 
 #endif /* BVGUITYPES_H_ */

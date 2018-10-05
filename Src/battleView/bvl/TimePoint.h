@@ -21,8 +21,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <ctime>
 #include <string>
 
-namespace bvl {
-namespace core {
+namespace bvl::core {
 
 template<typename T>
 class TimePoint {
@@ -41,8 +40,7 @@ class TimePoint {
   T time_s_{};
 };
 
-}  // namespace core
-}  // namespace bvl
+}
 
 using model_time_t = bvl::core::TimePoint<double_t>;
 using real_time_t = std::chrono::system_clock::time_point;

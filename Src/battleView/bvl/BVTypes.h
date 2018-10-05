@@ -26,9 +26,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "Color.h"
 #include "Point.h"
 
-namespace bvl {
-namespace core {
-namespace types {
+namespace bvl::core::types {
 
 template <typename Enumeration>
 auto as_integer(Enumeration const value) {
@@ -49,8 +47,6 @@ using color_t = Color<uint32_t>;
 
 using proportion_t = std::pair<uint8_t, uint8_t>;
 
-}  // namespace types
-}  // namespace core
-}  // namespace bvl
+}
 
 #endif  // TYPES_H
