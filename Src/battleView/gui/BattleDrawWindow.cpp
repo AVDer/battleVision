@@ -30,7 +30,6 @@ UnitAdjustInfo unit_adjust_info;
 BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t height,
                                    std::string&& title)
     : width_(width), height_(height), title_(title) {
-
   units_processor_.set_working_file("Marathon.battle");
   texture_filename_ = units_processor_.map_file_name();
 
@@ -75,7 +74,7 @@ void BattleDrawWindow::createField(const std::string& texture_filename) {
 }
 
 void BattleDrawWindow::draw() {
-  glm::mat4 model;
+  glm::mat4 model{glm::mat4(1.0)};
 
   // Clear
   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -130,7 +129,7 @@ void BattleDrawWindow::draw() {
 
 void BattleDrawWindow::init_open_gl() {
   if (!glfwInit()) {
-    Logger::error("GLFW: %s" , "glfwInit error");
+    Logger::error("GLFW: %s", "glfwInit error");
   }
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

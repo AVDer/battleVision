@@ -105,8 +105,8 @@ class BattleDrawWindow {
 
   std::string texture_filename_;
 
-  glm::mat4 projection_;
-  glm::mat4 view_;
+  glm::mat4 projection_{glm::mat4(1.0)};
+  glm::mat4 view_{glm::mat4(1.0)};
 };
 
 #endif /* BATTLEDRAWWINDOW_H_ */

@@ -62,6 +62,7 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
   // ToDo: Don't need to update data if no changes. Don't need to re-_indirect_buffer data if no
   // changes.
   bool re_buffer{false};
+  static bool init{false};
 
   if (units.size() != indirect_draw_.size()) {
     indirect_draw_.resize(units.size());
@@ -85,9 +86,9 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
       indirect_draw_[i].baseInstance = 0;
 
       unit_vertices_.insert(std::end(unit_vertices_), std::begin(render_info.vertices),
-                             std::end(render_info.vertices));
+                            std::end(render_info.vertices));
       unit_indices_.insert(std::end(unit_indices_), std::begin(render_info.indecies),
-                            std::end(render_info.indecies));
+                           std::end(render_info.indecies));
       transformations_[i] = render_info.transformation;
     }
 
@@ -106,18 +107,27 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
   glUniformMatrix4fv(projection_location, 1, GL_FALSE, glm::value_ptr(projection_));
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_));
   glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_));
+  ;
 
   if (re_buffer) {
-    glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo_);
-    glBufferData(GL_ARRAY_BUFFER, unit_vertices_.size() * sizeof(GLfloat), unit_vertices_.data(),
-                 GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo_);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, unit_indices_.size() * sizeof(GLuint),
-                 unit_indices_.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirect_buffer_);
-    glBufferData(GL_DRAW_INDIRECT_BUFFER,
-                 indirect_draw_.size() * sizeof(DrawElementsIndirectCommand), indirect_draw_.data(),
-                 GL_STATIC_DRAW);
+    glBindVertexArray(gl_field_vao_);
+    {
+      glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo_);
+      glBufferData(GL_ARRAY_BUFFER, unit_vertices_.size() * sizeof(GLfloat), unit_vertices_.data(),
+                   GL_STATIC_DRAW);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo_);
+      glBufferData(GL_ELEMENT_ARRAY_BUFFER, unit_indices_.size() * sizeof(GLuint),
+                   unit_indices_.data(), GL_STATIC_DRAW);
+
+      if (!init) {
+        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirect_buffer_);
+        glBufferData(GL_DRAW_INDIRECT_BUFFER,
+                     indirect_draw_.size() * sizeof(DrawElementsIndirectCommand),
+                     indirect_draw_.data(), GL_STATIC_DRAW);
+        init = true;
+      }
+    }
+    glBindVertexArray(0);
   }
 
   glBindVertexArray(gl_field_vao_);

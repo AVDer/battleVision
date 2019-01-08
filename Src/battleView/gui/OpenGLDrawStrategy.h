@@ -40,7 +40,7 @@ class OpenGLDrawStrategy : public DrawStrategy {
     color_.b = c.b;
 
     transformation_ =
-        glm::translate(glm::mat4(), glm::vec3(udi.position.x(), udi.position.y(), 0.f));
+        glm::translate(glm::mat4(1.0), glm::vec3(udi.position.x(), udi.position.y(), 0.f));
     transformation_ = glm::rotate(transformation_, glm::radians(static_cast<float>(udi.angle)),
                                   glm::vec3(0.0f, 0.0f, 1.0f));
     transformation_ =
@@ -62,7 +62,7 @@ class OpenGLDrawStrategy : public DrawStrategy {
 
   std::vector<GLfloat> unit_vertices_;
   std::vector<GLuint> unit_indices_;
-  glm::mat4 transformation_;
+  glm::mat4 transformation_{glm::mat4(1.0)};
   glm::vec3 color_;
 };
 
