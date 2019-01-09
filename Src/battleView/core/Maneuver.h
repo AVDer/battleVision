@@ -37,7 +37,7 @@ class Maneuver {
   Maneuver() = default;
 
   Maneuver(uint32_t unit_id, ManeuverType maneuver_type, model_time_t start_time,
-           model_time_t stop_time, maneuver_data_t &&maneuver_data)
+           model_time_t stop_time, maneuver_data_t&& maneuver_data)
       : unit_id_(unit_id),
         maneuver_type_(maneuver_type),
         start_time_(start_time),
@@ -46,23 +46,24 @@ class Maneuver {
 
   virtual ~Maneuver() = default;
 
-  static void setGlobalTime(model_time_t start, model_time_t stop) {
+  static void setGlobalTime(const model_time_t& start, const model_time_t& stop) {
     global_start_time_ = start;
     global_stop_time_ = stop;
   }
 
-  static void setTime(model_time_t time) { global_time_ = time; }
+  static void setTime(const model_time_t& time) { global_time_ = time; }
 
   static void setTime(double_t position) {
-    global_time_ = model_time_t(position * (global_stop_time_.value() - global_start_time_.value()) +
-                   global_start_time_.value());
+    global_time_ =
+        model_time_t(position * (global_stop_time_.value() - global_start_time_.value()) +
+                     global_start_time_.value());
   }
 
   static model_time_t global_start_time_;
   static model_time_t global_stop_time_;
   static model_time_t global_time_;
 
-  virtual void operator()(Unit &unit) = 0;
+  virtual void operator()(Unit& unit) = 0;
 
   uint32_t unit_id() const { return unit_id_; }
 

@@ -31,8 +31,9 @@ class RotateManeuver : public Maneuver {
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id, model_time_t start_time,
-                                          model_time_t stop_time, std::vector<std::string> &&data) {
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, const model_time_t &start_time,
+                                          constd model_time_t &stop_time,
+                                          std::vector<std::string> &&data) {
     return std::make_unique<RotateManeuver>(
         RotateManeuver(unit_id, start_time, stop_time, std::move(data)));
   }

@@ -22,7 +22,8 @@ void ManeuverFactory::register_maneuver(ManeuverType type, ManeuverConstructor c
 }
 
 std::unique_ptr<Maneuver> ManeuverFactory::create(ManeuverType type, uint32_t unit_id,
-                                                  model_time_t start_time, model_time_t stop_time,
+                                                  const model_time_t& start_time,
+                                                  constd model_time_t& stop_time,
                                                   std::vector<std::string>&& data) {
   return std::move(maneuver_base_[type](unit_id, start_time, stop_time, std::move(data)));
 }

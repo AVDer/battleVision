@@ -30,6 +30,8 @@ class Unit {
   explicit Unit(DrawStrategy* str);
   explicit Unit(const UnitInfo& unit_info);
 
+  Unit& operator=(const Unit& that) = delete;
+
   void draw() const;
   Unit set_unit_info(const UnitInfo& unit_info);
   Unit set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);

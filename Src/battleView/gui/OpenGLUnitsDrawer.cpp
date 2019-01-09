@@ -40,10 +40,10 @@ OpenGLUnitsDrawer::OpenGLUnitsDrawer() {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, unit_indices_.size() * sizeof(GLuint),
                  unit_indices_.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
-                          (GLfloat *)(0 * sizeof(GLfloat)));
+                          reinterpret_cast<GLvoid *>(0 * sizeof(GLfloat)));
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
-                          (GLfloat *)(3 * sizeof(GLfloat)));
+                          reinterpret_cast<GLvoid *>(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
   }
   glBindVertexArray(0);

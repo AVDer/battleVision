@@ -99,7 +99,7 @@ void BattleDrawWindow::draw() {
   units_processor_.maneuver();
 
   units_processor_.draw_units();
-  if (unit_adjust_info.add_rotation) {
+  if (unit_adjust_info.add_rotation > std::numeric_limits<angle_t>::epsilon()) {
     units_processor_.rotate(unit_adjust_info.add_rotation);
     unit_adjust_info.add_rotation = 0;
   }
@@ -278,7 +278,7 @@ void cursor_position_callback(GLFWwindow* /*window*/, double xpos, double ypos) 
     }
   }
   if (view_state.rotate_started) {
-    if (view_state.rotate_start_x == 0) {
+    if (std::abs(view_state.rotate_start_x) < std::numeric_limits<angle_t>::epsilon()) {
       view_state.rotate_start_x = xpos;
       view_state.rotate_start_y = ypos;
     } else {

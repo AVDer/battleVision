@@ -85,7 +85,7 @@ void Unit::enlarge(int16_t xdiff, int16_t ydiff) {
 }
 
 void Unit::print_info() {
-  Logger::info("Unit info: %dx%d @ Position: %d:%d / %d", unit_info_.unit_draw_info().size.x(),
-               unit_info_.unit_draw_info().size.y(), unit_info_.unit_draw_info().position.x(),
-               unit_info_.unit_draw_info().position.y(), unit_info_.unit_draw_info().angle);
+  auto draw_info = unit_info_.unit_draw_info();
+  Logger::info("Unit info: %dx%d @ Position: %d:%d / %d", draw_info.size.x(), draw_info.size.y(),
+               draw_info.position.x(), draw_info.position.y(), draw_info.angle);
 }

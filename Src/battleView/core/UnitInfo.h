@@ -69,11 +69,11 @@ class UnitInfo {
     unit_draw_info_ = unit_info.unit_draw_info();
   }
 
-  UnitGeneralInfo unit_general_info() const { return unit_general_info_; }
+  const UnitGeneralInfo& unit_general_info() const { return unit_general_info_; }
 
-  UnitDrawInfo unit_draw_info() const { return unit_draw_info_; }
+  const UnitDrawInfo& unit_draw_info() const { return unit_draw_info_; }
 
-  void set_color(color_t color) { unit_draw_info_.color = color; }
+  void set_color(const color_t& color) { unit_draw_info_.color = color; }
 
   void rotate(bvl::core::types::angle_t angle) { unit_draw_info_.angle += angle; }
 

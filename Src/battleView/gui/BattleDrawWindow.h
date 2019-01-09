@@ -51,17 +51,18 @@ struct ViewState {
   double rotate_y_number{0};
   double rotate_x_number{0};
 
-  bool drag_started{false};
   double drag_start_x{0};
   double drag_start_y{0};
   double init_trans_x{0};
   double init_trans_y{0};
 
-  bool rotate_started{false};
   double rotate_start_x{0};
   double rotate_start_y{0};
   double init_rotate_x{rotate_x_number};
   double init_rotate_y{rotate_y_number};
+
+  bool drag_started{false};
+  bool rotate_started{false};
 };
 
 struct UnitAdjustInfo {

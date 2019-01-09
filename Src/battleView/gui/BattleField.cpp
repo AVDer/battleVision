@@ -89,7 +89,7 @@ void BattleField::create(const std::string& texture_filename) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)nullptr);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
-                          (GLvoid*)(3 * sizeof(GLfloat)));
+                          reinterpret_cast<GLvoid*>(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
   }
   glBindVertexArray(0);
@@ -116,9 +116,11 @@ void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
   glBindTexture(GL_TEXTURE_2D, texture_->id());
   glBindVertexArray(gl_field_vao_);
   {
-    glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT, (GLvoid*)(0 * sizeof(GLfloat)));
+    glDrawElements(GL_TRIANGLES, 30, GL_UNSIGNED_INT,
+                   reinterpret_cast<GLvoid*>(0 * sizeof(GLfloat)));
     glBindTexture(GL_TEXTURE_2D, 0);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid*)(30 * sizeof(GLfloat)));
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT,
+                   reinterpret_cast<GLvoid*>(30 * sizeof(GLfloat)));
   }
   glBindVertexArray(0);
   // glBindTexture(GL_TEXTURE_2D, 0);

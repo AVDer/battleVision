@@ -33,8 +33,8 @@ class ResizeManeuver : public Maneuver {
     }
   }
 
-  static std::unique_ptr<Maneuver> create(uint32_t unit_id, model_time_t start_time,
-                                          model_time_t stop_time, maneuver_data_t &&data) {
+  static std::unique_ptr<Maneuver> create(uint32_t unit_id, const model_time_t &start_time,
+                                          constd model_time_t &stop_time, maneuver_data_t &&data) {
     return std::make_unique<ResizeManeuver>(
         ResizeManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
@@ -46,14 +46,14 @@ class ResizeManeuver : public Maneuver {
     } else if (global_time_.value() >= stop_time_.value()) {
       unit.set_size(stop_width_, stop_height_);
     } else {
-      unit.set_size(static_cast<coordinate_t>(
-                        (global_time_.value() - start_time_.value()) /
-                            (stop_time_.value() - start_time_.value()) * (stop_width_ - start_width_) +
-                        start_width_),
-                    static_cast<coordinate_t>(
-                        (global_time_.value() - start_time_.value()) /
-                            (stop_time_.value() - start_time_.value()) * (stop_height_ - start_height_) +
-                        start_height_));
+      unit.set_size(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                  (stop_time_.value() - start_time_.value()) *
+                                                  (stop_width_ - start_width_) +
+                                              start_width_),
+                    static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                  (stop_time_.value() - start_time_.value()) *
+                                                  (stop_height_ - start_height_) +
+                                              start_height_));
     }
   }
 

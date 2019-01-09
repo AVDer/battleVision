@@ -41,7 +41,8 @@ class Logger {
     LoggingDebug,
     LoggingInfo,
     LoggingWarning,
-    LoggingError
+    LoggingError,
+    LoggingLimit
   };
 
   static Logger& logger() {
@@ -50,6 +51,13 @@ class Logger {
   }
 
   static void set_logging_level(LoggingLevel level) { logging_level_ = level; }
+
+  static void error(const char* message) { error("%s", message); }
+  static void warning(const char* message) { warning("%s", message); }
+  static void debug(const char* message) { debug("%s", message); }
+  static void info(const char* message) { info("%s", message); }
+  static void trace(const char* message) { trace("%s", message); }
+  static void verbose(const char* message) { verbose("%s", message); }
 
   template <typename... I>
   static void error(I... items) {
@@ -131,7 +139,7 @@ class Logger {
            boost::posix_time::to_simple_string(boost::posix_time::microsec_clock::local_time())
                .substr(12)
                .c_str(),
-           hasher_(std::this_thread::get_id()));
+           static_cast<size_t>(hasher_(std::this_thread::get_id())));
   }
 
   static LoggingLevel logging_level_;

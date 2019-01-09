@@ -88,17 +88,19 @@ int generate_battle_file() {
   for (const UnitInfo& ui : units_info) {
     boost::property_tree::ptree unit_node;
 
-    unit_node.put("id", ui.unit_general_info().unit_id);
-    unit_node.put("side", ui.unit_general_info().opponent_id);
-    unit_node.put("name", ui.unit_general_info().name);
-    unit_node.put("count", ui.unit_general_info().amount);
-    unit_node.put("type", as_integer(ui.unit_general_info().unit_type));
-    unit_node.put("position_x", ui.unit_draw_info().position.x());
-    unit_node.put("position_y", ui.unit_draw_info().position.y());
-    unit_node.put("shape", static_cast<std::underlying_type_t<shape_t>>(ui.unit_draw_info().shape));
-    unit_node.put("size_x", ui.unit_draw_info().size.x());
-    unit_node.put("size_y", ui.unit_draw_info().size.y());
-    unit_node.put("angle", ui.unit_draw_info().angle);
+    auto general_info = ui.unit_general_info();
+    auto draw_info = ui.unit_draw_info();
+    unit_node.put("id", general_info.unit_id);
+    unit_node.put("side", general_info.opponent_id);
+    unit_node.put("name", general_info.name);
+    unit_node.put("count", general_info.amount);
+    unit_node.put("type", as_integer(general_info.unit_type));
+    unit_node.put("position_x", draw_info.position.x());
+    unit_node.put("position_y", draw_info.position.y());
+    unit_node.put("shape", static_cast<std::underlying_type_t<shape_t>>(draw_info.shape));
+    unit_node.put("size_x", draw_info.size.x());
+    unit_node.put("size_y", draw_info.size.y());
+    unit_node.put("angle", draw_info.angle);
     units_tree.push_back(std::make_pair("", unit_node));
   }
   battle_description_tree.add_child("units", units_tree);
@@ -111,14 +113,11 @@ int generate_battle_file() {
   ManeuverFactory::get().register_maneuver(ManeuverType::rotate, &RotateManeuver::create);
   ManeuverFactory::get().register_maneuver(ManeuverType::resize, &ResizeManeuver::create);
   maneuvers.push_back(std::move(ManeuverFactory::create(
-      ManeuverType::move, 1, model_time_t(1),
-      model_time_t(9), {"280", "601", "340", "548"})));
-  maneuvers.push_back(
-      ManeuverFactory::create(ManeuverType::rotate, 1, model_time_t(1),
-                              model_time_t(9), {"226", "224"}));
-  maneuvers.push_back(
-      ManeuverFactory::create(ManeuverType::resize, 1, model_time_t(1),
-                              model_time_t(9), {"220", "18", "235", "12"}));
+      ManeuverType::move, 1, model_time_t(1), model_time_t(9), {"280", "601", "340", "548"})));
+  maneuvers.push_back(ManeuverFactory::create(ManeuverType::rotate, 1, model_time_t(1),
+                                              model_time_t(9), {"226", "224"}));
+  maneuvers.push_back(ManeuverFactory::create(ManeuverType::resize, 1, model_time_t(1),
+                                              model_time_t(9), {"220", "18", "235", "12"}));
 
   boost::property_tree::ptree menauvers_tree;
   for (const auto& maneuver : maneuvers) {
