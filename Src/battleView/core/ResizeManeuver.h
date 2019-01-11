@@ -34,7 +34,7 @@ class ResizeManeuver : public Maneuver {
   }
 
   static std::unique_ptr<Maneuver> create(uint32_t unit_id, const model_time_t &start_time,
-                                          constd model_time_t &stop_time, maneuver_data_t &&data) {
+                                          const model_time_t &stop_time, maneuver_data_t &&data) {
     return std::make_unique<ResizeManeuver>(
         ResizeManeuver(unit_id, start_time, stop_time, std::move(data)));
   }

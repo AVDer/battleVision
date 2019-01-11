@@ -69,6 +69,8 @@ class UnitInfo {
     unit_draw_info_ = unit_info.unit_draw_info();
   }
 
+  UnitInfo& operator=(const UnitInfo& that);
+
   const UnitGeneralInfo& unit_general_info() const { return unit_general_info_; }
 
   const UnitDrawInfo& unit_draw_info() const { return unit_draw_info_; }

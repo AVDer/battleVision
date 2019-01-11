@@ -33,7 +33,7 @@ Unit::Unit(Unit &&that) noexcept
       unit_info_(that.unit_info_),
       draw_strategy_(std::move(that.draw_strategy_)) {}
 
-Unit Unit::set_unit_info(const UnitInfo &unit_info) {
+Unit &Unit::set_unit_info(const UnitInfo &unit_info) {
   unit_info_ = unit_info;
   return *this;
 }
@@ -48,10 +48,10 @@ void Unit::draw() const {
     */
 }
 
-Unit Unit::set_draw_strategy(std::shared_ptr<DrawStrategy> &&strategy) {
+Unit &Unit::set_draw_strategy(std::shared_ptr<DrawStrategy> &&strategy) {
   draw_strategy_ = strategy;
   draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
-  return (*this);
+  return *this;
 }
 
 void Unit::rotate(bvl::core::types::angle_t angle) {

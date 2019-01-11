@@ -33,8 +33,8 @@ class Unit {
   Unit& operator=(const Unit& that) = delete;
 
   void draw() const;
-  Unit set_unit_info(const UnitInfo& unit_info);
-  Unit set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);
+  Unit& set_unit_info(const UnitInfo& unit_info);
+  Unit& set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);
 
   void rotate(bvl::core::types::angle_t angle);
   void move(coordinate_t xdiff, coordinate_t ydiff);

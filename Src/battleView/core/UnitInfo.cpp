@@ -16,3 +16,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
 #include "UnitInfo.h"
+
+UnitInfo& UnitInfo::operator=(const UnitInfo& that) {
+  this->unit_general_info_ = that.unit_general_info();
+  this->unit_draw_info_ = that.unit_draw_info();
+  return *this;
+}
