@@ -23,8 +23,14 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 OpenGLUnitsDrawer *OpenGLUnitsDrawer::instance_{nullptr};
 
+enum Location : GLuint { projection = 0, view, model, rotation };
+
 OpenGLUnitsDrawer::OpenGLUnitsDrawer() {
-  shader_.init(ShadersUnit::vertex_shader, ShadersUnit::fragment_shader);
+  shader_.init("UnitDrawer", ShadersUnit::vertex_shader, ShadersUnit::fragment_shader);
+  shader_.find_uniform_location("projection", Location::projection);
+  shader_.find_uniform_location("view", Location::view);
+  shader_.find_uniform_location("model", Location::model);
+  shader_.find_uniform_location("rotation", Location::rotation);
 
   glGenVertexArrays(1, &gl_field_vao_);
   glGenBuffers(1, &gl_field_vbo_);
@@ -97,17 +103,11 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
 
   shader_.use();
 
-  // Get their uniform location
-  GLint projection_location = glGetUniformLocation(shader_.shader_id(), "projection");
-  GLint view_location = glGetUniformLocation(shader_.shader_id(), "view");
-  GLint model_location = glGetUniformLocation(shader_.shader_id(), "model");
-  GLint rotate_location = glGetUniformLocation(shader_.shader_id(), "rotation");
-
   // Pass them to the shaders
-  glUniformMatrix4fv(projection_location, 1, GL_FALSE, glm::value_ptr(projection_));
-  glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_));
-  glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_));
-  ;
+  glUniformMatrix4fv(shader_.get_location(Location::projection), 1, GL_FALSE,
+                     glm::value_ptr(projection_));
+  glUniformMatrix4fv(shader_.get_location(Location::view), 1, GL_FALSE, glm::value_ptr(view_));
+  glUniformMatrix4fv(shader_.get_location(Location::model), 1, GL_FALSE, glm::value_ptr(model_));
 
   if (re_buffer) {
     glBindVertexArray(gl_field_vao_);
@@ -133,7 +133,8 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
   glBindVertexArray(gl_field_vao_);
   {
     for (size_t i = 0; i < units.size(); ++i) {
-      glUniformMatrix4fv(rotate_location, 1, GL_FALSE, glm::value_ptr(transformations_[i]));
+      glUniformMatrix4fv(shader_.get_location(Location::rotation), 1, GL_FALSE,
+                         glm::value_ptr(transformations_[i]));
       glDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT,
                              (void *)(i * sizeof(DrawElementsIndirectCommand)));
 

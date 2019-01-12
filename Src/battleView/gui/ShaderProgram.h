@@ -18,6 +18,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BATTLEVISION_SHADERPROGRAM_H
 #define BATTLEVISION_SHADERPROGRAM_H
 
+#include <map>
 #include <string>
 
 #include "glad/glad.h"
@@ -26,12 +27,17 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 class ShaderProgram {
  public:
   ShaderProgram() = default;
-  void init(const std::string& vertex_source, const std::string& fragment_source);
+  void init(std::string&& name, const std::string& vertex_source,
+            const std::string& fragment_source);
   void use();
   GLuint shader_id() const { return program_id_; }
+  GLenum find_uniform_location(const std::string& name, GLuint id);
+  GLint get_location(GLuint id) const { return locations_.at(id); }
 
  private:
+  std::string name_;
   GLuint program_id_{0};
+  std::map<GLuint, GLint> locations_;
 };
 
 #endif  // BATTLEVISION_SHADERPROGRAM_H

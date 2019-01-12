@@ -19,7 +19,9 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Logger.h"
 
-void ShaderProgram::init(const std::string& vertex_source, const std::string& fragment_source) {
+void ShaderProgram::init(std::string&& name, const std::string& vertex_source,
+                         const std::string& fragment_source) {
+  name_ = name;
   GLint success;
   GLchar infoLog[512];
 
@@ -33,7 +35,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
   if (!success) {
     glGetShaderInfoLog(vertex_shader, 512, nullptr, infoLog);
-    Logger::error("Shader: Vertex compilation failed: %s", infoLog);
+    Logger::error("OpenGL: Shader %s: Vertex compilation failed: %s", name_.c_str(), infoLog);
   }
 
   GLuint fragment_shader{glCreateShader(GL_FRAGMENT_SHADER)};
@@ -42,7 +44,7 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
   if (!success) {
     glGetShaderInfoLog(fragment_shader, 512, nullptr, infoLog);
-    Logger::error("Shader: Fragment compilation failed: %s", infoLog);
+    Logger::error("OpenGL: Shader %s: Fragment compilation failed: %s", name_.c_str(), infoLog);
   }
 
   program_id_ = glCreateProgram();
@@ -53,11 +55,25 @@ void ShaderProgram::init(const std::string& vertex_source, const std::string& fr
   glGetProgramiv(program_id_, GL_LINK_STATUS, &success);
   if (!success) {
     glGetProgramInfoLog(program_id_, 512, nullptr, infoLog);
-    Logger::error("Shader: Program compilation failed: %s", infoLog);
+    Logger::error("OpenGL: Shader %s: Program compilation failed: %s", name_.c_str(), infoLog);
   }
 
   glDeleteShader(vertex_shader);
   glDeleteShader(fragment_shader);
+
+  Logger::debug("OpenGL: Shader %s: Created", name_.c_str());
 }
 
 void ShaderProgram::use() { glUseProgram(program_id_); }
+
+GLenum ShaderProgram::find_uniform_location(const std::string& name, GLuint id) {
+  GLint location = glGetUniformLocation(program_id_, name.c_str());
+  if (GLenum err = glGetError(); err != GL_NO_ERROR) {
+    Logger::error("OpenGL: Location for %s can't be found: %d", name.c_str(), err);
+    return err;
+  }
+  Logger::debug("OpenGL: Shader %s: Found location %d for \"%s\"", name_.c_str(), location,
+                name.c_str());
+  locations_[id] = location;
+  return GL_NO_ERROR;
+}

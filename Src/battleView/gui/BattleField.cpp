@@ -25,6 +25,8 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 static const GLfloat screen_gap{0.1f};
 static const GLfloat earth_width{0.1f};
 
+enum Location : GLuint { projection = 0, view, model };
+
 GLfloat field_vertices[] = {
     // Positions                             // Texture Coords
     // Field
@@ -74,7 +76,10 @@ void BattleField::create(const std::string& texture_filename) {
   field_vertices[35] = 0;
   field_vertices[36] = texture_->height();
 
-  shader_program_.init(ShadersField::vertex_shader, ShadersField::fragment_shader);
+  shader_program_.init("Field", ShadersField::vertex_shader, ShadersField::fragment_shader);
+  shader_program_.find_uniform_location("projection", Location::projection);
+  shader_program_.find_uniform_location("view", Location::view);
+  shader_program_.find_uniform_location("model", Location::model);
 
   glGenVertexArrays(1, &gl_field_vao_);
   glGenBuffers(1, &gl_field_vbo_);
@@ -104,14 +109,13 @@ void BattleField::destroy() {
 void BattleField::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
   shader_program_.use();
 
-  // Get their uniform location
-  GLint projection_location = glGetUniformLocation(shader_program_.shader_id(), "projection");
-  GLint view_location = glGetUniformLocation(shader_program_.shader_id(), "view");
-  GLint model_location = glGetUniformLocation(shader_program_.shader_id(), "model");
   // Pass them to the shaders
-  glUniformMatrix4fv(projection_location, 1, GL_FALSE, glm::value_ptr(projection));
-  glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view));
-  glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
+  glUniformMatrix4fv(shader_program_.get_location(Location::projection), 1, GL_FALSE,
+                     glm::value_ptr(projection));
+  glUniformMatrix4fv(shader_program_.get_location(Location::view), 1, GL_FALSE,
+                     glm::value_ptr(view));
+  glUniformMatrix4fv(shader_program_.get_location(Location::model), 1, GL_FALSE,
+                     glm::value_ptr(model));
 
   glBindTexture(GL_TEXTURE_2D, texture_->id());
   glBindVertexArray(gl_field_vao_);
