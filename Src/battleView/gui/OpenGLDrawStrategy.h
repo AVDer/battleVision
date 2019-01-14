@@ -62,7 +62,7 @@ class OpenGLDrawStrategy : public DrawStrategy {
 
   std::vector<GLfloat> unit_vertices_;
   std::vector<GLuint> unit_indices_;
-  glm::mat4 transformation_{glm::mat4(1.0)};
+  glm::mat4 transformation_;
   glm::vec3 color_;
 };
 

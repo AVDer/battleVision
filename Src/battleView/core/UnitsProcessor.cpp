@@ -30,6 +30,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "RotateManeuver.h"
 #include "UnitsProcessor.h"
 
+#include "gui/ConsoleUnitsDrawer.h"
 #include "gui/OpenGLUnitsDrawer.h"
 
 UnitsProcessor::UnitsProcessor() {
@@ -51,7 +52,13 @@ void UnitsProcessor::set_working_file(const std::string &new_string, bool renew)
 void UnitsProcessor::create_units() { fill_units(); }
 
 void UnitsProcessor::maneuver() {
-  Maneuver::setTime(static_cast<double_t>((std::chrono::system_clock::now() - simulation_start_).count()) / (real_stop_time_ - real_start_time_).count());
+  // ToDo: handle finish
+  if (std::chrono::system_clock::now() - simulation_start_ > real_stop_time_ - real_start_time_)
+    exit(1);
+
+  Maneuver::setTime(
+      static_cast<double_t>((std::chrono::system_clock::now() - simulation_start_).count()) /
+      (real_stop_time_ - real_start_time_).count());
   for (Unit &unit : units_) {
     for (auto &maneuver : maneuvers_) {
       maneuver->operator()(unit);
@@ -65,7 +72,8 @@ void UnitsProcessor::draw_units() {
     u.draw();
   }
    */
-  OpenGLUnitsDrawer::instance()->draw_units(units_);
+  // OpenGLUnitsDrawer::instance()->draw_units(units_);
+  ConsoleUnitsDrawer::instance()->draw_units(units_);
 }
 
 void UnitsProcessor::reset() {
@@ -83,7 +91,6 @@ void UnitsProcessor::fill_units() {
   model_start_time_ = battle_description.get("general.start_time", "0");
   model_stop_time_ = battle_description.get("general.stop_time", "9");
   Maneuver::setGlobalTime(model_start_time_, model_stop_time_);
-  
 
   // Opponents
 
@@ -126,8 +133,7 @@ void UnitsProcessor::fill_units() {
     maneuvers_.push_back(ManeuverFactory::create(
         ManeuverType(maneuver.second.get<int>("type")), maneuver.second.get<uint32_t>("unit"),
         model_time_t(maneuver.second.get<std::string>("start_time")),
-        model_time_t(maneuver.second.get<std::string>("stop_time")),
-        std::move(local_data)
+        model_time_t(maneuver.second.get<std::string>("stop_time")), std::move(local_data)
 
             ));
   }

@@ -76,6 +76,7 @@ set(SOURCE_FILES
     Src/battleView/gui/ShadersUnit.h
     Src/battleView/gui/OpenGLUnitsDrawer.cpp
     Src/battleView/gui/OpenGLUnitsDrawer.h
+    Src/battleView/gui/ConsoleUnitsDrawer.cpp
     Src/battleView/gui/RenderInfo.h
     Src/battleView/gui/OpenGLDrawStrategy.h
     Src/battleView/gui/glad/src/glad.c

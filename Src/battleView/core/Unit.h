@@ -21,6 +21,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include "DrawStrategy.h"
+#include "OpponentInfo.h"
 #include "UnitInfo.h"
 
 class Unit {
@@ -42,7 +43,9 @@ class Unit {
   void set_angle(angle_t angle);
   void set_size(coordinate_t width, coordinate_t height);
   void enlarge(int16_t xdiff, int16_t ydiff);
-  void print_info();
+  void print_info() const;
+
+  Unit& set_opponent(std::shared_ptr<OpponentInfo> opponent);
 
   void set_active(bool active) { is_active_ = active; }
 
@@ -54,6 +57,7 @@ class Unit {
  private:
   std::vector<Unit> sub_units_;
   UnitInfo unit_info_;
+  std::shared_ptr<OpponentInfo> opponent_;
   std::shared_ptr<DrawStrategy> draw_strategy_;
   bool is_active_{false};
   bool is_selected_{false};

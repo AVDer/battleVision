@@ -38,8 +38,9 @@ BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t heig
   view_state.zoom_number =
       1. / std::max(battle_field_.texture_width(), battle_field_.texture_height());
 
-  projection_ = glm::perspective(45.0f, (GLfloat)width_ / (GLfloat)height_, 0.1f, 100.0f);
-  view_ = glm::translate(view_, glm::vec3(0, 0, -1.f));
+  projection_ = glm::perspective(
+      45.0f, static_cast<GLfloat>(width_) / static_cast<GLfloat>(height_), 0.1f, 100.0f);
+  view_ = glm::translate(glm::mat4(1.0), glm::vec3(0, 0, -1.f));
 }
 
 BattleDrawWindow::~BattleDrawWindow() {
@@ -74,16 +75,14 @@ void BattleDrawWindow::createField(const std::string& texture_filename) {
 }
 
 void BattleDrawWindow::draw() {
-  glm::mat4 model{glm::mat4(1.0)};
-
   // Clear
   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   update_size();
 
-  model =
-      glm::translate(model, glm::vec3(view_state.trans_x_number, view_state.trans_y_number, 0.f));
+  glm::mat4 model = glm::translate(
+      glm::mat4(1.0), glm::vec3(view_state.trans_x_number, view_state.trans_y_number, 0.f));
   model = glm::rotate(model, glm::radians(static_cast<float>(view_state.rotate_y_number)),
                       glm::vec3(1.0f, 0.0f, 0.0f));
   model = glm::rotate(model, glm::radians(static_cast<float>(view_state.rotate_x_number)),
