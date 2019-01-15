@@ -34,18 +34,18 @@ class OpenGLDrawStrategy : public DrawStrategy {
 
   void update_draw_info(const UnitDrawInfo &udi) override {
     is_modified_ = true;
-    auto c = udi.color.get();
+    auto c = udi.color().get();
     color_.r = c.r;
     color_.g = c.g;
     color_.b = c.b;
 
     transformation_ =
-        glm::translate(glm::mat4(1.0), glm::vec3(udi.position.x(), udi.position.y(), 0.f));
-    transformation_ = glm::rotate(transformation_, glm::radians(static_cast<float>(udi.angle)),
+        glm::translate(glm::mat4(1.0), glm::vec3(udi.position().x(), udi.position().y(), 0.f));
+    transformation_ = glm::rotate(transformation_, glm::radians(static_cast<float>(udi.angle())),
                                   glm::vec3(0.0f, 0.0f, 1.0f));
     transformation_ =
-        glm::translate(transformation_, glm::vec3(-udi.size.x() / 2, -udi.size.y() / 2, 0.f));
-    transformation_ = glm::scale(transformation_, glm::vec3(udi.size.x(), udi.size.y(), 1.f));
+        glm::translate(transformation_, glm::vec3(-udi.size().x() / 2, -udi.size().y() / 2, 0.f));
+    transformation_ = glm::scale(transformation_, glm::vec3(udi.size().x(), udi.size().y(), 1.f));
 
     fill_vertex(udi);
   }

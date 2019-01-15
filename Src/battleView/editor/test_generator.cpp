@@ -90,17 +90,17 @@ int generate_battle_file() {
 
     auto general_info = ui.unit_general_info();
     auto draw_info = ui.unit_draw_info();
-    unit_node.put("id", general_info.unit_id);
-    unit_node.put("side", general_info.opponent_id);
-    unit_node.put("name", general_info.name);
-    unit_node.put("count", general_info.amount);
-    unit_node.put("type", as_integer(general_info.unit_type));
-    unit_node.put("position_x", draw_info.position.x());
-    unit_node.put("position_y", draw_info.position.y());
-    unit_node.put("shape", static_cast<std::underlying_type_t<shape_t>>(draw_info.shape));
-    unit_node.put("size_x", draw_info.size.x());
-    unit_node.put("size_y", draw_info.size.y());
-    unit_node.put("angle", draw_info.angle);
+    unit_node.put("id", general_info.unit_id());
+    unit_node.put("side", general_info.opponent_id());
+    unit_node.put("name", general_info.name());
+    unit_node.put("count", general_info.amount());
+    unit_node.put("type", as_integer(general_info.unit_type()));
+    unit_node.put("position_x", draw_info.position().x());
+    unit_node.put("position_y", draw_info.position().y());
+    unit_node.put("shape", static_cast<std::underlying_type_t<shape_t>>(draw_info.shape()));
+    unit_node.put("size_x", draw_info.size().x());
+    unit_node.put("size_y", draw_info.size().y());
+    unit_node.put("angle", draw_info.angle());
     units_tree.push_back(std::make_pair("", unit_node));
   }
   battle_description_tree.add_child("units", units_tree);

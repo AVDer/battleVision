@@ -22,7 +22,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 Unit UnitFactory::get_unit(UnitInfo &&ui) {
   Unit unit(ui);
-  switch (ui.unit_general_info().unit_type) {
+  switch (ui.unit_general_info().unit_type()) {
     case unit_type_t::infantry:
       unit.set_draw_strategy(std::make_shared<InfantryOpenGLDraw>(InfantryOpenGLDraw()));
       break;

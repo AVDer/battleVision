@@ -52,7 +52,7 @@ class Unit {
   void set_selected(bool selected) { is_selected_ = selected; }
 
   auto draw_strategy() const { return draw_strategy_; }
-  auto id() const { return unit_info_.unit_general_info().unit_id; }
+  auto id() const { return unit_info_.unit_general_info().unit_id(); }
 
  private:
   std::vector<Unit> sub_units_;

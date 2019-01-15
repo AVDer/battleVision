@@ -92,7 +92,7 @@ Unit &Unit::set_opponent(std::shared_ptr<OpponentInfo> opponent) {
 void Unit::print_info() const {
   auto draw_info = unit_info_.unit_draw_info();
   Logger::info("Unit info: %s : %dx%d @ Position: %d:%d / %d",
-               unit_info_.unit_general_info().name.c_str(), draw_info.size.x(), draw_info.size.y(),
-               draw_info.position.x(), draw_info.position.y(),
-               static_cast<int16_t>(draw_info.angle));
+               unit_info_.unit_general_info().name().c_str(), draw_info.size().x(),
+               draw_info.size().y(), draw_info.position().x(), draw_info.position().y(),
+               static_cast<int16_t>(draw_info.angle()));
 }
