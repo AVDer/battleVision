@@ -26,17 +26,13 @@ class OpponentInfo {
  public:
   OpponentInfo() = default;
 
-  OpponentInfo(uint32_t id, std::string&& name, bvl::core::types::color_t color)
-      : id_(id), name_(name), color_(color) {}
-
-  uint32_t id() const { return id_; }
+  OpponentInfo(std::string&& name, bvl::core::types::color_t color) : name_(name), color_(color) {}
 
   std::string name() const { return name_; }
 
   bvl::core::types::color_t color() const { return color_; }
 
  private:
-  uint32_t id_{0};
   std::string name_;
   bvl::core::types::color_t color_;
 };

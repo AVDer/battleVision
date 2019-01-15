@@ -41,15 +41,14 @@ int generate_battle_file() {
 
   // Opponents
 
-  std::vector<OpponentInfo> opponents{
-      OpponentInfo(1, "Greece", bvl::core::types::color_t(0x00007000)),
-      OpponentInfo(2, "Persia", bvl::core::types::color_t(0x70000000)),
-  };
+  std::map<uint32_t, OpponentInfo> opponents;
+  opponents[1] = {"Greece", bvl::core::types::color_t(0x00007000)};
+  opponents[2] = {"Persia", bvl::core::types::color_t(0x70000000)};
 
   boost::property_tree::ptree opponents_tree;
-  for (const auto& o : opponents) {
+  for (const auto& [id, o] : opponents) {
     boost::property_tree::ptree opponent_node;
-    opponent_node.put("id", o.id());
+    opponent_node.put("id", id);
     opponent_node.put("name", o.name());
     opponent_node.put("color", o.color().raw_color());
     opponents_tree.push_back(std::make_pair("", opponent_node));

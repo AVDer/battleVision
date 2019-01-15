@@ -22,3 +22,39 @@ UnitInfo& UnitInfo::operator=(const UnitInfo& that) {
   this->unit_draw_info_ = that.unit_draw_info();
   return *this;
 }
+
+void UnitInfo::set_opponent(std::shared_ptr<OpponentInfo> opponent) {
+  opponent_ = opponent;
+  unit_general_info_.set_side_name(opponent->name());
+  unit_draw_info_.set_color(opponent->color());
+}
+
+// Tranformations
+
+void UnitInfo::rotate(bvl::core::types::angle_t angle) {
+  unit_draw_info_.set_angle(unit_draw_info_.angle() + angle);
+}
+
+void UnitInfo::move(coordinate_t x, coordinate_t y) {
+  unit_draw_info_.set_position(unit_draw_info_.position() + bvl::core::types::point_t(x, y));
+}
+
+void UnitInfo::set_potition(coordinate_t x, coordinate_t y) {
+  point_t new_position{unit_draw_info_.position()};
+  if (x > 0) new_position.set_x(x);
+  if (y > 0) new_position.set_y(y);
+  unit_draw_info_.set_position(new_position);
+}
+
+void UnitInfo::set_angle(angle_t angle) { unit_draw_info_.set_angle(angle); }
+
+void UnitInfo::set_size(coordinate_t width, coordinate_t height) {
+  point_t new_size{unit_draw_info_.size()};
+  if (width > 0) new_size.set_x(width);
+  if (height > 0) new_size.set_y(height);
+  unit_draw_info_.set_size(new_size);
+}
+
+void UnitInfo::enlarge(coordinate_t x, coordinate_t y) {
+  unit_draw_info_.set_size(unit_draw_info_.size() + bvl::core::types::point_t(x, y));
+}

@@ -56,11 +56,17 @@ class UnitGeneralInfo {
     return *this;
   }
 
+  UnitGeneralInfo& set_side_name(const std::string& name) {
+    side_name_ = name;
+    return *this;
+  }
+
   uint32_t unit_id() const { return unit_id_; }
   uint32_t opponent_id() const { return opponent_id_; }
   uint32_t amount() const { return amount_; }
   unit_type_t unit_type() const { return unit_type_; }
   const std::string& name() const { return name_; }
+  const std::string& side_name() const { return side_name_; }
 
  private:
   uint32_t unit_id_{0};
@@ -68,6 +74,7 @@ class UnitGeneralInfo {
   uint32_t amount_{0};
   unit_type_t unit_type_;
   std::string name_;
+  std::string side_name_;
 };
 
 #endif

@@ -18,10 +18,12 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef CORE_UNITINFO_H_
 #define CORE_UNITINFO_H_
 
+#include <memory>
 #include <string>
 
 #include "bvl/BVTypes.h"
 
+#include "OpponentInfo.h"
 #include "UnitDrawInfo.h"
 #include "UnitGeneralInfo.h"
 
@@ -45,39 +47,24 @@ class UnitInfo {
 
   const UnitDrawInfo& unit_draw_info() const { return unit_draw_info_; }
 
-  void set_color(const color_t& color) { unit_draw_info_.set_color(color); }
+  void set_opponent(std::shared_ptr<OpponentInfo> opponent);
 
-  void rotate(bvl::core::types::angle_t angle) {
-    unit_draw_info_.set_angle(unit_draw_info_.angle() + angle);
-  }
+  void rotate(bvl::core::types::angle_t angle);
 
-  void move(coordinate_t x, coordinate_t y) {
-    unit_draw_info_.set_position(unit_draw_info_.position() + bvl::core::types::point_t(x, y));
-  }
+  void move(coordinate_t x, coordinate_t y);
 
-  void set_potition(coordinate_t x, coordinate_t y) {
-    point_t new_position{unit_draw_info_.position()};
-    if (x > 0) new_position.set_x(x);
-    if (y > 0) new_position.set_y(y);
-    unit_draw_info_.set_position(new_position);
-  }
+  void set_potition(coordinate_t x, coordinate_t y);
 
-  void set_angle(angle_t angle) { unit_draw_info_.set_angle(angle); }
+  void set_angle(angle_t angle);
 
-  void set_size(coordinate_t width, coordinate_t height) {
-    point_t new_size{unit_draw_info_.size()};
-    if (width > 0) new_size.set_x(width);
-    if (height > 0) new_size.set_y(height);
-    unit_draw_info_.set_size(new_size);
-  }
+  void set_size(coordinate_t width, coordinate_t height);
 
-  void enlarge(coordinate_t x, coordinate_t y) {
-    unit_draw_info_.set_size(unit_draw_info_.size() + bvl::core::types::point_t(x, y));
-  }
+  void enlarge(coordinate_t x, coordinate_t y);
 
  private:
   UnitGeneralInfo unit_general_info_;
   UnitDrawInfo unit_draw_info_;
+  std::shared_ptr<OpponentInfo> opponent_;
 };
 
 #endif /* CORE_UNITINFO_H_ */

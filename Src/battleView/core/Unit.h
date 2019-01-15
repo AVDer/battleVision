@@ -45,7 +45,7 @@ class Unit {
   void enlarge(int16_t xdiff, int16_t ydiff);
   void print_info() const;
 
-  Unit& set_opponent(std::shared_ptr<OpponentInfo> opponent);
+  void set_opponent(std::shared_ptr<OpponentInfo> opponent) { unit_info_.set_opponent(opponent); }
 
   void set_active(bool active) { is_active_ = active; }
 
@@ -57,7 +57,6 @@ class Unit {
  private:
   std::vector<Unit> sub_units_;
   UnitInfo unit_info_;
-  std::shared_ptr<OpponentInfo> opponent_;
   std::shared_ptr<DrawStrategy> draw_strategy_;
   bool is_active_{false};
   bool is_selected_{false};

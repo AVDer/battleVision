@@ -67,13 +67,8 @@ void UnitsProcessor::maneuver() {
 }
 
 void UnitsProcessor::draw_units() {
-  /*
-  for (const Unit &u : units_) {
-    u.draw();
-  }
-   */
   OpenGLUnitsDrawer::instance()->draw_units(units_);
-  //ConsoleUnitsDrawer::instance()->draw_units(units_);
+  // ConsoleUnitsDrawer::instance()->draw_units(units_);
 }
 
 void UnitsProcessor::reset() {
@@ -85,7 +80,7 @@ void UnitsProcessor::fill_units() {
   boost::property_tree::ptree battle_description;
   boost::property_tree::read_json(working_file_, battle_description);
 
-  // int meta_version = battle_description.get("general.version", 0);
+  int meta_version = battle_description.get("general.version", 0);
 
   map_file_name_ = battle_description.get("general.map", "");
   model_start_time_ = battle_description.get("general.start_time", "0");
@@ -94,11 +89,10 @@ void UnitsProcessor::fill_units() {
 
   // Opponents
 
-  std::vector<OpponentInfo> opponents;
   for (boost::property_tree::ptree::value_type &opponent :
        battle_description.get_child("opponents")) {
-    opponents.emplace_back(opponent.second.get<int>("id"), opponent.second.get<std::string>("name"),
-                           color_t(opponent.second.get<uint32_t>("color")));
+    opponents_[opponent.second.get<int>("id")] = {opponent.second.get<std::string>("name"),
+                                                  color_t(opponent.second.get<uint32_t>("color"))};
   }
 
   // Units
@@ -114,19 +108,13 @@ void UnitsProcessor::fill_units() {
     draw_info
         .set_position(
             point_t(unit.second.get<int>("position_x"), unit.second.get<int>("position_y")))
-        .set_color(color_t(0))
+        .set_color(opponents_[general_info.opponent_id()].color())
         .set_shape(static_cast<shape_t>(unit.second.get<int>("shape")))
         .set_size(point_t(unit.second.get<int>("size_x"), unit.second.get<int>("size_y")))
         .set_angle(static_cast<angle_t>(unit.second.get<int>("angle")))
         .set_state(unit_state_t::alive);
-    UnitInfo unit_info = UnitInfo(std::move(general_info), std::move(draw_info));
-    unit_info.set_color((*std::find_if(std::begin(opponents), std::end(opponents),
-                                       [unit_info](const OpponentInfo &o) -> bool {
-                                         return o.id() ==
-                                                unit_info.unit_general_info().opponent_id();
-                                       }))
-                            .color());
-    units_.push_back(std::move(UnitFactory::get_unit(std::move(unit_info))));
+    units_.push_back(
+        std::move(UnitFactory::get_unit({std::move(general_info), std::move(draw_info)})));
   }
 
   // Maneuvers
@@ -140,8 +128,6 @@ void UnitsProcessor::fill_units() {
     maneuvers_.push_back(ManeuverFactory::create(
         ManeuverType(maneuver.second.get<int>("type")), maneuver.second.get<uint32_t>("unit"),
         model_time_t(maneuver.second.get<std::string>("start_time")),
-        model_time_t(maneuver.second.get<std::string>("stop_time")), std::move(local_data)
-
-            ));
+        model_time_t(maneuver.second.get<std::string>("stop_time")), std::move(local_data)));
   }
 }
