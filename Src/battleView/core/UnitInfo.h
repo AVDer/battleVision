@@ -47,7 +47,7 @@ class UnitInfo {
 
   const UnitDrawInfo& unit_draw_info() const { return unit_draw_info_; }
 
-  void set_opponent(std::shared_ptr<OpponentInfo> opponent);
+  UnitInfo& set_opponent(std::shared_ptr<OpponentInfo> opponent);
 
   void rotate(bvl::core::types::angle_t angle);
 

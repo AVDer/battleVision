@@ -19,6 +19,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #define CORE_UNITSPROCESSOR_H_
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -79,7 +80,7 @@ class UnitsProcessor {
   std::string working_file_;
   std::string map_file_name_;
   std::vector<Unit> units_;
-  std::unordered_map<uint32_t, OpponentInfo> opponents_;
+  std::unordered_map<uint32_t, std::shared_ptr<OpponentInfo>> opponents_;
   std::vector<std::unique_ptr<Maneuver>> maneuvers_;
 
   void fill_units();

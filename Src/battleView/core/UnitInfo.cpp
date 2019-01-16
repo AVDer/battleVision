@@ -23,10 +23,11 @@ UnitInfo& UnitInfo::operator=(const UnitInfo& that) {
   return *this;
 }
 
-void UnitInfo::set_opponent(std::shared_ptr<OpponentInfo> opponent) {
+UnitInfo& UnitInfo::set_opponent(std::shared_ptr<OpponentInfo> opponent) {
   opponent_ = opponent;
   unit_general_info_.set_side_name(opponent->name());
   unit_draw_info_.set_color(opponent->color());
+  return *this;
 }
 
 // Tranformations

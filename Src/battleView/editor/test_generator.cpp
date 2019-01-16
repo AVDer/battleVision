@@ -111,6 +111,7 @@ int generate_battle_file() {
   ManeuverFactory::get().register_maneuver(ManeuverType::move, &MoveManeuver::create);
   ManeuverFactory::get().register_maneuver(ManeuverType::rotate, &RotateManeuver::create);
   ManeuverFactory::get().register_maneuver(ManeuverType::resize, &ResizeManeuver::create);
+
   maneuvers.push_back(std::move(ManeuverFactory::create(
       ManeuverType::move, 1, model_time_t(1), model_time_t(9), {"280", "601", "340", "548"})));
   maneuvers.push_back(ManeuverFactory::create(ManeuverType::rotate, 1, model_time_t(1),

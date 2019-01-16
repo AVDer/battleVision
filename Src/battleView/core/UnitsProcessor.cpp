@@ -67,8 +67,8 @@ void UnitsProcessor::maneuver() {
 }
 
 void UnitsProcessor::draw_units() {
-  OpenGLUnitsDrawer::instance()->draw_units(units_);
-  // ConsoleUnitsDrawer::instance()->draw_units(units_);
+  // OpenGLUnitsDrawer::instance()->draw_units(units_);
+  ConsoleUnitsDrawer::instance()->draw_units(units_);
 }
 
 void UnitsProcessor::reset() {
@@ -91,8 +91,8 @@ void UnitsProcessor::fill_units() {
 
   for (boost::property_tree::ptree::value_type &opponent :
        battle_description.get_child("opponents")) {
-    opponents_[opponent.second.get<int>("id")] = {opponent.second.get<std::string>("name"),
-                                                  color_t(opponent.second.get<uint32_t>("color"))};
+    opponents_[opponent.second.get<int>("id")] = std::make_shared<OpponentInfo>(
+        opponent.second.get<std::string>("name"), color_t(opponent.second.get<uint32_t>("color")));
   }
 
   // Units
@@ -108,13 +108,14 @@ void UnitsProcessor::fill_units() {
     draw_info
         .set_position(
             point_t(unit.second.get<int>("position_x"), unit.second.get<int>("position_y")))
-        .set_color(opponents_[general_info.opponent_id()].color())
+        //.set_color(opponents_[general_info.opponent_id()]->color())
         .set_shape(static_cast<shape_t>(unit.second.get<int>("shape")))
         .set_size(point_t(unit.second.get<int>("size_x"), unit.second.get<int>("size_y")))
         .set_angle(static_cast<angle_t>(unit.second.get<int>("angle")))
         .set_state(unit_state_t::alive);
-    units_.push_back(
-        std::move(UnitFactory::get_unit({std::move(general_info), std::move(draw_info)})));
+    UnitInfo unit_info(std::move(general_info), std::move(draw_info));
+    units_.push_back(std::move(UnitFactory::get_unit(
+        std::move(unit_info.set_opponent(opponents_[general_info.opponent_id()])))));
   }
 
   // Maneuvers
