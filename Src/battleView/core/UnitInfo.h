@@ -49,9 +49,9 @@ class UnitInfo {
 
   UnitInfo& set_opponent(std::shared_ptr<OpponentInfo> opponent);
 
-  void rotate(bvl::core::types::angle_t angle);
+  void rotate(bvl::core::types::angle_t dangle);
 
-  void move(coordinate_t x, coordinate_t y);
+  void move(coordinate_t dx, coordinate_t dy);
 
   void set_potition(coordinate_t x, coordinate_t y);
 
@@ -59,7 +59,7 @@ class UnitInfo {
 
   void set_size(coordinate_t width, coordinate_t height);
 
-  void enlarge(coordinate_t x, coordinate_t y);
+  void enlarge(coordinate_t dx, coordinate_t dy);
 
  private:
   UnitGeneralInfo unit_general_info_;

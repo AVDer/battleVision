@@ -32,12 +32,12 @@ UnitInfo& UnitInfo::set_opponent(std::shared_ptr<OpponentInfo> opponent) {
 
 // Tranformations
 
-void UnitInfo::rotate(bvl::core::types::angle_t angle) {
-  unit_draw_info_.set_angle(unit_draw_info_.angle() + angle);
+void UnitInfo::rotate(bvl::core::types::angle_t dangle) {
+  unit_draw_info_.set_angle(unit_draw_info_.angle() + dangle);
 }
 
-void UnitInfo::move(coordinate_t x, coordinate_t y) {
-  unit_draw_info_.set_position(unit_draw_info_.position() + bvl::core::types::point_t(x, y));
+void UnitInfo::move(coordinate_t dx, coordinate_t dy) {
+  unit_draw_info_.set_position(unit_draw_info_.position() + bvl::core::types::point_t(dx, dy));
 }
 
 void UnitInfo::set_potition(coordinate_t x, coordinate_t y) {
@@ -56,6 +56,6 @@ void UnitInfo::set_size(coordinate_t width, coordinate_t height) {
   unit_draw_info_.set_size(new_size);
 }
 
-void UnitInfo::enlarge(coordinate_t x, coordinate_t y) {
-  unit_draw_info_.set_size(unit_draw_info_.size() + bvl::core::types::point_t(x, y));
+void UnitInfo::enlarge(coordinate_t dx, coordinate_t dy) {
+  unit_draw_info_.set_size(unit_draw_info_.size() + bvl::core::types::point_t(dx, dy));
 }

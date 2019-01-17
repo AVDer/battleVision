@@ -24,11 +24,9 @@ Unit UnitFactory::get_unit(UnitInfo &&ui) {
   Unit unit(ui);
   switch (ui.unit_general_info().unit_type()) {
     case unit_type_t::infantry:
-      unit.set_draw_strategy(std::make_shared<InfantryOpenGLDraw>(InfantryOpenGLDraw()));
-      break;
+      return unit.set_draw_strategy(std::make_shared<InfantryOpenGLDraw>(InfantryOpenGLDraw()));
     case unit_type_t::cavalry:
-      unit.set_draw_strategy(std::make_shared<CavalryOpenGLDraw>(CavalryOpenGLDraw()));
-      break;
+      return unit.set_draw_strategy(std::make_shared<CavalryOpenGLDraw>(CavalryOpenGLDraw()));
     default:
       break;
   }

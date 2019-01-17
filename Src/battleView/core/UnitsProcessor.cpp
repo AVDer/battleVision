@@ -67,7 +67,7 @@ void UnitsProcessor::maneuver() {
 }
 
 void UnitsProcessor::draw_units() {
-  // OpenGLUnitsDrawer::instance()->draw_units(units_);
+  OpenGLUnitsDrawer::instance()->draw_units(units_);
   ConsoleUnitsDrawer::instance()->draw_units(units_);
 }
 
@@ -83,8 +83,8 @@ void UnitsProcessor::fill_units() {
   int meta_version = battle_description.get("general.version", 0);
 
   map_file_name_ = battle_description.get("general.map", "");
-  model_start_time_ = battle_description.get("general.start_time", "0");
-  model_stop_time_ = battle_description.get("general.stop_time", "9");
+  model_start_time_ = model_time_t(battle_description.get("general.start_time", "0"));
+  model_stop_time_ = model_time_t(battle_description.get("general.stop_time", "9"));
   Maneuver::setGlobalTime(model_start_time_, model_stop_time_);
 
   // Opponents

@@ -23,6 +23,7 @@ battleVision
 
 # Misc temp data
 *.battle
+*.bak
 
 # CMake files
 CMakeCache.txt

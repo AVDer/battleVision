@@ -71,7 +71,7 @@ class UnitsProcessor {
 
  private:
   const real_time_t real_start_time_{std::chrono::seconds(0)};
-  const real_time_t real_stop_time_{std::chrono::seconds(2)};
+  const real_time_t real_stop_time_{std::chrono::seconds(5)};
   real_time_t simulation_start_;
 
   model_time_t model_start_time_;

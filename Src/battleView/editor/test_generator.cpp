@@ -36,8 +36,8 @@ int generate_battle_file() {
   boost::property_tree::ptree battle_description_tree;
   battle_description_tree.put("general.version", 2);
   battle_description_tree.put("general.map", "bm.tga");
-  battle_description_tree.put("general.start_time", "0");
-  battle_description_tree.put("general.stop_time", "9");
+  battle_description_tree.put("general.start_time", "14000101T000000");
+  battle_description_tree.put("general.stop_time", "14000101T000009");
 
   // Opponents
 
