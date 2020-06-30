@@ -1,24 +1,16 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.17)
 project(battleVision LANGUAGES C CXX)
-
-list(APPEND CXX_FLAGS "-g -O0 -Wall -Wextra")
-
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -Wall -Wextra")
-set(CMAKE_VERBOSE_MAKEFILE ON)
-message(STATUS "Found C compiler is: ${CMAKE_C_COMPILER_VERSION}")
-message(STATUS "Found C++ compiler is: ${CMAKE_CXX_COMPILER_VERSION}")
-
-if (NOT MINGW)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-endif ()
-
-# ---------- 3rd party libraries setup ----------
 
 include("environment.inc")
 
+message(STATUS "Using CMake: ${CMAKE_VERSION}")
+message(STATUS "Found C compiler is: ${CMAKE_C_COMPILER_VERSION}")
+message(STATUS "Found C++ compiler is: ${CMAKE_CXX_COMPILER_VERSION}")
+
+# ---------- 3rd party libraries setup ----------
+
 message(STATUS ${BOOST_ROOT})
 set(GLFW_LIBRARIES glfw3)
-
 
 # ---------- Required packages ----------
 
@@ -101,7 +93,13 @@ link_directories(${Boost_LIBRARY_DIRS})
 # ---------- Program executable ----------
 
 add_executable(battleVision ${SOURCE_FILES})
-set_target_properties(battleVision PROPERTIES CXX_STANDARD 17)
+
+# ---------- Compile options ----------
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+target_compile_options(battleVision PUBLIC -Wall -Wextra)
+set_target_properties(battleVision PROPERTIES CXX_STANDARD 20)
+set(CMAKE_BUILD_TYPE Debug)
 
 # ---------- Additional libraries ----------
 

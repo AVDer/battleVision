@@ -82,9 +82,9 @@ class OpenGLUnitsDrawer {
   std::vector<GLfloat> unit_vertices_;
   std::vector<GLuint> unit_indices_;
 
-  GLuint gl_field_vbo_;
-  GLuint gl_field_vao_;
-  GLuint gl_field_ebo_;
+  GLuint gl_units_vbo_;
+  GLuint gl_units_vao_;
+  GLuint gl_units_ebo_;
   GLuint indirect_buffer_;
 
   std::vector<DrawElementsIndirectCommand> indirect_draw_;

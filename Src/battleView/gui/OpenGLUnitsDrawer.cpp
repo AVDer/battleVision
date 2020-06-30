@@ -32,17 +32,17 @@ OpenGLUnitsDrawer::OpenGLUnitsDrawer() {
   shader_.find_uniform_location("model", Location::model);
   shader_.find_uniform_location("rotation", Location::rotation);
 
-  glGenVertexArrays(1, &gl_field_vao_);
-  glGenBuffers(1, &gl_field_vbo_);
-  glGenBuffers(1, &gl_field_ebo_);
+  glGenVertexArrays(1, &gl_units_vao_);
+  glGenBuffers(1, &gl_units_vbo_);
+  glGenBuffers(1, &gl_units_ebo_);
   glGenBuffers(1, &indirect_buffer_);
 
-  glBindVertexArray(gl_field_vao_);
+  glBindVertexArray(gl_units_vao_);
   {
-    glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo_);
+    glBindBuffer(GL_ARRAY_BUFFER, gl_units_vbo_);
     glBufferData(GL_ARRAY_BUFFER, unit_vertices_.size() * sizeof(GLfloat), unit_vertices_.data(),
                  GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo_);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_units_ebo_);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, unit_indices_.size() * sizeof(GLuint),
                  unit_indices_.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
@@ -56,9 +56,9 @@ OpenGLUnitsDrawer::OpenGLUnitsDrawer() {
 }
 
 OpenGLUnitsDrawer::~OpenGLUnitsDrawer() {
-  glDeleteVertexArrays(1, &gl_field_vao_);
-  glDeleteBuffers(1, &gl_field_vbo_);
-  glDeleteBuffers(1, &gl_field_ebo_);
+  glDeleteVertexArrays(1, &gl_units_vao_);
+  glDeleteBuffers(1, &gl_units_vbo_);
+  glDeleteBuffers(1, &gl_units_ebo_);
   glDeleteBuffers(1, &indirect_buffer_);
 }
 
@@ -110,34 +110,37 @@ void OpenGLUnitsDrawer::draw_units(const std::vector<Unit> &units) {
   glUniformMatrix4fv(shader_.get_location(Location::model), 1, GL_FALSE, glm::value_ptr(model_));
 
   if (re_buffer) {
-    glBindVertexArray(gl_field_vao_);
+    glBindVertexArray(gl_units_vao_);
     {
-      glBindBuffer(GL_ARRAY_BUFFER, gl_field_vbo_);
+      glBindBuffer(GL_ARRAY_BUFFER, gl_units_vbo_);
       glBufferData(GL_ARRAY_BUFFER, unit_vertices_.size() * sizeof(GLfloat), unit_vertices_.data(),
                    GL_STATIC_DRAW);
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_field_ebo_);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl_units_ebo_);
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, unit_indices_.size() * sizeof(GLuint),
                    unit_indices_.data(), GL_STATIC_DRAW);
 
       if (!init) {
+        /*
         glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirect_buffer_);
         glBufferData(GL_DRAW_INDIRECT_BUFFER,
                      indirect_draw_.size() * sizeof(DrawElementsIndirectCommand),
                      indirect_draw_.data(), GL_STATIC_DRAW);
+                     */
         init = true;
       }
     }
     glBindVertexArray(0);
   }
 
-  glBindVertexArray(gl_field_vao_);
+  glBindVertexArray(gl_units_vao_);
   {
     for (size_t i = 0; i < units.size(); ++i) {
+      /*
       glUniformMatrix4fv(shader_.get_location(Location::rotation), 1, GL_FALSE,
                          glm::value_ptr(transformations_[i]));
       glDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT,
                              (void *)(i * sizeof(DrawElementsIndirectCommand)));
-
+                             */
       GLenum err = glGetError();
       if (err != GL_NO_ERROR) {
         Logger::warning("OpenGL: glDrawElementsIndirect error: %d", err);

@@ -68,7 +68,7 @@ void UnitsProcessor::maneuver() {
 
 void UnitsProcessor::draw_units() {
   OpenGLUnitsDrawer::instance()->draw_units(units_);
-  ConsoleUnitsDrawer::instance()->draw_units(units_);
+  // ConsoleUnitsDrawer::instance()->draw_units(units_);
 }
 
 void UnitsProcessor::reset() {
@@ -80,7 +80,7 @@ void UnitsProcessor::fill_units() {
   boost::property_tree::ptree battle_description;
   boost::property_tree::read_json(working_file_, battle_description);
 
-  int meta_version = battle_description.get("general.version", 0);
+  [[maybe_unused]] int meta_version = battle_description.get("general.version", 0);
 
   map_file_name_ = battle_description.get("general.map", "");
   model_start_time_ = model_time_t(battle_description.get("general.start_time", "0"));
