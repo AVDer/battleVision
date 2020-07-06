@@ -30,10 +30,10 @@ UnitAdjustInfo unit_adjust_info;
 BattleDrawWindow::BattleDrawWindow(types::gui_res_t width, types::gui_res_t height,
                                    std::string&& title)
     : width_(width), height_(height), title_(title) {
+  init_open_gl();
+
   units_processor_.set_working_file("Marathon.battle");
   texture_filename_ = units_processor_.map_file_name();
-
-  init_open_gl();
   createField(texture_filename_);
   view_state.zoom_number =
       1. / std::max(battle_field_.texture_width(), battle_field_.texture_height());
@@ -93,8 +93,6 @@ void BattleDrawWindow::draw() {
 
   battle_field_.draw(projection_, view_, model);
 
-  OpenGLUnitsDrawer::instance()->set_transitions(projection_, view_, model);
-  OpenGLUnitsDrawer::instance()->prepare();
   units_processor_.maneuver();
 
   units_processor_.draw_units();

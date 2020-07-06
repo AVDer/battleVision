@@ -19,33 +19,14 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Logger.h"
 
-Unit::Unit(DrawStrategy *str) : draw_strategy_(str) {}
-
-Unit::Unit(const UnitInfo &unit_info) : unit_info_(unit_info), draw_strategy_(nullptr) {}
-
-Unit::Unit(const Unit &that)
-    : sub_units_(that.sub_units_),
-      unit_info_(that.unit_info_),
-      draw_strategy_(that.draw_strategy_) {}
+Unit::Unit(const Unit &that) : sub_units_(that.sub_units_), unit_info_(that.unit_info_) {}
 
 Unit::Unit(Unit &&that) noexcept
-    : sub_units_(std::move(that.sub_units_)),
-      unit_info_(that.unit_info_),
-      draw_strategy_(std::move(that.draw_strategy_)) {}
+    : sub_units_(std::move(that.sub_units_)), unit_info_(that.unit_info_) {}
 
 Unit &Unit::set_unit_info(const UnitInfo &unit_info) {
   unit_info_ = unit_info;
   return *this;
-}
-
-void Unit::draw() const {
-  /*
-  assert(draw_strategy_ != nullptr);
-  if (is_selected_)
-    draw_strategy_->draw(unit_info_.unit_draw_info().modify_color(2.));
-  else
-    draw_strategy_->draw(unit_info_.unit_draw_info());
-    */
 }
 
 Unit &Unit::set_draw_strategy(std::shared_ptr<DrawStrategy> &&strategy) {
@@ -54,35 +35,19 @@ Unit &Unit::set_draw_strategy(std::shared_ptr<DrawStrategy> &&strategy) {
   return *this;
 }
 
-void Unit::rotate(bvl::core::types::angle_t angle) {
-  unit_info_.rotate(angle);
-  draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
-}
+void Unit::rotate(bvl::core::types::angle_t angle) { unit_info_.rotate(angle); }
 
-void Unit::move(coordinate_t xdiff, coordinate_t ydiff) {
-  unit_info_.move(xdiff, ydiff);
-  draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
-}
+void Unit::move(coordinate_t xdiff, coordinate_t ydiff) { unit_info_.move(xdiff, ydiff); }
 
 void Unit::set_position(coordinate_t newx, coordinate_t newy) {
   unit_info_.set_potition(newx, newy);
-  draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
 }
 
-void Unit::set_angle(angle_t angle) {
-  unit_info_.set_angle(angle);
-  draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
-}
+void Unit::set_angle(angle_t angle) { unit_info_.set_angle(angle); }
 
-void Unit::set_size(coordinate_t width, coordinate_t height) {
-  unit_info_.set_size(width, height);
-  draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
-}
+void Unit::set_size(coordinate_t width, coordinate_t height) { unit_info_.set_size(width, height); }
 
-void Unit::enlarge(int16_t xdiff, int16_t ydiff) {
-  unit_info_.enlarge(xdiff, ydiff);
-  draw_strategy_->update_draw_info(unit_info_.unit_draw_info());
-}
+void Unit::enlarge(int16_t xdiff, int16_t ydiff) { unit_info_.enlarge(xdiff, ydiff); }
 
 void Unit::print_info() const {
   auto draw_info = unit_info_.unit_draw_info();

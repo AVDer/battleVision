@@ -26,14 +26,13 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 class Unit {
  public:
+  Unit() = default;
   Unit(const Unit& that);
   Unit(Unit&& that) noexcept;
-  explicit Unit(DrawStrategy* str);
-  explicit Unit(const UnitInfo& unit_info);
 
   Unit& operator=(const Unit& that) = delete;
 
-  void draw() const;
+  virtual void draw() const {};
   Unit& set_unit_info(const UnitInfo& unit_info);
   Unit& set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);
 

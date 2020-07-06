@@ -45,28 +45,28 @@ class UnitsProcessor {
 
   void reset();
 
-  void rotate(bvl::core::types::angle_t angle) { units_[selected_unit_].rotate(angle); }
+  void rotate(bvl::core::types::angle_t angle) { units_[selected_unit_]->rotate(angle); }
 
-  void move(int16_t xdiff, int16_t ydiff) { units_[selected_unit_].move(xdiff, ydiff); }
+  void move(int16_t xdiff, int16_t ydiff) { units_[selected_unit_]->move(xdiff, ydiff); }
 
-  void enlarge(int16_t xdsize, int16_t ydsize) { units_[selected_unit_].enlarge(xdsize, ydsize); }
+  void enlarge(int16_t xdsize, int16_t ydsize) { units_[selected_unit_]->enlarge(xdsize, ydsize); }
 
-  void print_unit_info() { units_[selected_unit_].print_info(); }
+  void print_unit_info() { units_[selected_unit_]->print_info(); }
 
   void next_selected_unit() {
-    units_.at(selected_unit_).set_selected(false);
+    units_.at(selected_unit_)->set_selected(false);
     if (++selected_unit_ >= units_.size()) selected_unit_ = 0;
-    units_.at(selected_unit_).set_selected(true);
+    units_.at(selected_unit_)->set_selected(true);
   }
 
   void prev_selected_unit() {
-    units_.at(selected_unit_).set_selected(false);
+    units_.at(selected_unit_)->set_selected(false);
     if (selected_unit_ == 0) {
       selected_unit_ = units_.size() - 1;
     } else {
       --selected_unit_;
     }
-    units_.at(selected_unit_).set_selected(true);
+    units_.at(selected_unit_)->set_selected(true);
   }
 
  private:
@@ -79,7 +79,7 @@ class UnitsProcessor {
 
   std::string working_file_;
   std::string map_file_name_;
-  std::vector<Unit> units_;
+  std::vector<std::shared_ptr<Unit>> units_;
   std::unordered_map<uint32_t, std::shared_ptr<OpponentInfo>> opponents_;
   std::vector<std::unique_ptr<Maneuver>> maneuvers_;
 

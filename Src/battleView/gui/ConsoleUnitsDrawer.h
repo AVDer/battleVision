@@ -36,7 +36,7 @@ class ConsoleUnitsDrawer {
     if (instance_) delete instance_;
   };
 
-  void draw_units(const std::vector<Unit>& units);
+  void draw_units(const std::vector<std::shared_ptr<Unit>>& units);
 
  private:
   ConsoleUnitsDrawer();

@@ -20,6 +20,7 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <chrono>
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -63,7 +64,7 @@ class Maneuver {
   static model_time_t global_stop_time_;
   static model_time_t global_time_;
 
-  virtual void operator()(Unit& unit) = 0;
+  virtual void operator()(std::shared_ptr<Unit> unit) = 0;
 
   uint32_t unit_id() const { return unit_id_; }
 

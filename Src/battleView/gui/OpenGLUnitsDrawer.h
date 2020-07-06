@@ -22,10 +22,6 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include <GL/gl.h>
 #include <vector>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
-
 #include "RenderInfo.h"
 #include "ShaderProgram.h"
 #include "ShadersUnit.h"
@@ -33,62 +29,36 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "bvl/BVTypes.h"
 #include "core/Unit.h"
 
-struct UnitDrawData {
-  UnitDrawData(GLuint v, GLsizei p, glm::mat4 t)
-      : vao_index(v), points_number(p), transformation(t) {}
-  GLuint vao_index;
-  GLsizei points_number;
-  glm::mat4 transformation;
-};
-
 class OpenGLUnitsDrawer {
-  using unit_draw_data_t = UnitDrawData;
-
  public:
-  static OpenGLUnitsDrawer* instance() {
+  enum Location : GLuint { projection = 0, view, model, rotation };
+
+  OpenGLUnitsDrawer() {
+    shader_.init("UnitDrawer", ShadersUnit::vertex_shader, ShadersUnit::fragment_shader);
+    shader_.find_uniform_location("projection", Location::projection);
+    shader_.find_uniform_location("view", Location::view);
+    shader_.find_uniform_location("model", Location::model);
+    shader_.find_uniform_location("rotation", Location::rotation);
+  }
+
+  ~OpenGLUnitsDrawer() {}
+
+  void draw_units(const std::vector<std::shared_ptr<Unit>>& units) {
+    for (const auto& unit : units) {
+      unit->draw();
+    }
+  }
+
+  static std::shared_ptr<OpenGLUnitsDrawer> instance() {
     if (!instance_) {
-      instance_ = new OpenGLUnitsDrawer;
+      instance_ = std::make_shared<OpenGLUnitsDrawer>();
     }
     return instance_;
   }
 
-  ~OpenGLUnitsDrawer();
-
-  void prepare();
-
-  void draw_units(const std::vector<Unit>& units);
-
-  void set_transitions(const glm::mat4& projection, const glm::mat4& view, const glm::mat4& model) {
-    projection_ = projection;
-    view_ = view;
-    model_ = model;
-  }
-
  private:
-  const static uint16_t kPointsPerPixel{6};
-  const static uint16_t kMaxUnitsNumber{20};
-
-  OpenGLUnitsDrawer();
-
-  static OpenGLUnitsDrawer* instance_;
-  std::vector<unit_draw_data_t> unit_draw_vector_;
-
-  glm::mat4 projection_;
-  glm::mat4 view_;
-  glm::mat4 model_;
-
+  inline static std::shared_ptr<OpenGLUnitsDrawer> instance_;
   ShaderProgram shader_;
-
-  std::vector<GLfloat> unit_vertices_;
-  std::vector<GLuint> unit_indices_;
-
-  GLuint gl_units_vbo_;
-  GLuint gl_units_vao_;
-  GLuint gl_units_ebo_;
-  GLuint indirect_buffer_;
-
-  std::vector<DrawElementsIndirectCommand> indirect_draw_;
-  std::vector<glm::mat4> transformations_;
 };
 
 #endif  // BATTLEVISION_OPENGLUNITSDRAWER_H

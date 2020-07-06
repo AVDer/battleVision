@@ -59,7 +59,7 @@ void UnitsProcessor::maneuver() {
   Maneuver::setTime(
       static_cast<double_t>((std::chrono::system_clock::now() - simulation_start_).count()) /
       (real_stop_time_ - real_start_time_).count());
-  for (Unit &unit : units_) {
+  for (auto unit : units_) {
     for (auto &maneuver : maneuvers_) {
       maneuver->operator()(unit);
     }

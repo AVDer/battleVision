@@ -39,21 +39,21 @@ class ResizeManeuver : public Maneuver {
         ResizeManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
-  void operator()(Unit &unit) override {
-    if (unit.id() != unit_id_) return;
+  void operator()(std::shared_ptr<Unit> unit) override {
+    if (unit->id() != unit_id_) return;
     if (global_time_.value() < start_time_.value()) {
-      unit.set_size(start_width_, start_height_);
+      unit->set_size(start_width_, start_height_);
     } else if (global_time_.value() >= stop_time_.value()) {
-      unit.set_size(stop_width_, stop_height_);
+      unit->set_size(stop_width_, stop_height_);
     } else {
-      unit.set_size(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
-                                                  (stop_time_.value() - start_time_.value()) *
-                                                  (stop_width_ - start_width_) +
-                                              start_width_),
-                    static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
-                                                  (stop_time_.value() - start_time_.value()) *
-                                                  (stop_height_ - start_height_) +
-                                              start_height_));
+      unit->set_size(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                   (stop_time_.value() - start_time_.value()) *
+                                                   (stop_width_ - start_width_) +
+                                               start_width_),
+                     static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                   (stop_time_.value() - start_time_.value()) *
+                                                   (stop_height_ - start_height_) +
+                                               start_height_));
     }
   }
 

@@ -24,8 +24,8 @@ enum Location : GLuint { projection = 0, view, model, rotation };
 
 ConsoleUnitsDrawer::ConsoleUnitsDrawer() {}
 
-void ConsoleUnitsDrawer::draw_units(const std::vector<Unit> &units) {
+void ConsoleUnitsDrawer::draw_units(const std::vector<std::shared_ptr<Unit>> &units) {
   for (const auto &unit : units) {
-    unit.print_info();
+    unit->print_info();
   }
 }

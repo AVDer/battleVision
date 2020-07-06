@@ -20,9 +20,11 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Unit.h"
 
+#include "../gui/OpenGLUnit.h"
+
 class UnitFactory {
  public:
-  static Unit get_unit(UnitInfo&& ui);
+  static std::shared_ptr<Unit> get_unit(UnitInfo&& ui);
 };
 
 #endif /* CORE_UNITFACTORY_H_ */

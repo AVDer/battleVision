@@ -38,17 +38,17 @@ class RotateManeuver : public Maneuver {
         RotateManeuver(unit_id, start_time, stop_time, std::move(data)));
   }
 
-  void operator()(Unit &unit) override {
-    if (unit.id() != unit_id_) return;
+  void operator()(std::shared_ptr<Unit> unit) override {
+    if (unit->id() != unit_id_) return;
     if (global_time_.value() < start_time_.value()) {
-      unit.set_angle(start_angle_);
+      unit->set_angle(start_angle_);
     } else if (global_time_.value() >= stop_time_.value()) {
-      unit.set_angle(stop_angle_);
+      unit->set_angle(stop_angle_);
     } else {
-      unit.set_angle(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
-                                                   (stop_time_.value() - start_time_.value()) *
-                                                   (stop_angle_ - start_angle_) +
-                                               start_angle_));
+      unit->set_angle(static_cast<coordinate_t>((global_time_.value() - start_time_.value()) /
+                                                    (stop_time_.value() - start_time_.value()) *
+                                                    (stop_angle_ - start_angle_) +
+                                                start_angle_));
     }
   }
 

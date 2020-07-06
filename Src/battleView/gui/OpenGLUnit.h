@@ -15,23 +15,46 @@ You should have received a copy of the GNU General Public License
 along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#include "UnitFactory.h"
+#ifndef BATTLEVISION_OPENGLUNIT_H
+#define BATTLEVISION_OPENGLUNIT_H
 
-#include "gui/CavalryOpenGLDraw.h"
-#include "gui/InfantryOpenGLDraw.h"
+#include "../core/Unit.h"
 
-std::shared_ptr<Unit> UnitFactory::get_unit(UnitInfo &&ui) {
-  std::shared_ptr<Unit> unit = std::make_shared<OpenGLUnit>();
-  unit->set_unit_info(ui);
-  switch (ui.unit_general_info().unit_type()) {
-    case unit_type_t::infantry:
-      unit->set_draw_strategy(std::make_shared<InfantryOpenGLDraw>(InfantryOpenGLDraw()));
-      break;
-    case unit_type_t::cavalry:
-      unit->set_draw_strategy(std::make_shared<CavalryOpenGLDraw>(CavalryOpenGLDraw()));
-      break;
-    default:
-      break;
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
+class OpenGLUnit : public Unit {
+ public:
+  OpenGLUnit();
+
+  ~OpenGLUnit();
+
+  void draw() const override{
+
+  };
+
+  // OpenGLUnitsDrawer::instance()->set_transitions(projection_, view_, model);
+
+  void set_transitions(const glm::mat4& projection, const glm::mat4& view, const glm::mat4& model) {
+    projection_ = projection;
+    view_ = view;
+    model_ = model;
   }
-  return unit;
-}
+
+ private:
+  glm::mat4 projection_;
+  glm::mat4 view_;
+  glm::mat4 model_;
+
+  std::vector<GLfloat> vertices_;
+  std::vector<GLuint> indices_;
+
+  GLuint gl_vbo_;
+  GLuint gl_vao_;
+  GLuint gl_ebo_;
+
+  std::vector<glm::mat4> transformations_;
+};
+
+#endif
