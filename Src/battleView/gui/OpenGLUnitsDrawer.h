@@ -57,7 +57,7 @@ class OpenGLUnitsDrawer {
     glUniformMatrix4fv(shader_.get_location(Location::model), 1, GL_FALSE, glm::value_ptr(model_));
 
     for (const auto& unit : units) {
-      unit->draw();
+      unit->draw(shader_.get_location(Location::rotation));
     }
   }
 

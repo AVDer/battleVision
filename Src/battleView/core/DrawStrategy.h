@@ -35,8 +35,7 @@ class DrawStrategy {
   virtual ~DrawStrategy() = default;
 
   virtual void update_draw_info(const UnitDrawInfo &udi) = 0;
-  // virtual void fill_draw_structures(std::vector<GLfloat> & vertices,
-  // std::vector<GLuint> & indecies, glm::mat4 & transformation) = 0;
+
   virtual RenderInfo draw_structures() = 0;
 
   // bool is_modified() const { return is_modified_; }

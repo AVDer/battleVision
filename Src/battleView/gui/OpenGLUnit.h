@@ -30,7 +30,7 @@ class OpenGLUnit : public Unit {
 
   ~OpenGLUnit();
 
-  void draw() const override;
+  void draw(int location) const override;
   void prepare() const override;
 
  private:
