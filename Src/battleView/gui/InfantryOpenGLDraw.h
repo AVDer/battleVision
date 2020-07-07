@@ -24,7 +24,7 @@ class InfantryOpenGLDraw : public OpenGLDrawStrategy {
  public:
   InfantryOpenGLDraw() = default;
 
-  void fill_vertex(const UnitDrawInfo & /*udi*/) override {
+  void fill_vertex(const UnitDrawInfo& /*udi*/) override {
     unit_vertices_ = {
         // top
         1.f,
@@ -97,4 +97,4 @@ class InfantryOpenGLDraw : public OpenGLDrawStrategy {
   }
 };
 
-#endif /* CORE_FILLDRAW_H_ */
+#endif /* GUI_INFANTRYOPENGLDRAW_H */

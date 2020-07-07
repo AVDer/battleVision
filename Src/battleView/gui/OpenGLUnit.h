@@ -30,23 +30,10 @@ class OpenGLUnit : public Unit {
 
   ~OpenGLUnit();
 
-  void draw() const override{
-
-  };
-
-  // OpenGLUnitsDrawer::instance()->set_transitions(projection_, view_, model);
-
-  void set_transitions(const glm::mat4& projection, const glm::mat4& view, const glm::mat4& model) {
-    projection_ = projection;
-    view_ = view;
-    model_ = model;
-  }
+  void draw() const override;
+  void prepare() const override;
 
  private:
-  glm::mat4 projection_;
-  glm::mat4 view_;
-  glm::mat4 model_;
-
   std::vector<GLfloat> vertices_;
   std::vector<GLuint> indices_;
 
@@ -54,7 +41,7 @@ class OpenGLUnit : public Unit {
   GLuint gl_vao_;
   GLuint gl_ebo_;
 
-  std::vector<glm::mat4> transformations_;
+  std::vector<glm::mat4> transformation_;
 };
 
 #endif

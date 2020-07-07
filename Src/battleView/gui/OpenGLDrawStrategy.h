@@ -33,7 +33,7 @@ class OpenGLDrawStrategy : public DrawStrategy {
   OpenGLDrawStrategy() = default;
 
   void update_draw_info(const UnitDrawInfo &udi) override {
-    is_modified_ = true;
+    // is_modified_ = true;
     auto c = udi.color().get();
     color_.r = c.r;
     color_.g = c.g;
@@ -50,8 +50,8 @@ class OpenGLDrawStrategy : public DrawStrategy {
     fill_vertex(udi);
   }
 
-  RenderInfo fill_draw_structures() override {
-    is_modified_ = false;
+  RenderInfo draw_structures() override {
+    // is_modified_ = false;
     return {unit_vertices_, unit_indices_, transformation_};
   }
 

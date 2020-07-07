@@ -93,6 +93,7 @@ void BattleDrawWindow::draw() {
 
   battle_field_.draw(projection_, view_, model);
 
+  OpenGLUnitsDrawer::instance()->set_transitions(projection_, view_, model);
   units_processor_.maneuver();
 
   units_processor_.draw_units();

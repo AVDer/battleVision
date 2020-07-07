@@ -33,6 +33,7 @@ class Unit {
   Unit& operator=(const Unit& that) = delete;
 
   virtual void draw() const {};
+  virtual void prepare() const {};
   Unit& set_unit_info(const UnitInfo& unit_info);
   Unit& set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);
 
@@ -50,13 +51,15 @@ class Unit {
 
   void set_selected(bool selected) { is_selected_ = selected; }
 
-  auto draw_strategy() const { return draw_strategy_; }
+  // auto draw_strategy() const { return draw_strategy_; }
   auto id() const { return unit_info_.unit_general_info().unit_id(); }
+
+ protected:
+  std::shared_ptr<DrawStrategy> draw_strategy_;
+  UnitInfo unit_info_;
 
  private:
   std::vector<Unit> sub_units_;
-  UnitInfo unit_info_;
-  std::shared_ptr<DrawStrategy> draw_strategy_;
   bool is_active_{false};
   bool is_selected_{false};
 };

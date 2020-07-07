@@ -33,5 +33,6 @@ std::shared_ptr<Unit> UnitFactory::get_unit(UnitInfo &&ui) {
     default:
       break;
   }
+  unit->prepare();
   return unit;
 }
