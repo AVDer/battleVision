@@ -19,10 +19,10 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Logger.h"
 
-Unit::Unit(const Unit &that) : sub_units_(that.sub_units_), unit_info_(that.unit_info_) {}
+Unit::Unit(const Unit &that) : unit_info_(that.unit_info_), sub_units_(that.sub_units_) {}
 
 Unit::Unit(Unit &&that) noexcept
-    : sub_units_(std::move(that.sub_units_)), unit_info_(that.unit_info_) {}
+    : unit_info_(that.unit_info_), sub_units_(std::move(that.sub_units_)) {}
 
 Unit &Unit::set_unit_info(const UnitInfo &unit_info) {
   unit_info_ = unit_info;

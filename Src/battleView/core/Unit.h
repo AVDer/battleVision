@@ -32,8 +32,8 @@ class Unit {
 
   Unit& operator=(const Unit& that) = delete;
 
-  virtual void draw(int) const {};
-  virtual void prepare() const {};
+  virtual void draw() const {};
+  virtual void prepare(){};
   Unit& set_unit_info(const UnitInfo& unit_info);
   Unit& set_draw_strategy(std::shared_ptr<DrawStrategy>&& strategy);
 

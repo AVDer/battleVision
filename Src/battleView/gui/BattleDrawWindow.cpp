@@ -181,8 +181,6 @@ int BattleDrawWindow::run() {
     draw();
 
     glfwSwapBuffers(glfw_window_);
-
-    // m_to_refresh = false;
   }
 
   return 0;

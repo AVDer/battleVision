@@ -29,12 +29,4 @@ struct RenderInfo {
 
 struct OpenGLRenderInfo : public RenderInfo {};
 
-typedef struct {
-  GLuint count;
-  GLuint primCount;
-  GLuint firstIndex;
-  GLuint baseVertex;
-  GLuint baseInstance;
-} DrawElementsIndirectCommand;
-
 #endif  // BATTLEVISION_RENDERINFO_H

@@ -66,6 +66,11 @@ void ShaderProgram::init(std::string&& name, const std::string& vertex_source,
 
 void ShaderProgram::use() { glUseProgram(program_id_); }
 
+void ShaderProgram::set_matrix_4fv(GLuint name, GLfloat* value) {
+  if (locations_[name] < 0) return;
+  glUniformMatrix4fv(name, 1, GL_FALSE, value);
+}
+
 GLenum ShaderProgram::find_uniform_location(const std::string& name, GLuint id) {
   GLint location = glGetUniformLocation(program_id_, name.c_str());
   if (GLenum err = glGetError(); err != GL_NO_ERROR) {

@@ -34,6 +34,8 @@ class ShaderProgram {
   GLenum find_uniform_location(const std::string& name, GLuint id);
   GLint get_location(GLuint id) const { return locations_.at(id); }
 
+  void set_matrix_4fv(GLuint name, GLfloat* value);
+
  private:
   std::string name_;
   GLuint program_id_{0};

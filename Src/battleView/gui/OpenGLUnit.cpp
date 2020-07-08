@@ -9,7 +9,13 @@ OpenGLUnit::OpenGLUnit() {
   glGenBuffers(1, &gl_ebo_);
 }
 
-void OpenGLUnit::prepare() const {
+void OpenGLUnit::prepare() {
+  shader_.init("UnitDrawer", ShadersUnit::vertex_shader, ShadersUnit::fragment_shader);
+  shader_.find_uniform_location("projection", ShadersUnit::Uniform::projection);
+  shader_.find_uniform_location("view", ShadersUnit::Uniform::view);
+  shader_.find_uniform_location("model", ShadersUnit::Uniform::model);
+  shader_.find_uniform_location("transform", ShadersUnit::Uniform::transform);
+
   glBindVertexArray(gl_vao_);
   {
     glBindBuffer(GL_ARRAY_BUFFER, gl_vbo_);
@@ -30,10 +36,11 @@ void OpenGLUnit::prepare() const {
   glBindVertexArray(0);
 }
 
-void OpenGLUnit::draw(int location) const {
+void OpenGLUnit::draw() const {
   draw_strategy_->update_draw_info(this->unit_info_.unit_draw_info());
-  glUniformMatrix4fv(location, 1, GL_FALSE,
-                     glm::value_ptr(draw_strategy_->draw_structures().transformation));
+  shader_.set_matrix_4fv(
+      ShadersUnit::Uniform::transform,
+      const_cast<GLfloat *>(glm::value_ptr(draw_strategy_->draw_structures().transformation)));
 
   glBindVertexArray(gl_vao_);
   {

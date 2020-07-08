@@ -24,19 +24,25 @@ along with battleVision.  If not, see <http://www.gnu.org/licenses/>.
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "ShaderProgram.h"
+#include "ShadersUnit.h"
+
 class OpenGLUnit : public Unit {
  public:
   OpenGLUnit();
 
   ~OpenGLUnit();
 
-  void draw(int location) const override;
-  void prepare() const override;
+  void draw() const override;
+  void prepare() override;
+
+  static ShaderProgram shader() { return shader_; }
 
  private:
   std::vector<GLfloat> vertices_;
   std::vector<GLuint> indices_;
 
+  inline static ShaderProgram shader_;
   GLuint gl_vbo_;
   GLuint gl_vao_;
   GLuint gl_ebo_;
